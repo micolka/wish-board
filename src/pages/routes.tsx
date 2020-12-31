@@ -5,7 +5,7 @@ import AuthPage from '@/pages/AuthPage';
 import Home from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
-const useRoutes = (isAuthenticated: boolean) =>
+const useRoutes = (isAuthenticated: boolean): JSX.Element =>
   isAuthenticated ? (
     <Switch>
       <Route exact path="/home" component={Home} />

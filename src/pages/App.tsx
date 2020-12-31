@@ -17,7 +17,6 @@ const App = (): JSX.Element => {
   const { token } = useAuth();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
-
   useEffect(
     () =>
       history.listen(location => {

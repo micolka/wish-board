@@ -4,9 +4,9 @@ import { IData } from '@/types/AuthContext';
 
 const storageName = 'userData';
 
-const useAuth = () => {
+const useAuth = (): IData => {
   const [token, setToken] = useState<string | null>(null);
-  const [ready, setReady] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
   const login = useCallback((jwtToken: string, id: string) => {
@@ -31,13 +31,13 @@ const useAuth = () => {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem(storageName)!) as IData;
 
-    if (data && data.token) {
+    if (data && data.token && data.userId) {
       login(data.token, data.userId);
     }
-    setReady(true);
+    setIsAuthenticated(true);
   }, [login]);
 
-  return { login, logout, token, userId, ready };
+  return { login, logout, token, userId, isAuthenticated };
 };
 
 export default useAuth;
