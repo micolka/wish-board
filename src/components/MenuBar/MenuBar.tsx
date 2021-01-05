@@ -13,7 +13,7 @@ import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '@/components/MenuBar/MenuBar.scss';
-import { friendsConst, loginConst, nameApp, wishConst } from '@/constants';
+import { friendsConst, loginConst, nameApp, registrationConst, wishConst } from '@/constants';
 import AuthContext from '@/context/AuthContex';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -35,8 +35,6 @@ interface PropsMenu extends HTMLAttributes<HTMLElement> {
 }
 
 const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
-  const loginHref = `/${loginConst}`;
-  const friendsHref = `/${friendsConst}`;
   const classes = useStyles();
   const { token, id, logout } = useContext(AuthContext);
   const profileHref = id ? `/@${id}` : null;
@@ -67,7 +65,7 @@ const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
         </Link>
       </Button>
       <Button color="inherit">
-        <Link className={styles['link']} to={friendsHref}>
+        <Link className={styles['link']} to={`/${friendsConst}`}>
           {friendsConst}
         </Link>
       </Button>
@@ -108,8 +106,13 @@ const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
   ) : (
     <Fragment>
       <Button color="inherit">
-        <Link className={styles['link']} to={loginHref}>
+        <Link className={styles['link']} to={`/${loginConst}`}>
           {loginConst}
+        </Link>
+      </Button>
+      <Button color="inherit">
+        <Link className={styles['link']} to={`/${registrationConst}`}>
+          {registrationConst}
         </Link>
       </Button>
     </Fragment>

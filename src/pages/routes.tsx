@@ -7,7 +7,7 @@ import NotFoundPage from '@/pages/NotFoundPage';
 
 import FriendsPage from './FriendsPage';
 import ProfilePage from './ProfilePage';
-import RegisterPage from './RegisterPage';
+import RegisterPage from './RegistrationPage';
 import SingleWish from './SingleWish';
 
 const useRoutes = (isAuthenticated: boolean): JSX.Element =>
@@ -17,7 +17,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
       <Route path="/login" exact>
         <Redirect to="/404" />
       </Route>
-      <Route path="/register" exact>
+      <Route path="/registration" exact>
         <Redirect to="/404" />
       </Route>
       <Route path="/friends" exact component={FriendsPage} />
@@ -32,7 +32,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
     <Switch>
       <Route exact path="/" component={HomePage} />
       <Route path="/login" exact component={AuthPage} />
-      <Route path="/register" exact component={RegisterPage} />
+      <Route path="/registration" exact component={RegisterPage} />
       <Route exact path="*">
         <Redirect to="/404" />
       </Route>
