@@ -8,7 +8,16 @@ const routeNamesMap = {
 const AUTH_TOKEN = 'auth-token';
 const nameApp = 'WishBoard';
 const loginConst = 'login';
+const registrationConst = 'registration';
 const friendsConst = 'friends';
 const wishConst = 'wish';
 
-export { routeNamesMap, AUTH_TOKEN, nameApp, loginConst, friendsConst, wishConst };
+export {
+  routeNamesMap,
+  AUTH_TOKEN,
+  nameApp,
+  loginConst,
+  friendsConst,
+  wishConst,
+  registrationConst,
+};
