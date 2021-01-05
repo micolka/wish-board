@@ -10,19 +10,33 @@ import ProfilePage from './ProfilePage';
 import RegisterPage from './RegisterPage';
 import SingleWish from './SingleWish';
 
-const useRoutes = (): JSX.Element => (
-  <Switch>
-    <Route exact path="/" component={HomePage} />
-    <Route path="/login" exact component={AuthPage} />
-    <Route path="/register" exact component={RegisterPage} />
-    <Route path="/friends" exact component={FriendsPage} />
-    <Route path="/wish/:postId" exact component={SingleWish} />
-    <Route path="/@:profileId" exact component={ProfilePage} />
-    <Route exact path="/404" component={NotFoundPage} />
-    <Route exact path="*">
-      <Redirect to="/404" />
-    </Route>
-  </Switch>
-);
+const useRoutes = (isAuthenticated: boolean): JSX.Element =>
+  isAuthenticated ? (
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/login" exact>
+        <Redirect to="/404" />
+      </Route>
+      <Route path="/register" exact>
+        <Redirect to="/404" />
+      </Route>
+      <Route path="/friends" exact component={FriendsPage} />
+      <Route path="/wish/:postId" exact component={SingleWish} />
+      <Route path="/@:profileId" exact component={ProfilePage} />
+      <Route exact path="/404" component={NotFoundPage} />
+      <Route exact path="*">
+        <Redirect to="/404" />
+      </Route>
+    </Switch>
+  ) : (
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/login" exact component={AuthPage} />
+      <Route path="/register" exact component={RegisterPage} />
+      <Route exact path="*">
+        <Redirect to="/404" />
+      </Route>
+    </Switch>
+  );
 
 export default useRoutes;

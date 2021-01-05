@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import { IData } from '@/types/AuthContext';
+import { IContextProps } from '@/types/AuthContext';
 
 const AuthContext = createContext({
   token: null,
@@ -8,6 +8,6 @@ const AuthContext = createContext({
   login: () => {},
   logout: () => {},
   isAuthenticated: false,
-} as IData);
+} as IContextProps);
 
 export default AuthContext;

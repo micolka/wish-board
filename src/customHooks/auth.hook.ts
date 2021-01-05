@@ -29,7 +29,7 @@ const useAuth = (): IData => {
     setReady(true);
   }, [login]);
 
-  return { token, login, logout, id, isAuthenticated: ready };
+  return { token, login, logout, id, ready };
 };
 
 export default useAuth;

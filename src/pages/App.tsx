@@ -42,8 +42,9 @@ const handleChange = (routeName: string) => {
 };
 const App = (): JSX.Element => {
   const history = useHistory();
-  const { token, login, logout, id, isAuthenticated } = useAuth();
-  const routes = useRoutes();
+  const { token, login, logout, id, ready } = useAuth();
+  const isAuthenticated = !!token;
+  const routes = useRoutes(isAuthenticated);
   useEffect(
     () =>
       history.listen(location => {
@@ -51,6 +52,9 @@ const App = (): JSX.Element => {
       }),
     [history]
   );
+  if (!ready) {
+    return <div>Loader...</div>;
+  }
   return (
     <ApolloProvider client={client}>
       <AuthContext.Provider
