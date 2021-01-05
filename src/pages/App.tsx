@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { routeNamesMap } from '@/constants/';
-import useAuth from '@/customHooks/auth.hook';
+// import useAuth from '@/customHooks/auth.hook';
 import Main from '@/pages/Main';
 
 import useRoutes from './routes';
@@ -14,9 +14,9 @@ const handleChange = (routeName: string) => {
 };
 const App = (): JSX.Element => {
   const history = useHistory();
-  const { token } = useAuth();
-  const isAuthenticated = !!token;
-  const routes = useRoutes(isAuthenticated);
+  // const { token } = useAuth();
+  // const isAuthenticated = !!token;
+  const routes = useRoutes();
   useEffect(
     () =>
       history.listen(location => {

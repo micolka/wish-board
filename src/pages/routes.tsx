@@ -5,22 +5,15 @@ import AuthPage from '@/pages/AuthPage';
 import Home from '@/pages/HomePage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
-const useRoutes = (isAuthenticated: boolean): JSX.Element =>
-  isAuthenticated ? (
-    <Switch>
-      <Route exact path="/home" component={Home} />
-      <Route exact path="/404" component={NotFoundPage} />
-      <Route exact path="*">
-        <Redirect to="/404" />
-      </Route>
-    </Switch>
-  ) : (
-    <Switch>
-      <Route path="/" exact>
-        <AuthPage />
-      </Route>
-      <Redirect to="/" />
-    </Switch>
-  );
+const useRoutes = (): JSX.Element => (
+  <Switch>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/auth" component={AuthPage} />
+    <Route exact path="/404" component={NotFoundPage} />
+    <Route exact path="*">
+      <Redirect to="/404" />
+    </Route>
+  </Switch>
+);
 
 export default useRoutes;
