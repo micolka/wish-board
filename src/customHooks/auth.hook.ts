@@ -1,43 +1,35 @@
 import { useState, useCallback, useEffect } from 'react';
 
-import { IData } from '@/types/AuthContext';
+import { IData, ILoginInput } from '@/types/AuthContext';
 
 const storageName = 'userData';
 
 const useAuth = (): IData => {
   const [token, setToken] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [ready, setReady] = useState(false);
+  const [id, setId] = useState<string | null>(null);
 
-  const login = useCallback((jwtToken: string, id: string) => {
-    setToken(jwtToken);
-    setUserId(id);
-
-    localStorage.setItem(
-      storageName,
-      JSON.stringify({
-        userId: id,
-        token: jwtToken,
-      })
-    );
+  const login = useCallback((userData: ILoginInput) => {
+    setToken(userData.token);
+    setId(userData.id);
+    localStorage.setItem(storageName, JSON.stringify(userData));
   }, []);
 
   const logout = useCallback(() => {
     setToken(null);
-    setUserId(null);
+    setId(null);
     localStorage.removeItem(storageName);
   }, []);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem(storageName)!) as IData;
-
-    if (data && data.token && data.userId) {
-      login(data.token, data.userId);
+    if (data && data.token && data.id) {
+      login({ token: data.token, id: data.id });
     }
-    setIsAuthenticated(true);
+    setReady(true);
   }, [login]);
 
-  return { login, logout, token, userId, isAuthenticated };
+  return { token, login, logout, id, isAuthenticated: ready };
 };
 
 export default useAuth;

@@ -1,8 +1,13 @@
-import React from 'react';
+import { createContext } from 'react';
 
-export default React.createContext({
+import { IData } from '@/types/AuthContext';
+
+const AuthContext = createContext({
   token: null,
-  userId: null,
+  id: null,
   login: () => {},
   logout: () => {},
-});
+  isAuthenticated: false,
+} as IData);
+
+export default AuthContext;

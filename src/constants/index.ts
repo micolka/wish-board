@@ -1,4 +1,14 @@
-const routeNamesMap = { '/': 'Authefication', '/home': 'Home', '/404': 'Not Found Page' };
-const routeNamesMap2 = { '/': 'Authefication', '/home': 'Home', '/404': 'Not Found Page' };
+const routeNamesMap = {
+  '/': 'Wishboard',
+  '/login': 'Login',
+  '/register': 'Authefication',
+  '/friends': 'Friends',
+  '/404': 'Not Found Page',
+};
+const AUTH_TOKEN = 'auth-token';
+const nameApp = 'WishBoard';
+const loginConst = 'login';
+const friendsConst = 'friends';
+const wishConst = 'wish';
 
-export { routeNamesMap, routeNamesMap2 };
+export { routeNamesMap, AUTH_TOKEN, nameApp, loginConst, friendsConst, wishConst };
