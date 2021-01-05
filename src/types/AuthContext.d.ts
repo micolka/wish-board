@@ -1,7 +1,11 @@
 export interface IData {
   token: string | null;
-  userId: string | null;
-  login: (token: string, userId: string, tokenExpiration: string) => void;
+  id: string | null;
+  login: (userData: ILoginInput) => void;
   logout: () => void;
   isAuthenticated: boolean;
+}
+export interface ILoginInput {
+  token: string | null;
+  id: string | null;
 }
