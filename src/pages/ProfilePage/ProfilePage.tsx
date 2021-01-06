@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React from 'react';
+import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 
-const ProfilePage: React.FC = () => <div className={styles['home-page']}>ProfilePage</div>;
-
+const ProfilePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => (
+  <div className={styles['profile-page']}>Profile Page</div>
+);
 export default ProfilePage;

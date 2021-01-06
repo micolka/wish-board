@@ -10,7 +10,7 @@ import type { Theme } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
 import type { FunctionComponent, HTMLAttributes, ReactNode } from 'react';
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '@/components/MenuBar/MenuBar.scss';
@@ -39,7 +39,7 @@ const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
   const classes = useStyles();
   const { token, id, logout } = useContext(AuthContext);
   const profileHref = id ? `/@${id}` : null;
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -59,7 +59,7 @@ const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
   };
 
   const menuBar = token ? (
-    <div>
+    <Fragment>
       <Button color="inherit">
         <Link className={styles['link']} to="/">
           {wishConst}
@@ -103,7 +103,7 @@ const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
         )}
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
-    </div>
+    </Fragment>
   ) : (
     <Fragment>
       <Button color="inherit">
