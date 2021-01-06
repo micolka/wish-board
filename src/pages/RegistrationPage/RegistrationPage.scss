@@ -1,6 +1,19 @@
-.auth-page {
+.registration-page {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 50px;
+  color: black;
+}
+
+.registration-title {
+  margin: 10px;
+}
+
+.registration-button {
+  margin: 10px;
+
+  button {
+    background-color: aqua;
+  }
 }

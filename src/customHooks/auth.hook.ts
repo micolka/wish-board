@@ -23,7 +23,7 @@ const useAuth = (): IData => {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem(storageName)!) as IData;
-    if (data && data.token && data.id) {
+    if (data?.token && data?.id) {
       login({ token: data.token, id: data.id });
     }
     setReady(true);

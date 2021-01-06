@@ -5,10 +5,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import type { Theme } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
-import type { FunctionComponent, HTMLAttributes } from 'react';
+import type { FunctionComponent, HTMLAttributes, ReactNode } from 'react';
 import React, { Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -30,8 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface PropsMenu extends HTMLAttributes<HTMLElement> {
-  children: React.ReactNode;
+interface PropsMenu extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
 }
 
 const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {

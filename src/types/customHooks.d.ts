@@ -6,5 +6,7 @@ export interface IUserForm {
 
 export interface IValues {
   username: string;
+  email: string;
   password: string;
+  confirmPassword: string;
 }

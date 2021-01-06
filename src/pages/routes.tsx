@@ -15,10 +15,10 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
     <Switch>
       <Route exact path="/" component={HomePage} />
       <Route path="/login" exact>
-        <Redirect to="/404" />
+        <Redirect to="/" />
       </Route>
       <Route path="/registration" exact>
-        <Redirect to="/404" />
+        <Redirect to="/" />
       </Route>
       <Route path="/friends" exact component={FriendsPage} />
       <Route path="/wish/:postId" exact component={SingleWish} />
@@ -33,6 +33,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
       <Route exact path="/" component={HomePage} />
       <Route path="/login" exact component={AuthPage} />
       <Route path="/registration" exact component={RegisterPage} />
+      <Route path="/wish/:postId" exact component={SingleWish} />
       <Route exact path="*">
         <Redirect to="/404" />
       </Route>

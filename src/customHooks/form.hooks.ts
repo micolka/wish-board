@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { IUserForm, IValues } from '@/types/hooks';
+import type { IUserForm, IValues } from '@/types/customHooks';
 
 const useForm = (callback: () => void, initialState = {} as IValues): IUserForm => {
   const [values, setValues] = useState<IValues>(initialState);

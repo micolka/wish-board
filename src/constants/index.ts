@@ -1,7 +1,7 @@
 const routeNamesMap = {
   '/': 'Wishboard',
   '/login': 'Login',
-  '/register': 'Authefication',
+  '/registration': 'Authefication',
   '/friends': 'Friends',
   '/404': 'Not Found Page',
 };
