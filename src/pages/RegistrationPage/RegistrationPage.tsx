@@ -1,7 +1,8 @@
-import { ApolloError, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { Button, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Alert } from '@material-ui/lab';
 import React, { FunctionComponent, useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -9,7 +10,7 @@ import AuthContext from '@/context/AuthContex';
 import useForm from '@/customHooks/form.hooks';
 import styles from '@/pages/RegistrationPage/RegistrationPage.scss';
 import REGISTER_USER from '@/pages/RegistrationPage/mutation';
-import { ILoginInput } from '@/types/AuthContext';
+import { IErrorsRegister, ILoginInput } from '@/types/AuthContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const RegistrationPage: FunctionComponent<RouteComponentProps> = props => {
   const classes = useStyles();
   const context = useContext(AuthContext);
-  const [errors, setErrors] = useState({} as ApolloError);
+  const [errors, setErrors] = useState({} as IErrorsRegister);
 
   function registerUser() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -45,7 +46,7 @@ const RegistrationPage: FunctionComponent<RouteComponentProps> = props => {
       props.history.push('/');
     },
     onError(err) {
-      setErrors(err);
+      setErrors(err.graphQLErrors[0]!.extensions!.errors as IErrorsRegister);
     },
     variables: values,
   });
@@ -61,10 +62,11 @@ const RegistrationPage: FunctionComponent<RouteComponentProps> = props => {
         <div>
           <TextField
             required
-            id="outlined-required"
+            id="username"
             name="username"
             label="Username"
             variant="outlined"
+            error={!!errors.username}
             onChange={onChange}
           />
         </div>
@@ -75,29 +77,32 @@ const RegistrationPage: FunctionComponent<RouteComponentProps> = props => {
             name="email"
             label="email"
             variant="outlined"
+            error={!!errors.email}
             onChange={onChange}
           />
         </div>
         <div>
           <TextField
             required
-            id="outlined-required"
+            id="password"
             name="password"
             label="Password"
             type="password"
             variant="outlined"
+            error={!!errors.password}
             onChange={onChange}
           />
         </div>
         <div>
           <TextField
             required
-            id="outlined-required"
+            id="confirmPassword"
             name="confirmPassword"
             label="Confirm Password"
             type="password"
             variant="outlined"
             onChange={onChange}
+            error={!!errors.confirmPassword}
           />
         </div>
         <div className={styles['registration-button']}>
@@ -107,8 +112,12 @@ const RegistrationPage: FunctionComponent<RouteComponentProps> = props => {
         </div>
       </form>
       {Object.keys(errors).length > 0 && (
-        <div className="ui error message">
-          <div>{errors}</div>
+        <div className={styles['registration-errors']}>
+          {Object.keys(errors).map(value => (
+            <Alert variant="outlined" severity="error" key={value}>
+              {errors[value]}
+            </Alert>
+          ))}
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
 .registration-page {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 50px;
@@ -8,6 +9,15 @@
 
 .registration-title {
   margin: 10px;
+}
+
+.registration-errors {
+  margin: 10px;
+  width: 350px;
+
+  & > div {
+    margin: 5px 0;
+  }
 }
 
 .registration-button {
