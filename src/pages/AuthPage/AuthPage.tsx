@@ -10,7 +10,7 @@ import AuthContext from '@/context/AuthContex';
 import useForm from '@/customHooks/form.hooks';
 import styles from '@/pages/AuthPage/AuthPage.scss';
 import LOGIN_USER from '@/pages/AuthPage/mutation';
-import { ILoginInput } from '@/types/AuthContext';
+import { IErrorsLogin, ILoginInput } from '@/types/AuthContext';
 import { IValues } from '@/types/customHooks';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -29,7 +29,7 @@ type AuthPageProps = RouteComponentProps & HTMLAttributes<HTMLFormElement>;
 const AuthPage: FunctionComponent<AuthPageProps> = ({ ...props }) => {
   const classes = useStyles();
   const context = useContext(AuthContext);
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrors] = useState({} as IErrorsLogin);
   const loginUserCallback = () => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     loginUser(); // eslint-disable-line @typescript-eslint/no-use-before-define
@@ -47,7 +47,7 @@ const AuthPage: FunctionComponent<AuthPageProps> = ({ ...props }) => {
     },
     onError(err) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      setErrors([err.graphQLErrors[0]!.extensions!.errors.general as string]);
+      setErrors(err.graphQLErrors[0]!.extensions!.errors as IErrorsLogin);
     },
     variables: values,
   });
@@ -68,6 +68,7 @@ const AuthPage: FunctionComponent<AuthPageProps> = ({ ...props }) => {
             label="Username"
             variant="outlined"
             onChange={onChange}
+            error={!!errors.username}
           />
         </div>
         <div>
@@ -79,6 +80,7 @@ const AuthPage: FunctionComponent<AuthPageProps> = ({ ...props }) => {
             type="password"
             variant="outlined"
             onChange={onChange}
+            error={!!errors.password}
           />
         </div>
         <div className={styles['auth-button']}>
@@ -87,11 +89,11 @@ const AuthPage: FunctionComponent<AuthPageProps> = ({ ...props }) => {
           </Button>
         </div>
       </form>
-      {errors.length > 0 && (
-        <div className={styles['auth-erors']}>
-          {errors.map(value => (
+      {Object.keys(errors).length > 0 && (
+        <div className={styles['auth-errors']}>
+          {Object.keys(errors).map(value => (
             <Alert variant="outlined" severity="error" key={value}>
-              {value}
+              {errors[value]}
             </Alert>
           ))}
         </div>
