@@ -1,16 +1,35 @@
-import { ApolloError, gql, useMutation } from '@apollo/client';
-import React, { FunctionComponent, useContext, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { Button, Typography } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Alert from '@material-ui/lab/Alert';
+import React, { FunctionComponent, HTMLAttributes, useContext, useState } from 'react';
+import type { RouteComponentProps } from 'react-router-dom';
 
 import AuthContext from '@/context/AuthContex';
 import useForm from '@/customHooks/form.hooks';
 import styles from '@/pages/AuthPage/AuthPage.scss';
+import LOGIN_USER from '@/pages/AuthPage/mutation';
 import { ILoginInput } from '@/types/AuthContext';
+import { IValues } from '@/types/customHooks';
 
-const AuthPage: FunctionComponent<RouteComponentProps> = props => {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      '& .MuiTextField-root': {
+        margin: theme.spacing(1),
+        width: '45ch',
+      },
+    },
+  })
+);
+
+type AuthPageProps = RouteComponentProps & HTMLAttributes<HTMLFormElement>;
+
+const AuthPage: FunctionComponent<AuthPageProps> = ({ ...props }) => {
+  const classes = useStyles();
   const context = useContext(AuthContext);
-  const [errors, setErrors] = useState({} as ApolloError);
-
+  const [errors, setErrors] = useState<string[]>([]);
   const loginUserCallback = () => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     loginUser(); // eslint-disable-line @typescript-eslint/no-use-before-define
@@ -19,53 +38,62 @@ const AuthPage: FunctionComponent<RouteComponentProps> = props => {
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
     username: '',
     password: '',
-  });
+  } as IValues);
 
-  const LOGIN_USER = gql`
-    mutation login($username: String!, $password: String!) {
-      login(username: $username, password: $password) {
-        id
-        email
-        username
-        createdAt
-        token
-      }
-    }
-  `;
-  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+  const [loginUser] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
       context.login(userData as ILoginInput);
       props.history.push('/');
     },
     onError(err) {
-      setErrors(err);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      setErrors([err.graphQLErrors[0]!.extensions!.errors.general as string]);
     },
     variables: values,
   });
 
   return (
     <div className={styles['auth-page']}>
-      <form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
-        <h1>Login</h1>
-        <input
-          placeholder="Username.."
-          name="username"
-          type="text"
-          value={values.username}
-          onChange={onChange}
-        />
-        <input
-          placeholder="Password.."
-          name="password"
-          type="password"
-          value={values.password}
-          onChange={onChange}
-        />
-        <button type="submit">Login</button>
+      <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
+        <div className={styles['auth-title']}>
+          <Typography variant="h3" component="h3">
+            Sign In
+          </Typography>
+        </div>
+        <div>
+          <TextField
+            required
+            id="username"
+            name="username"
+            label="Username"
+            variant="outlined"
+            onChange={onChange}
+          />
+        </div>
+        <div>
+          <TextField
+            required
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            variant="outlined"
+            onChange={onChange}
+          />
+        </div>
+        <div className={styles['auth-button']}>
+          <Button variant="contained" type="submit">
+            Sign In
+          </Button>
+        </div>
       </form>
-      {Object.keys(errors).length > 0 && (
-        <div className="ui error message">
-          <div>{errors}</div>
+      {errors.length > 0 && (
+        <div className={styles['auth-erors']}>
+          {errors.map(value => (
+            <Alert variant="outlined" severity="error" key={value}>
+              {value}
+            </Alert>
+          ))}
         </div>
       )}
     </div>

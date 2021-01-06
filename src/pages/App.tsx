@@ -36,7 +36,7 @@ const client = new ApolloClient({
 });
 
 const handleChange = (routeName: string) => {
-  if (routeName && routeName.indexOf('@') !== 1) {
+  if (routeName?.indexOf('@') !== 1) {
     document.title = routeNamesMap[routeName] as string;
   }
 };
