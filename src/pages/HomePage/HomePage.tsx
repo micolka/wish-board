@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React from 'react';
+import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/pages/HomePage/HomePage.scss';
 
-const HomePage: React.FC = () => <div className={styles['home-page']}>HomePage</div>;
-
-export default HomePage;
+const SingleWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => (
+  <div className={styles['home-page']}>Home Page</div>
+);
+export default SingleWish;
