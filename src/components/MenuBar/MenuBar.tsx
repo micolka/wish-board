@@ -9,7 +9,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import type { Theme } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
-import type { FunctionComponent, HTMLAttributes, ReactNode } from 'react';
+import type { FunctionComponent, MouseEvent, HTMLAttributes, ReactNode } from 'react';
 import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -42,7 +42,7 @@ const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleProfile = () => {
