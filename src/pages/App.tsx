@@ -17,7 +17,7 @@ import useAuth from '@/customHooks/auth.hook';
 import useRoutes from './routes';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: 'https://graphql-wishboard-server.herokuapp.com/',
 });
 
 const authLink = setContext((_, { headers }) => {
