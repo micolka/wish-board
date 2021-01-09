@@ -1,0 +1,26 @@
+.single_stat_container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat_red:hover {
+  color: red;
+}
+
+.stat_blue:hover {
+  color: blue;
+}
+
+.stat_green:hover {
+  color: green;
+}
+
+.stat_orange:hover {
+  color: orange;
+}
+
+.stats_count {
+  pointer-events: none;
+  user-select: none;
+}

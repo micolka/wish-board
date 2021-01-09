@@ -3,15 +3,10 @@
   height: 1000px;
   margin: 0 auto;
   display: flex;
-  // background-color: rgb(176, 208, 236);
-  // align-items: center;
-  // justify-content: center;
-  // margin: 50px;
-  // display: flex;
-  // flex-wrap: wrap;
-  // align-items: flex-start;
-
-
-  flex-flow: column wrap;
-  align-content: space-between;
+  padding-top: 50px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }

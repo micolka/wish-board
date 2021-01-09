@@ -9,7 +9,7 @@ import { dataWishes } from './data';
 const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => (
   <div className={styles['home-page']}>
     {dataWishes.map(elem => (
-      <SmallWish wishData={elem} />
+      <SmallWish wishData={elem} key={elem.wishId} />
     ))}
   </div>
 );

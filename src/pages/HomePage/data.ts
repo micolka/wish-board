@@ -24,7 +24,7 @@ export const dataWishes = [
     },
   },
   {
-    wishId: 222311111,
+    wishId: 2243311111,
     name: 'bugatti',
     price: {
       value: 2000000000,
@@ -46,7 +46,7 @@ export const dataWishes = [
     },
   },
   {
-    wishId: 3427778,
+    wishId: 342347778,
     name: 'volvo',
     price: {
       value: 20000,
@@ -68,7 +68,7 @@ export const dataWishes = [
     },
   },
   {
-    wishId: 333328,
+    wishId: 33333328,
     name: 'kamaz',
     price: {
       value: 60000,
@@ -91,7 +91,7 @@ export const dataWishes = [
     },
   },
   {
-    wishId: 586238,
+    wishId: 58667238,
     name: 'cat eewqee45 ghfhdgf jklkjl8999  hkgjkh',
     price: {
       value: null,
@@ -114,7 +114,7 @@ export const dataWishes = [
     },
   },
   {
-    wishId: 2203111,
+    wishId: 220543111,
     name: 'maserati',
     price: {
       value: 1000000000,
@@ -138,7 +138,7 @@ export const dataWishes = [
     },
   },
   {
-    wishId: 22781111,
+    wishId: 227381111,
     name: 'bugatti',
     price: {
       value: 2000000000,
@@ -160,7 +160,7 @@ export const dataWishes = [
     },
   },
   {
-    wishId: 3422378,
+    wishId: 3454688,
     name: 'volvo',
     price: {
       value: 20000,
@@ -188,7 +188,7 @@ export type TDataWish = {
   name: string;
   price: {
     value: number | null;
-    currency: string;
+    currency: 'RUB' | 'EUR' | 'USD' | 'BYN' | string;
   };
   creator: {
     nickname: string;
