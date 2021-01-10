@@ -1,10 +1,12 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { FunctionComponent, HTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from '@/components/SmallWish/SmallWish.scss';
 import { TDataWish } from '@/pages/HomePage/data';
 
+import Avatar from '../Avatar';
 import MaterialIcon from '../MaterialIcon';
 import Price from '../Price';
 
@@ -27,14 +29,16 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
     <div className={styles.wish_wrapper}>
       <div className={styles.wish_container}>
         <div className={styles.wish_img} onMouseLeave={hideStats} onMouseEnter={showStats}>
-          <Price price={wishData.price} />
           <img src={wishData.image.small} alt={wishData.name} />
-          <div
-            className={classNames(
-              styles.wish_container_curtain,
-              isStatsShown ? styles.wish_container_curtain_display : ''
-            )}
-          />
+          <Link className={styles['link']} to={`/wish/${wishData.wishId}`}>
+            <div
+              className={classNames(
+                styles.wish_container_curtain,
+                isStatsShown ? styles.wish_container_curtain_display : ''
+              )}
+            />
+          </Link>
+          <Price price={wishData.price} />
           <div
             className={classNames(
               styles.wish_stats_container,
@@ -56,8 +60,10 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
           </div>
         </div>
         <div className={styles.wish_description}>
-          <img src={wishData.creator.avatarSmall} alt={wishData.creator.nickname} />
-          <span className={styles.wish_name}>{wishData.name}</span>
+          <Avatar creator={wishData.creator} />
+          <Link className={styles['link']} to={`/wish/${wishData.wishId}`}>
+            <span className={styles.wish_name}>{wishData.name}</span>
+          </Link>
         </div>
       </div>
     </div>
