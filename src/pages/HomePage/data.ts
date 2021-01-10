@@ -92,13 +92,13 @@ export const dataWishes = [
   },
   {
     wishId: 58667238,
-    name: 'cat eewqee45 ghfhdgf jklkjl8999  hkgjkh',
+    name: 'Decoding your cat',
     price: {
       value: null,
       currency: '', // 'EUR', 'RUB', 'BYN'
     },
     creator: {
-      nickname: 'a3ss5h',
+      nickname: 'ghtd31',
       avatarSmall: '',
     },
     image: {
@@ -146,7 +146,7 @@ export const dataWishes = [
     },
     creator: {
       nickname: 'mic2020',
-      avatarSmall: 'https://cdn3.iconfinder.com/data/icons/business-avatar-1/512/7_avatar-512.png',
+      avatarSmall: 'https://upload.wikimedia.org/wikipedia/commons/a/a2/Kentin2007.jpg',
     },
     image: {
       small: 'https://www.ixbt.com/img/n1/news/2020/8/0/43223_large.jpg',
