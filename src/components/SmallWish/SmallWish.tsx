@@ -9,6 +9,7 @@ import { TDataWish } from '@/pages/HomePage/data';
 import Avatar from '../Avatar';
 import MaterialIcon from '../MaterialIcon';
 import Price from '../Price';
+import WishImage from '../WishImage';
 
 interface WishProps extends HTMLAttributes<HTMLDivElement> {
   wishData: TDataWish;
@@ -29,7 +30,11 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
     <div className={styles.wish_wrapper}>
       <div className={styles.wish_container}>
         <div className={styles.wish_img} onMouseLeave={hideStats} onMouseEnter={showStats}>
-          <img src={wishData.image.small} alt={wishData.name} />
+          <WishImage
+            imageUrl={wishData.image.small}
+            name={wishData.name}
+            color={wishData.backgroundColor}
+          />
           <Link className={styles['link']} to={`/wish/${wishData.wishId}`}>
             <div
               className={classNames(
