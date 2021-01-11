@@ -5,8 +5,6 @@
 
 .user_avatar img,
 .user_pseudo_avatar {
-  width: 30px;
-  height: 30px;
   align-self: center;
   border-radius: 50%;
 }
@@ -16,10 +14,33 @@
   justify-content: center;
   align-items: center;
   font-size: 13px;
-  line-height: 30px;
   font-weight: 700;
   text-transform: uppercase;
   color: white;
+}
+
+.ava_small,
+.ava_small img {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+}
+
+.ava_normal,
+.ava_normal img {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 13px;
+}
+
+.ava_huge,
+.ava_huge img {
+  width: 140px;
+  height: 140px;
+  line-height: 140px;
+  font-size: 45px;
 }
 
 .user_avatar:hover {
