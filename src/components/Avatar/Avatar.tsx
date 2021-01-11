@@ -1,4 +1,5 @@
 /* eslint-disable no-bitwise */
+import classNames from 'classnames';
 import * as React from 'react';
 import { FunctionComponent, HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,6 +11,7 @@ interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
     avatarSmall: string;
     nickname: string;
   };
+  size: 'small' | 'normal' | 'huge';
 }
 
 const getUserNameFirstLetter = (name: string) => name.split('')[0].toLocaleUpperCase();
@@ -29,8 +31,16 @@ const stringToColor = function stringToColor(str: string) {
   return color;
 };
 
-const Avatar: FunctionComponent<AvatarProps> = ({ creator }) => (
-  <div className={styles.user_avatar} title={creator.nickname}>
+const Avatar: FunctionComponent<AvatarProps> = ({ creator, size }) => (
+  <div
+    className={classNames(
+      styles.user_avatar,
+      size === 'small' ? styles.ava_small : '',
+      size === 'normal' ? styles.ava_normal : '',
+      size === 'huge' ? styles.ava_huge : ''
+    )}
+    title={creator.nickname}
+  >
     <Link className={styles['link']} to={`/@${creator.nickname}`}>
       {creator.avatarSmall ? (
         <img src={creator.avatarSmall} alt={creator.nickname} />
