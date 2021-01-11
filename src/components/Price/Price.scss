@@ -1,0 +1,30 @@
+.wish_price_container {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  left: 15px;
+  user-select: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  line-height: 25px;
+  min-height: 25px;
+}
+
+.wish_price {
+  padding: 0 10px;
+
+  width: fit-content;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 700;
+  border-radius: 2px;
+  background-color: hsla(0, 0%, 100%, 0.9);
+  -ms-box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  -o-box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+}
