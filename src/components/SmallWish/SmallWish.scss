@@ -68,14 +68,18 @@
   display: flex;
 }
 
-.wish_description img {
-  width: 30px;
-  height: 30px;
-  padding: 0 7.5px;
-  align-self: center;
-}
-
 .wish_name {
   padding: 0 7.5px;
   align-self: center;
+  transition: all 0.2s ease-in;
+}
+
+.wish_name:hover {
+  color: #ff0000;
+  text-decoration: underline;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
 }
