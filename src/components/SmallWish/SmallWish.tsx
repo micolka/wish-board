@@ -1,12 +1,15 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { FunctionComponent, HTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from '@/components/SmallWish/SmallWish.scss';
-import { TDataWish } from '@/pages/HomePage/data';
+import { TDataWish } from '@/types/data';
 
+import Avatar from '../Avatar';
 import MaterialIcon from '../MaterialIcon';
 import Price from '../Price';
+import WishImage from '../WishImage';
 
 interface WishProps extends HTMLAttributes<HTMLDivElement> {
   wishData: TDataWish;
@@ -27,37 +30,37 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
     <div className={styles.wish_wrapper}>
       <div className={styles.wish_container}>
         <div className={styles.wish_img} onMouseLeave={hideStats} onMouseEnter={showStats}>
-          <Price price={wishData.price} />
-          <img src={wishData.image.small} alt={wishData.name} />
-          <div
-            className={classNames(
-              styles.wish_container_curtain,
-              isStatsShown ? styles.wish_container_curtain_display : ''
-            )}
+          <WishImage
+            imageUrl={wishData.image.small}
+            name={wishData.name}
+            color={wishData.backgroundColor}
           />
+          <Link className={styles['link']} to={`/wish/${wishData.id}`}>
+            <div
+              className={classNames(
+                styles.wish_container_curtain,
+                isStatsShown ? styles.wish_container_curtain_display : ''
+              )}
+            />
+          </Link>
+          <Price price={wishData.price} />
           <div
             className={classNames(
               styles.wish_stats_container,
               isStatsShown ? styles.wish_stats_container_display : ''
             )}
           >
-            <MaterialIcon color="red" iconName="heart" count={wishData.statsData.likesCount} />
-            <MaterialIcon color="orange" iconName="active" count={wishData.statsData.activeCount} />
-            <MaterialIcon
-              color="green"
-              iconName="fulfilled"
-              count={wishData.statsData.fulfilledCount}
-            />
-            <MaterialIcon
-              color="blue"
-              iconName="comments"
-              count={wishData.statsData.commentsCount}
-            />
+            <MaterialIcon color="red" iconName="heart" count={wishData.likeCount} />
+            <MaterialIcon color="orange" iconName="active" count={wishData.activeCount} />
+            <MaterialIcon color="green" iconName="fulfilled" count={wishData.fulfilledCount} />
+            <MaterialIcon color="blue" iconName="comments" count={wishData.commentCount} />
           </div>
         </div>
         <div className={styles.wish_description}>
-          <img src={wishData.creator.avatarSmall} alt={wishData.creator.nickname} />
-          <span className={styles.wish_name}>{wishData.name}</span>
+          <Avatar creator={wishData.creator} size="normal" />
+          <Link className={styles['link']} to={`/wish/${wishData.id}`}>
+            <span className={styles.wish_name}>{wishData.name}</span>
+          </Link>
         </div>
       </div>
     </div>

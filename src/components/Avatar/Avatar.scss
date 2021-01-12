@@ -1,0 +1,53 @@
+.user_avatar {
+  padding: 0 7.5px;
+  transition: all 0.2s ease-in;
+}
+
+.user_avatar img,
+.user_pseudo_avatar {
+  align-self: center;
+  border-radius: 50%;
+}
+
+.user_pseudo_avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+}
+
+.ava_small,
+.ava_small img {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+}
+
+.ava_normal,
+.ava_normal img {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 13px;
+}
+
+.ava_huge,
+.ava_huge img {
+  width: 140px;
+  height: 140px;
+  line-height: 140px;
+  font-size: 45px;
+}
+
+.user_avatar:hover {
+  opacity: 0.6;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}

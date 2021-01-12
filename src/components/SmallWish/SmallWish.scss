@@ -1,5 +1,5 @@
 .wish_wrapper {
-  width: 240px;
+  min-width: 240px;
   padding: 0 15px;
   margin-bottom: 30px;
   color: #333;
@@ -68,14 +68,18 @@
   display: flex;
 }
 
-.wish_description img {
-  width: 30px;
-  height: 30px;
-  padding: 0 7.5px;
-  align-self: center;
-}
-
 .wish_name {
   padding: 0 7.5px;
   align-self: center;
+  transition: all 0.2s ease-in;
+}
+
+.wish_name:hover {
+  color: #ff0000;
+  text-decoration: underline;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
 }
