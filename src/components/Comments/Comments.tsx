@@ -1,10 +1,14 @@
 import { Button, Input } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
-import React, { FC } from 'react';
+import React, { FunctionComponent, HTMLAttributes } from 'react';
 
 import CommentItem from '@/components/Comment/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
-import { IUser, IWish } from '@/types/SingleWish';
+import { IUser, IComment } from '@/types/SingleWish';
+
+interface CommentsProps extends HTMLAttributes<HTMLDivElement> {
+  comments: IComment[];
+}
 
 const user: IUser = {
   userId: 1,
@@ -15,7 +19,7 @@ const user: IUser = {
   },
 };
 
-const Comments: FC<IWish> = ({ comments }) => (
+const Comments: FunctionComponent<CommentsProps> = ({ comments }) => (
   <div className={styles['comments-container']}>
     <h3 className={styles['comments-title']}>
       <CommentIcon />
@@ -42,6 +46,7 @@ const Comments: FC<IWish> = ({ comments }) => (
         date={comment.date}
         userId={comment.userId}
         userAvatarUrl={comment.userAvatarUrl}
+        key={`${comment.userId}${comment.date}`} // Нужно продумать способ задания уникальных ключей
       />
     ))}
   </div>

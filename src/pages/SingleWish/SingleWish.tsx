@@ -139,15 +139,7 @@ const SingleWish: FunctionComponent<IWish> = () => {
                 </span>
               </div>
             </div>
-            <Comments
-              comments={wishData.comments}
-              price={wishData.price}
-              wishId={wishData.wishId}
-              image={wishData.image}
-              name={wishData.name}
-              originURL={wishData.originURL}
-              statsData={wishData.statsData}
-            />
+            <Comments comments={wishData.comments} />
           </div>
         </div>
       </div>
