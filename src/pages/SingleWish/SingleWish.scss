@@ -1,6 +1,120 @@
-.home-page {
+$grey-text: #828282;
+$light-grey-border: #ebebeb;
+$wish-background-color: #f7f7f7;
+
+.wish-page{
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin: 50px;
+  margin-top: 1em;
 }
+.wish-wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  background-color: $wish-background-color;
+  color: black;
+  .wish-nav{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+
+.arrow{
+  transform: scale(-1, 1);
+}
+
+.user-avatar_small {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: .7em;
+}
+
+.wish-content{
+  display: flex;
+  justify-content: center;
+}
+
+.img-container{
+  position: relative;
+  width: 50%;
+  .wish-img{
+    width: 100%;
+  }
+}
+
+.data-container{
+  margin-left: 2em;
+  width: 50%;
+  .data-container_top{
+    justify-content: space-between;
+    display: flex;
+  }
+  .user {
+    display: flex;
+    align-items: center;
+    .user-name{
+      margin-right: .7em;
+    }
+  }
+  .product-description{
+    margin: 2em 0;
+    font-size: 15px;
+    line-height: 20px;
+  }
+  .product-info-container{
+    display: flex;
+    justify-content: space-between;
+    color: $grey-text;
+    .link-container{
+      color: $grey-text;
+      display: flex;
+      align-items: center;
+      .link-arrow{
+        font-size: 16px;
+      }
+    }
+  }
+
+  .product-name:first-letter{
+    text-transform: uppercase;
+  }
+  .stats-container{
+    .stats-item{
+      margin-top: .5em;
+      display: flex;
+      align-items: center;
+      .stats-icon-border{
+        margin-right: .5em;
+        display: flex;
+        width: 36px;
+        height: 36px;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid $light-grey-border;
+        transition: all .2s ease-in;
+        .like-icon:hover, .add-icon:hover{
+          color: red;
+        }
+        .check-icon:hover{
+          color: green;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1000px) {
+  .wish-content{
+    flex-direction: column;
+    align-items: center;
+  }
+  .img-container {
+    width: 90%;
+  }
+  .data-container {
+    margin: 1em 0 0 0;
+    width: 90%;
+  }
+}
+

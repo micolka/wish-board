@@ -21,7 +21,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
         <Redirect to="/" />
       </Route>
       <Route path="/friends" exact component={FriendsPage} />
-      <Route path="/wish/:postId" exact component={SingleWish} />
+      <Route path="/wish/:wishId" exact component={SingleWish} />
       <Route path="/@:profileId" exact component={ProfilePage} />
       <Route exact path="/404" component={NotFoundPage} />
       <Route exact path="*">
