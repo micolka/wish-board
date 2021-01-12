@@ -5,12 +5,10 @@ import { FunctionComponent, HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '@/components/Avatar/Avatar.scss';
+import { TCreator } from '@/types/data';
 
 interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
-  creator: {
-    avatarSmall: string;
-    nickname: string;
-  };
+  creator: TCreator;
   size: 'small' | 'normal' | 'huge';
 }
 
@@ -39,17 +37,17 @@ const Avatar: FunctionComponent<AvatarProps> = ({ creator, size }) => (
       size === 'normal' ? styles.ava_normal : '',
       size === 'huge' ? styles.ava_huge : ''
     )}
-    title={creator.nickname}
+    title={creator.username}
   >
-    <Link className={styles['link']} to={`/@${creator.nickname}`}>
+    <Link className={styles['link']} to={`/@${creator.username}`}>
       {creator.avatarSmall ? (
-        <img src={creator.avatarSmall} alt={creator.nickname} />
+        <img src={creator.avatarSmall} alt={creator.username} />
       ) : (
         <div
           className={styles.user_pseudo_avatar}
-          style={{ backgroundColor: `${stringToColor(creator.nickname)}` }}
+          style={{ backgroundColor: `${stringToColor(creator.username)}` }}
         >
-          <span>{getUserNameFirstLetter(creator.nickname)}</span>
+          <span>{getUserNameFirstLetter(creator.username)}</span>
         </div>
       )}
     </Link>

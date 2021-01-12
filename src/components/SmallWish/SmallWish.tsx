@@ -4,7 +4,7 @@ import { FunctionComponent, HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '@/components/SmallWish/SmallWish.scss';
-import { TDataWish } from '@/pages/HomePage/data';
+import { TDataWish } from '@/types/data';
 
 import Avatar from '../Avatar';
 import MaterialIcon from '../MaterialIcon';
@@ -35,7 +35,7 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
             name={wishData.name}
             color={wishData.backgroundColor}
           />
-          <Link className={styles['link']} to={`/wish/${wishData.wishId}`}>
+          <Link className={styles['link']} to={`/wish/${wishData.id}`}>
             <div
               className={classNames(
                 styles.wish_container_curtain,
@@ -50,23 +50,15 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
               isStatsShown ? styles.wish_stats_container_display : ''
             )}
           >
-            <MaterialIcon color="red" iconName="heart" count={wishData.statsData.likesCount} />
-            <MaterialIcon color="orange" iconName="active" count={wishData.statsData.activeCount} />
-            <MaterialIcon
-              color="green"
-              iconName="fulfilled"
-              count={wishData.statsData.fulfilledCount}
-            />
-            <MaterialIcon
-              color="blue"
-              iconName="comments"
-              count={wishData.statsData.commentsCount}
-            />
+            <MaterialIcon color="red" iconName="heart" count={wishData.likeCount} />
+            <MaterialIcon color="orange" iconName="active" count={wishData.activeCount} />
+            <MaterialIcon color="green" iconName="fulfilled" count={wishData.fulfilledCount} />
+            <MaterialIcon color="blue" iconName="comments" count={wishData.commentCount} />
           </div>
         </div>
         <div className={styles.wish_description}>
           <Avatar creator={wishData.creator} size="normal" />
-          <Link className={styles['link']} to={`/wish/${wishData.wishId}`}>
+          <Link className={styles['link']} to={`/wish/${wishData.id}`}>
             <span className={styles.wish_name}>{wishData.name}</span>
           </Link>
         </div>
