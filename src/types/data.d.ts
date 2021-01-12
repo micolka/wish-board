@@ -1,6 +1,5 @@
 export type TQuery = {
-  loading: string;
-  data: TDataWish;
+  getWishes: TDataWish[];
 };
 
 export type TDataWish = {
