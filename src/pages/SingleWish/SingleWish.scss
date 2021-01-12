@@ -2,25 +2,25 @@ $grey-text: #828282;
 $light-grey-border: #ebebeb;
 $wish-background-color: #f7f7f7;
 
-.wish-page{
+.wish-page {
   display: flex;
   justify-content: center;
   margin-top: 1em;
 }
-.wish-wrapper{
+.wish-wrapper {
   display: flex;
   flex-direction: column;
   width: 80%;
   background-color: $wish-background-color;
   color: black;
-  .wish-nav{
+  .wish-nav {
     display: flex;
     align-items: center;
     justify-content: flex-start;
   }
 }
 
-.arrow{
+.arrow {
   transform: scale(-1, 1);
 }
 
@@ -28,76 +28,77 @@ $wish-background-color: #f7f7f7;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  margin-right: .7em;
+  margin-right: 0.7em;
 }
 
-.wish-content{
+.wish-content {
   display: flex;
   justify-content: center;
 }
 
-.img-container{
+.img-container {
   position: relative;
   width: 50%;
-  .wish-img{
+  .wish-img {
     width: 100%;
   }
 }
 
-.data-container{
+.data-container {
   margin-left: 2em;
   width: 50%;
-  .data-container_top{
+  .data-container_top {
     justify-content: space-between;
     display: flex;
   }
   .user {
     display: flex;
     align-items: center;
-    .user-name{
-      margin-right: .7em;
+    .user-name {
+      margin-right: 0.7em;
     }
   }
-  .product-description{
+  .product-description {
     margin: 2em 0;
     font-size: 15px;
     line-height: 20px;
   }
-  .product-info-container{
+  .product-info-container {
     display: flex;
     justify-content: space-between;
     color: $grey-text;
-    .link-container{
+    .link-container {
       color: $grey-text;
       display: flex;
       align-items: center;
-      .link-arrow{
+      .link-arrow {
         font-size: 16px;
       }
     }
   }
 
-  .product-name:first-letter{
+  .product-name:first-letter {
     text-transform: uppercase;
   }
-  .stats-container{
-    .stats-item{
-      margin-top: .5em;
+  .stats-container {
+    .stats-item {
+      margin-top: 0.5em;
       display: flex;
       align-items: center;
-      .stats-icon-border{
-        margin-right: .5em;
+      .stats-icon-border {
+        margin-right: 0.5em;
         display: flex;
         width: 36px;
         height: 36px;
         justify-content: center;
         align-items: center;
         border: 1px solid $light-grey-border;
-        transition: all .2s ease-in;
-        .like-icon:hover, .add-icon:hover{
+        transition: all 0.2s ease-in;
+        .like-icon:hover,
+        .add-icon:hover {
           color: red;
         }
-        .check-icon:hover{
+        .check-icon:hover {
           color: green;
         }
       }
@@ -105,7 +106,7 @@ $wish-background-color: #f7f7f7;
   }
 }
 @media (max-width: 1000px) {
-  .wish-content{
+  .wish-content {
     flex-direction: column;
     align-items: center;
   }
@@ -117,4 +118,3 @@ $wish-background-color: #f7f7f7;
     width: 90%;
   }
 }
-

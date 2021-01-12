@@ -4,18 +4,18 @@ $grey-text: #828282;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  margin-right: .7em;
+  margin-right: 0.7em;
 }
-.wish-comment{
+.wish-comment {
   display: flex;
   margin-top: 1em;
 }
 
-.comment-info-container{
+.comment-info-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  .comment-date{
+  .comment-date {
     color: $grey-text;
     height: 20px;
     line-height: 20px;
