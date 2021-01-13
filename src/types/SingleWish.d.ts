@@ -22,6 +22,12 @@ export interface IComment {
   date: string;
 }
 
+export interface IStatsData {
+  liked: Array<number>;
+  active: Array<number>;
+  fulfilled: Array<number>;
+}
+
 export interface IWish {
   wishId: number;
   name: string;
@@ -34,10 +40,4 @@ export interface IWish {
   tags: Array<string>;
   visibility: string;
   originURL: string | undefined;
-  statsData: {
-    liked: Array<number>;
-    active: Array<number>;
-    fulfilled: Array<number>;
-  };
-  comments: Array<IComment>;
 }

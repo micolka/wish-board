@@ -3,11 +3,13 @@ import CallMadeIcon from '@material-ui/icons/CallMade';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
 
 import Comments from '@/components/Comments/Comments';
 import Price from '@/components/Price';
+import StatsItem from '@/components/StatsItem/StatsItem';
 import styles from '@/pages/SingleWish/SingleWish.scss';
-import { IWish, IUser } from '@/types/SingleWish';
+import { IWish, IUser, IComment, IStatsData } from '@/types/SingleWish';
 
 const user: IUser = {
   userId: 1,
@@ -37,44 +39,46 @@ const wishData: IWish = {
   },
   backgroundColor: '#ffffff', // цвет фона на случай отсутсвия изображения
   originURL: 'https://xistore.by', // ссылка на интернет магазин либо сервис.
-  statsData: {
-    // id берутся из users
-    liked: [1, 345, 5454], // юзеры, которым это желание нравится
-    active: [1], // юзеры, которые хотят это желание
-    fulfilled: [1], // юзеры, которе исполнили желание
-  },
   tags: ['robot', 'сleaning'],
   visibility: 'all', // 'friends', 'meOnly'
-  comments: [
-    // комментарии на странице желания (хакер скоуп - опционально)
-    {
-      userId: 1,
-      userAvatarUrl: 'https://avatarko.ru/img/kartinka/33/igra_Minecraft_32501.jpg',
-      login: 'Vasya',
-      text: 'класс',
-      date: '20.12.2020',
-    },
-    {
-      userId: 5,
-      userAvatarUrl: 'https://avatarko.ru/img/kartinka/33/igra_Minecraft_32501.jpg',
-      login: 'Vanya',
-      text: 'норм',
-      date: '22.12.2020',
-    },
-  ],
 };
 
+const statsData: IStatsData = {
+  liked: [1, 345, 5454], // юзеры, которым это желание нравится
+  active: [1], // юзеры, которые хотят это желание
+  fulfilled: [1], // юзеры, которе исполнили желание
+};
+
+const commentsData: IComment[] = [
+  {
+    userId: 1,
+    userAvatarUrl: 'https://avatarko.ru/img/kartinka/33/igra_Minecraft_32501.jpg',
+    login: 'Vasya',
+    text: 'класс',
+    date: '20.12.2020',
+  },
+  {
+    userId: 5,
+    userAvatarUrl: 'https://avatarko.ru/img/kartinka/33/igra_Minecraft_32501.jpg',
+    login: 'Vanya',
+    text: 'норм',
+    date: '22.12.2020',
+  },
+];
+
 const SingleWish: FunctionComponent<IWish> = () => {
-  const likes: Array<number> = wishData.statsData.liked;
-  const adding: Array<number> = wishData.statsData.active;
-  const { fulfilled } = wishData.statsData;
+  const likes: Array<number> = statsData.liked;
+  const adding: Array<number> = statsData.active;
+  const { fulfilled } = statsData;
 
   return (
     <div className={styles['wish-page']}>
       <div className={styles['wish-wrapper']}>
         <nav className={styles['wish-nav']}>
-          <TrendingFlatIcon className={styles['arrow']} />
-          Назад
+          <Link to="/">
+            <TrendingFlatIcon className={styles['arrow']} />
+            Назад
+          </Link>
         </nav>
         <div className={styles['wish-content']}>
           <div className={styles['img-container']}>
@@ -108,38 +112,17 @@ const SingleWish: FunctionComponent<IWish> = () => {
             </div>
             <p className={styles['product-description']}>{wishData.description}</p>
             <div className={styles['stats-container']}>
-              <div className={styles['stats-item']}>
-                <span className={styles['stats-icon-border']}>
-                  <Favorite className={styles['like-icon']} />
-                </span>
-                <span>
-                  {likes.length}
-                  {' '}
-                  нравится
-                </span>
-              </div>
-              <div className={styles['stats-item']}>
-                <span className={styles['stats-icon-border']}>
-                  <Add className={styles['add-icon']} />
-                </span>
-                <span>
-                  {adding.length}
-                  {' '}
-                  хотят
-                </span>
-              </div>
-              <div className={styles['stats-item']}>
-                <span className={styles['stats-icon-border']}>
-                  <Check className={styles['check-icon']} />
-                </span>
-                <span>
-                  {fulfilled.length}
-                  {' '}
-                  исполнено
-                </span>
-              </div>
+              <StatsItem text={`${likes.length} нравится`}>
+                <Favorite className={styles['like-icon']} />
+              </StatsItem>
+              <StatsItem text={`${adding.length} хотят`}>
+                <Add className={styles['add-icon']} />
+              </StatsItem>
+              <StatsItem text={`${fulfilled.length} исполнено`}>
+                <Check className={styles['check-icon']} />
+              </StatsItem>
             </div>
-            <Comments comments={wishData.comments} />
+            <Comments comments={commentsData} />
           </div>
         </div>
       </div>

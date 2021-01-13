@@ -1,0 +1,26 @@
+$light-grey-border: #ebebeb;
+
+
+.stats-item {
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
+  .stats-icon-border {
+    margin-right: 0.5em;
+    display: flex;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $light-grey-border;
+    transition: all 0.2s ease-in;
+    .like-icon:hover,
+    .add-icon:hover {
+      color: red;
+    }
+    .check-icon:hover {
+      color: green;
+    }
+  }
+}
+
