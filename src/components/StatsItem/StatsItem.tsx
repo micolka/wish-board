@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import styles from '@/components/StatsItem/StatsItem.scss';
 
 type StatsProps = {
-  children: any;
+  children: React.ReactNode;
   text: string;
 };
 
