@@ -9,6 +9,7 @@ import { setContext } from '@apollo/client/link/context';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import Footer from '@/components/Footer';
 import MenuBar from '@/components/MenuBar';
 import { AUTH_TOKEN, routeNamesMap } from '@/constants/';
 import AuthContext from '@/context/AuthContex';
@@ -66,7 +67,9 @@ const App = (): JSX.Element => {
           isAuthenticated,
         }}
       >
-        <MenuBar>{routes}</MenuBar>
+        <MenuBar />
+        {routes}
+        <Footer />
       </AuthContext.Provider>
     </ApolloProvider>
   );

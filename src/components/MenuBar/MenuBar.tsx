@@ -9,7 +9,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import type { Theme } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu';
-import type { FunctionComponent, MouseEvent, HTMLAttributes, ReactNode } from 'react';
+import type { FunctionComponent, MouseEvent, HTMLAttributes } from 'react';
 import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -31,11 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface PropsMenu extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
-}
-
-const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
+const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
   const { token, id, logout } = useContext(AuthContext);
   const profileHref = id ? `/@${id}` : null;
@@ -134,7 +130,6 @@ const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
           {menuBar}
         </Toolbar>
       </AppBar>
-      {children}
     </div>
   );
 };
