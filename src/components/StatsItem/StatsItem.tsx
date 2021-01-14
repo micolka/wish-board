@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 import styles from '@/components/StatsItem/StatsItem.scss';
-import classNames from "classnames";
+import classNames from 'classnames';
 
 type StatsProps = {
   children: React.ReactNode;
@@ -15,13 +15,15 @@ const StatsItem: FunctionComponent<StatsProps> = ({ children, text, color }) => 
   const StatsChecked = () => {
     setStatsChecked(!isStatsChecked);
   };
-  return(
+  return (
     <div className={styles['stats-item']}>
-      <span onClick={StatsChecked}
-          className={classNames(
+      <span
+        onClick={StatsChecked}
+        className={classNames(
           styles['stats-icon-border'],
           isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
-        )}>
+        )}
+      >
         {children}
       </span>
       <span>{text}</span>
