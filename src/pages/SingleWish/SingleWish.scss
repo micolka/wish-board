@@ -15,9 +15,19 @@ $wish-background-color: #f7f7f7;
   color: black;
   .wish-nav {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    margin: 1em ;
   }
+}
+.wish-link{
+  font-size: 1.3em;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: black;
+}
+
+.wish-link:hover{
+  color: red;
 }
 
 .arrow {
@@ -56,6 +66,10 @@ $wish-background-color: #f7f7f7;
     align-items: center;
     .user-name {
       margin-right: 0.7em;
+    }
+    .user-name:hover {
+      color: red;
+      text-decoration: underline;
     }
   }
   .product-description {

@@ -10,6 +10,7 @@ import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import { IWish, IUser, IComment, IStatsData } from '@/types/SingleWish';
+import classNames from "classnames";
 
 const user: IUser = {
   userId: 1,
@@ -75,7 +76,7 @@ const SingleWish: FunctionComponent<IWish> = () => {
     <div className={styles['wish-page']}>
       <div className={styles['wish-wrapper']}>
         <nav className={styles['wish-nav']}>
-          <Link to="/">
+          <Link className={styles['wish-link']} to="/">
             <TrendingFlatIcon className={styles['arrow']} />
             Назад
           </Link>
