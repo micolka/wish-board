@@ -1,0 +1,24 @@
+$grey-text: #828282;
+
+.user-avatar_small {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 0.7em;
+}
+.wish-comment {
+  display: flex;
+  margin-top: 1em;
+}
+
+.comment-info-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  .comment-date {
+    color: $grey-text;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+  }
+}
