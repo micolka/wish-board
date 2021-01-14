@@ -1,5 +1,4 @@
-import React from 'react';
-import type { FunctionComponent, HTMLAttributes } from 'react';
+import React, { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import SmallWish from '@/components/SmallWish';

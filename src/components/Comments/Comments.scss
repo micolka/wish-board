@@ -1,0 +1,35 @@
+$light-grey-border: #ebebeb;
+
+.user-avatar_small {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 0.7em;
+}
+.comments-container {
+  border-top: 1px solid $light-grey-border;
+  margin-top: 2em;
+  .comments-title {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+  }
+  .adding-comment-container {
+    margin-top: 1em;
+    display: flex;
+    .write-send-container {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .comment-input {
+      border: none;
+      background: none;
+      transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition-property: font-size, padding-top, color;
+    }
+    .comment-button{
+      margin-left: 1em;
+    }
+  }
+}
