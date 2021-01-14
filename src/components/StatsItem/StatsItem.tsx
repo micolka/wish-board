@@ -6,9 +6,10 @@ import classNames from "classnames";
 type StatsProps = {
   children: React.ReactNode;
   text: string;
+  color: string;
 };
 
-const StatsItem: FunctionComponent<StatsProps> = ({ children, text }) => {
+const StatsItem: FunctionComponent<StatsProps> = ({ children, text, color }) => {
   const [isStatsChecked, setStatsChecked] = React.useState<boolean | HTMLElement>(false);
 
   const StatsChecked = () => {
@@ -19,7 +20,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({ children, text }) => {
       <span onClick={StatsChecked}
           className={classNames(
           styles['stats-icon-border'],
-          isStatsChecked ? styles['checked'] : styles['unchecked']
+          isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
         )}>
         {children}
       </span>

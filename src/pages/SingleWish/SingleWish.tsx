@@ -10,7 +10,6 @@ import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import { IWish, IUser, IComment, IStatsData } from '@/types/SingleWish';
-import classNames from "classnames";
 
 const user: IUser = {
   userId: 1,
@@ -113,13 +112,13 @@ const SingleWish: FunctionComponent<IWish> = () => {
             </div>
             <p className={styles['product-description']}>{wishData.description}</p>
             <div className={styles['stats-container']}>
-              <StatsItem text={`${likes.length} нравится`}>
+              <StatsItem color='red' text={`${likes.length} нравится`}>
                 <Favorite className={styles['like-icon']} />
               </StatsItem>
-              <StatsItem text={`${adding.length} хотят`}>
+              <StatsItem color='red' text={`${adding.length} хотят`}>
                 <Add className={styles['add-icon']} />
               </StatsItem>
-              <StatsItem text={`${fulfilled.length} исполнено`}>
+              <StatsItem color='green' text={`${fulfilled.length} исполнено`}>
                 <Check className={styles['check-icon']} />
               </StatsItem>
             </div>
