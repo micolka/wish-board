@@ -39,5 +39,5 @@ export interface IWish {
   description: string;
   tags: Array<string>;
   visibility: string;
-  originURL: string | undefined;
+  originURL?: string;
 }

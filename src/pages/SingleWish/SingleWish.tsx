@@ -70,6 +70,7 @@ const SingleWish: FunctionComponent<IWish> = () => {
   const likes: Array<number> = statsData.liked;
   const adding: Array<number> = statsData.active;
   const { fulfilled } = statsData;
+  const originUrl = wishData.originURL ? wishData.originURL.split('/')[2] : '';
 
   return (
     <div className={styles['wish-page']}>
@@ -106,7 +107,7 @@ const SingleWish: FunctionComponent<IWish> = () => {
             <div className={styles['product-info-container']}>
               <span>{wishData.creationDate}</span>
               <a href={wishData.originURL} className={styles['link-container']}>
-                {wishData.originURL}
+                {originUrl}
                 <CallMadeIcon className={styles['link-arrow']} />
               </a>
             </div>
