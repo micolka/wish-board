@@ -2,7 +2,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { FunctionComponent, HTMLAttributes } from 'react';
-import { Link } from 'react-router-dom';
 
 import styles from '@/components/Avatar/Avatar.scss';
 
@@ -41,18 +40,16 @@ const Avatar: FunctionComponent<AvatarProps> = ({ user, size }) => (
     )}
     title={user.nickname}
   >
-    <Link className={styles['link']} to={`/@${user.nickname}`}>
-      {user.avatarSmall ? (
-        <img src={user.avatarSmall} alt={user.nickname} />
-      ) : (
-        <div
-          className={styles.user_pseudo_avatar}
-          style={{ backgroundColor: `${stringToColor(user.nickname)}` }}
-        >
-          <span>{getUserNameFirstLetter(user.nickname)}</span>
-        </div>
-      )}
-    </Link>
+    {user.avatarSmall ? (
+      <img src={user.avatarSmall} alt={user.nickname} />
+    ) : (
+      <div
+        className={styles.user_pseudo_avatar}
+        style={{ backgroundColor: `${stringToColor(user.nickname)}` }}
+      >
+        <span>{getUserNameFirstLetter(user.nickname)}</span>
+      </div>
+    )}
   </div>
 );
 

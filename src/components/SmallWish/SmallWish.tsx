@@ -4,7 +4,7 @@ import { FunctionComponent, HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '@/components/SmallWish/SmallWish.scss';
-import { TDataWish } from '@/pages/HomePage/data';
+import { TDataWish } from '@/types/DataTypes';
 
 import Avatar from '../Avatar';
 import MaterialIcon from '../MaterialIcon';
@@ -65,7 +65,9 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
           </div>
         </div>
         <div className={styles.wish_description}>
-          <Avatar user={wishData.creator} size="normal" />
+          <Link className={styles['link']} to={`/@${wishData.creator.nickname}`}>
+            <Avatar user={wishData.creator} size="normal" />
+          </Link>
           <Link className={styles['link']} to={`/wish/${wishData.wishId}`}>
             <span className={styles.wish_name}>{wishData.name}</span>
           </Link>
