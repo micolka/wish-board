@@ -7,15 +7,19 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import type { Theme } from '@material-ui/core/styles';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuIcon from '@material-ui/icons/Menu';
+// import AccountCircle from '@material-ui/icons/AccountCircle';
+// import MenuIcon from '@material-ui/icons/Menu';
 import type { FunctionComponent, MouseEvent, HTMLAttributes } from 'react';
 import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '@/components/MenuBar/MenuBar.scss';
-import { friendsConst, loginConst, nameApp, registrationConst, wishConst } from '@/constants';
+import { friendsConst, loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
 import AuthContext from '@/context/AuthContex';
+
+import Avatar from '../Avatar';
+
+import dataCreator from './data';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,22 +62,24 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     <Fragment>
       <Button color="inherit">
         <Link className={styles['link']} to="/">
-          {wishConst}
+          {addWishConst}
         </Link>
       </Button>
-      <Button color="inherit">
+      {/* <Button color="inherit">
         <Link className={styles['link']} to={`/${friendsConst}`}>
           {friendsConst}
         </Link>
-      </Button>
+      </Button> */}
       <IconButton
         aria-label="account of current user"
         aria-controls="menu-appbar"
         aria-haspopup="true"
         onClick={handleMenu}
         color="inherit"
+        size="small"
       >
-        <AccountCircle />
+        {/* <AccountCircle /> */}
+        <Avatar size="normal" user={dataCreator} />
       </IconButton>
       <Menu
         id="menu-appbar"
@@ -119,11 +125,11 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     <div className={styles['menu']}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" className={classes.title}>
-            <Link className={styles['link']} to="/">
+            <Link className={styles['logo']} to="/">
               {nameApp}
             </Link>
           </Typography>

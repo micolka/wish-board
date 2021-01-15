@@ -6,20 +6,24 @@ import GithubIcon from '@/components/icons/GithubIcon';
 const Footer: React.FC = () => (
   <div className={styles.footer}>
     <div className="footer-text">2020</div>
-    <a className={styles['link-footer']} href="https://github.com/KantyshVitali">
+    <a className={styles['link-footer']} href="https://github.com/SashaSadovskaya">
       <GithubIcon className={styles['footer-li-icon']} />
-      <span>KantyshVitali</span>
+      <span>SashaSadovskaya</span>
     </a>
     <a className={styles['link-footer']} href="https://github.com/SkaymanT">
       <GithubIcon className={styles['footer-li-icon']} />
       <span>SkaymanT</span>
     </a>
-    <a className={styles['link-footer']} href="https://github.com/Ilya-Baklanov">
+    <a className={styles['link-footer']} href="https://github.com/Vladimir0087">
       <GithubIcon className={styles['footer-li-icon']} />
-      <span>Ilya-Baklanov</span>
+      <span>Vladimir0087</span>
+    </a>    
+    <a className={styles['link-footer']} href="https://github.com/micolka">
+      <GithubIcon className={styles['footer-li-icon']} />
+      <span>micolka</span>
     </a>
 
-    <a className="school-link" href="https://rs.school/js/">
+    <a className={styles['school-link']} href="https://rs.school/js/">
       <img src="https://rs.school/images/rs_school_js.svg" alt="rs_school" />
     </a>
   </div>

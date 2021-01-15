@@ -6,11 +6,11 @@ const routeNamesMap = {
   '/404': 'Not Found Page',
 };
 const AUTH_TOKEN = 'auth-token';
-const nameApp = 'WishBoard';
+const nameApp = 'myWishBoard';
 const loginConst = 'login';
 const registrationConst = 'registration';
 const friendsConst = 'friends';
-const wishConst = 'wish';
+const addWishConst = 'add wish';
 const SCREEN_SIZES = {
   mobileS: 320,
   mobileM: 375,
@@ -29,7 +29,7 @@ export {
   nameApp,
   loginConst,
   friendsConst,
-  wishConst,
+  addWishConst,
   registrationConst,
   SCREEN_SIZES,
 };
