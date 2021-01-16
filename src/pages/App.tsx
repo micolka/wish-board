@@ -17,7 +17,7 @@ import useAuth from '@/customHooks/auth.hook';
 import useRoutes from './routes';
 
 const httpLink = createHttpLink({
-  uri: 'https://graphql-wishboard-server.herokuapp.com/',
+  uri: 'http://localhost:5000/',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -36,13 +36,15 @@ const client = new ApolloClient({
 });
 
 const handleChange = (routeName: string) => {
-  if (routeName?.indexOf('@') !== 1) {
+  if (routeName?.indexOf('/wish/') !== -1) {
+    document.title = routeNamesMap['/wish'];
+  } else if (routeName?.indexOf('@') === -1) {
     document.title = routeNamesMap[routeName] as string;
   }
 };
 const App = (): JSX.Element => {
   const history = useHistory();
-  const { token, login, logout, id, ready } = useAuth();
+  const { token, username, login, logout, id, ready } = useAuth();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
   useEffect(
@@ -60,6 +62,7 @@ const App = (): JSX.Element => {
       <AuthContext.Provider
         value={{
           token,
+          username,
           login,
           logout,
           id,

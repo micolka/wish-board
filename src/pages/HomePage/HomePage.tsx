@@ -8,7 +8,7 @@ import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import SmallWish from '@/components/SmallWish';
 import styles from '@/pages/HomePage/HomePage.scss';
 import FETCH_WISHES_QUERY from '@/pages/HomePage/query';
-import { TDataWish, TQuery } from '@/types/data';
+import { TDataWish, TGetWishes } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
-  const { loading, data } = useQuery<TQuery>(FETCH_WISHES_QUERY);
+  const { loading, data } = useQuery<TGetWishes>(FETCH_WISHES_QUERY);
   const dataWishes = data?.getWishes as TDataWish[];
 
   return (

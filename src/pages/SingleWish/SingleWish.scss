@@ -6,6 +6,7 @@ $wish-background-color: #f7f7f7;
   display: flex;
   justify-content: center;
   margin-top: 1em;
+  min-height: 500px;
 }
 .wish-wrapper {
   display: flex;
@@ -15,10 +16,10 @@ $wish-background-color: #f7f7f7;
   color: black;
   .wish-nav {
     display: flex;
-    margin: 1em ;
+    margin: 1em;
   }
 }
-.wish-link{
+.wish-link {
   font-size: 1.3em;
   text-decoration: none;
   display: flex;
@@ -26,7 +27,7 @@ $wish-background-color: #f7f7f7;
   color: black;
 }
 
-.wish-link:hover{
+.wish-link:hover {
   color: red;
 }
 

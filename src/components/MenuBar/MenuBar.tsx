@@ -37,8 +37,8 @@ interface PropsMenu extends HTMLAttributes<HTMLDivElement> {
 
 const MenuBar: FunctionComponent<PropsMenu> = ({ children }) => {
   const classes = useStyles();
-  const { token, id, logout } = useContext(AuthContext);
-  const profileHref = id ? `/@${id}` : null;
+  const { token, username, logout } = useContext(AuthContext);
+  const profileHref = username ? `/@${username}` : null;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 

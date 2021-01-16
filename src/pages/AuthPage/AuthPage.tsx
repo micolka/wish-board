@@ -42,7 +42,8 @@ const AuthPage: FunctionComponent<AuthPageProps> = ({ ...props }) => {
 
   const [loginUser] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
-      context.login(userData as ILoginInput);
+      const data = userData as ILoginInput;
+      context.login({ token: data.token, id: data.id, username: data.username });
       props.history.push('/');
     },
     onError(err) {

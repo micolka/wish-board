@@ -40,8 +40,8 @@ const Avatar: FunctionComponent<AvatarProps> = ({ creator, size }) => (
     title={creator.username}
   >
     <Link className={styles['link']} to={`/@${creator.username}`}>
-      {creator.avatarSmall ? (
-        <img src={creator.avatarSmall} alt={creator.username} />
+      {creator.avatar.small ? (
+        <img src={creator?.avatar.small} alt={creator.username} />
       ) : (
         <div
           className={styles.user_pseudo_avatar}

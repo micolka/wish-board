@@ -1,4 +1,4 @@
-export type TQuery = {
+export type TGetWishes = {
   getWishes: TDataWish[];
 };
 
@@ -23,7 +23,12 @@ export type TDataWish = {
 export type TCreator = {
   id: string;
   username: string;
-  avatarSmall: string;
+  avatar: TAvatar;
+};
+
+export type TAvatar = {
+  small: string;
+  normal: string;
 };
 export type TPrice = {
   value: string;

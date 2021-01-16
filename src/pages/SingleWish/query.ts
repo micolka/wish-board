@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-const FETCH_WISHES_QUERY = gql`
-  {
-    getWishes {
+const FETCH_WISH_QUERY = gql`
+  query getWish($wishId: ID!) {
+    getWish(wishId: $wishId) {
       id
       name
       createdAt
@@ -14,6 +14,8 @@ const FETCH_WISHES_QUERY = gql`
         }
       }
       backgroundColor
+      originURL
+      description
       image {
         small
         normal
@@ -28,6 +30,11 @@ const FETCH_WISHES_QUERY = gql`
       activeCount
       comments {
         username
+        createdAt
+        body
+        avatar {
+          small
+        }
       }
       commentCount
       likes {
@@ -43,4 +50,4 @@ const FETCH_WISHES_QUERY = gql`
   }
 `;
 
-export default FETCH_WISHES_QUERY;
+export default FETCH_WISH_QUERY;

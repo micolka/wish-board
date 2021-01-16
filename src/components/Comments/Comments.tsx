@@ -2,12 +2,12 @@ import { Button, Input } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import React, { FunctionComponent, HTMLAttributes, useState } from 'react';
 
-import CommentItem from '@/components/Comment/CommentItem';
+import CommentItem from '@/components/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
-import { IUser, IComment } from '@/types/SingleWish';
+import { IUser, TComment } from '@/types/SingleWish';
 
 interface CommentsProps extends HTMLAttributes<HTMLDivElement> {
-  comments: IComment[];
+  comments: TComment[];
 }
 
 const user: IUser = {
@@ -23,17 +23,17 @@ const Comments: FunctionComponent<CommentsProps> = ({ comments }) => {
   const [coms, setComments] = useState(comments);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
-    const data = new FormData(e.currentTarget);
+    // const data = new FormData(e.currentTarget);
 
-    const newComment = {
-      userId: user.userId,
-      userAvatarUrl: user.avatar.small,
-      login: user.login,
-      text: data.get('aaa') as string,
-      date: new Date().toString(),
-    };
+    // const newComment = {
+    //   userId: user.userId,
+    //   userAvatarUrl: user.avatar.small,
+    //   login: user.login,
+    //   text: data.get('aaa') as string,
+    //   date: new Date().toString(),
+    // };
 
-    setComments([newComment, ...coms]);
+    setComments([...coms]);
 
     e.preventDefault();
   }
@@ -66,12 +66,12 @@ const Comments: FunctionComponent<CommentsProps> = ({ comments }) => {
       </div>
       {coms.map(comment => (
         <CommentItem
-          login={comment.login}
-          text={comment.text}
-          date={comment.date}
-          userId={comment.userId}
-          userAvatarUrl={comment.userAvatarUrl}
-          key={`${comment.userId}${comment.date}`} // Нужно продумать способ задания уникальных ключей
+          username={comment.username}
+          body={comment.body}
+          createdAt={comment.createdAt}
+          id={comment.id}
+          avatar={comment.avatar}
+          key={comment.id}
         />
       ))}
     </div>
