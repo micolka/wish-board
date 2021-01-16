@@ -17,7 +17,7 @@ const Footer: React.FC = () => (
     <a className={styles['link-footer']} href="https://github.com/Vladimir0087">
       <GithubIcon className={styles['footer-li-icon']} />
       <span>Vladimir0087</span>
-    </a>    
+    </a>
     <a className={styles['link-footer']} href="https://github.com/micolka">
       <GithubIcon className={styles['footer-li-icon']} />
       <span>micolka</span>

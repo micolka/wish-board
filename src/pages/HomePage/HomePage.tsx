@@ -11,12 +11,14 @@ import styles from '@/pages/HomePage/HomePage.scss';
 import dataWishes from './data';
 
 const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
-  const {mobileM, tablet, laptop, custom} = SCREEN_SIZES;
+  const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
   // const { token, id, logout } = useContext(AuthContext);
   // console.log({ token, id });
   return (
     <div className={styles['home-page']}>
-      <ResponsiveMasonry columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}>
+      <ResponsiveMasonry
+        columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
+      >
         <Masonry gutter="10px">
           {dataWishes.map(elem => (
             <SmallWish wishData={elem} key={elem.wishId} />

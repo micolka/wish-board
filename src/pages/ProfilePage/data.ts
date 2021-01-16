@@ -4,12 +4,13 @@ export const dataWishes = [
     name: 'maserati',
     price: {
       value: 1000000000,
-      currency: 'USD', // 'EUR', 'RUB', 'BYN'
+      currency: 'USD',
     },
     creator: {
+      // !! тут о сути должен быть владелец желания. везд одинаковые данные
       nickname: 'aklyaksa2020',
       avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
     },
     image: {
       small:
@@ -33,7 +34,7 @@ export const dataWishes = [
     creator: {
       nickname: 'aklyaksa2020',
       avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
     },
     image: {
       small: 'https://www.ixbt.com/img/n1/news/2020/8/0/43223_large.jpg',
@@ -56,7 +57,7 @@ export const dataWishes = [
     creator: {
       nickname: 'aklyaksa2020',
       avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
     },
     image: {
       small: 'https://volvocarminsk.by/assets/cache/images/volvo-xc90-new-th-500x200-c57.png',
@@ -79,7 +80,7 @@ export const dataWishes = [
     creator: {
       nickname: 'aklyaksa2020',
       avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
     },
     image: {
       small:
@@ -103,7 +104,7 @@ export const dataWishes = [
     creator: {
       nickname: 'aklyaksa2020',
       avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
     },
     image: {
       small:
@@ -127,7 +128,7 @@ export const dataWishes = [
     creator: {
       nickname: 'aklyaksa2020',
       avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
     },
     image: {
       small: 'https://content.onliner.by/news/1400x5616/d462944ae96da6c8ff9d5c50149e1be2.jpeg',
@@ -150,7 +151,7 @@ export const dataWishes = [
     creator: {
       nickname: 'aklyaksa2020',
       avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
     },
     image: {
       small: 'https://tutby.gcdn.co/720x720s/n/avto/08/10/bugatti-bolide-6.jpg',
@@ -173,7 +174,7 @@ export const dataWishes = [
     creator: {
       nickname: 'aklyaksa2020',
       avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
     },
     image: {
       small: 'https://avcdn.av.by/advertpreview/0000/1389/6577.jpeg',
@@ -186,34 +187,22 @@ export const dataWishes = [
       commentsCount: 0,
     },
   },
-  {
-    wishId: 12331117,
-    name: 'maserati',
-    price: {
-      value: 1000000000,
-      currency: 'USD', // 'EUR', 'RUB', 'BYN'
-    },
-    creator: {
-      nickname: 'aklyaksa2020',
-      avatarSmall:
-            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
-    },
-    image: {
-      small:
-        'https://avatars.mds.yandex.net/get-autoru-vos/2029912/24420a9dce93698a4d01731749929b3b/456x342n',
-    },
-    backgroundColor: '#ffffff',
-    statsData: {
-      likesCount: 123,
-      activeCount: 44,
-      fulfilledCount: 2,
-      commentsCount: 1,
-    },
-  },
 ];
 
 export const dataUser = {
   nickname: 'aklyaksa2020',
-  avatarSmall:
-        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
+  avatar: {
+    small:
+      'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png', // ссылка на изображение
+    normal:
+      'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png', // ссылка на изображение
+  },
+  personalData: {
+    name: 'Vasya',
+    surname: 'Rabinovich',
+    patronymic: 'Stapanivich',
+    dateOfBirth: '22.01.2000', // даты наверное лучше в мс хранить
+    hideDate: false, // видимость даты рождения
+    hideYear: false, // видимость года рождения
+  },
 };
