@@ -1,0 +1,104 @@
+* {
+  box-sizing: border-box;
+}
+
+.addWish_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.addWish_content {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+form {
+  width: 80%;
+}
+h1 {
+  margin: 10px 0;
+  align-self: start;
+  margin-left: 10%;
+}
+.wish_descriptions {
+  border-radius: 2px;
+  border: 1px solid #cacaca;
+  padding: 30px 30px 0;
+}
+input {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  outline: none;
+  border: none;
+  background: none;
+  border-bottom: 1px solid rgb(121, 121, 121);
+  width: 100%;
+}
+textarea {
+  outline: none;
+}
+.desriptionOfWish {
+  width: 100%;
+}
+.desriptionOfWish textarea{
+  width: 100%;
+}
+.addFile {
+  margin-top: 15px;
+}
+.filePreview {
+  position: relative;
+  max-width: 300px;
+  height: 200px;
+  display: flex;
+}
+.foto {
+  position: absolute;
+  width: 100%;
+  height: auto;
+}
+.wishCost {
+  display: flex;
+  justify-content: space-between;
+}
+.cost {
+  width: 60%;
+}
+.costCurrency {
+  width: 25%;
+}
+.costCurrency select{
+  width: 100%;
+}
+.visibleProperties {
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.visibleProperties div {
+  margin-left: 15px;
+}
+.visibleProperties div input {
+  width: auto;
+  margin-left: 15px;
+}
+.visibleProperties input:first-child {
+  margin-left: 0;
+}
+.submit_btns {
+  margin: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+.submit_btns button{
+  width: 90px;
+  height: 30px;
+  cursor: pointer;
+}
+.submit_btns div:last-child button{
+  background: rgb(255, 130, 130);
+  border: none;
+}
