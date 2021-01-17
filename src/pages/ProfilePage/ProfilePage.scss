@@ -12,8 +12,7 @@
 .profile_page_info-container {
   display: flex;
   justify-content: space-between;
-  background-color: beige;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .profile_page_info-text {
@@ -29,6 +28,10 @@
   color: #828282;
   min-height: 40px;
   font-family: 'Secular One', sans-serif;
+
+  .link {
+    text-decoration: none;
+  }
 
   .nickname {
     color: #333333;
@@ -64,4 +67,22 @@
 
 .profile_page-button {
   width: fit-content;
+}
+
+.birth_date_info-container {
+  color: #828282;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 15px;
+  padding: 0 7.5px;
+  margin-bottom: 10px;
+}
+
+.birth_date_info-wrapper {
+  width: 140px;
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+  align-items: center;
 }

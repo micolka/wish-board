@@ -201,7 +201,7 @@ export const dataUser = {
     name: 'Vasya',
     surname: 'Rabinovich',
     patronymic: 'Stapanivich',
-    dateOfBirth: '22.01.2000', // даты наверное лучше в мс хранить
+    dateOfBirth: '22.01.1995', // даты наверное лучше в мс хранить
     hideDate: false, // видимость даты рождения
     hideYear: false, // видимость года рождения
   },
