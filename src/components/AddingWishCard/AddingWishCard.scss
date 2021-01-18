@@ -1,9 +1,8 @@
-.MuiFormGroup-root {
-  flex-direction: row;
+$light-grey-border: #ebebeb;
+
+.addingWish-container{
+  border: 1px solid $light-grey-border;
 }
-.MuiPaper-root{
-  width: 50%;
-}
-.MuiFormControl-root{
-  flex-direction: row;
+.title-container{
+  display: flex;
 }
