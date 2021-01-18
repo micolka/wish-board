@@ -1,20 +1,29 @@
-import React, { FunctionComponent, HTMLAttributes } from 'react';
+import React from 'react';
+import type { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 import SmallWish from '@/components/SmallWish';
+import { SCREEN_SIZES } from '@/constants';
 import styles from '@/pages/HomePage/HomePage.scss';
 
-import { dataWishes } from './data';
+import dataWishes from './data';
 
-const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => (
-  <div className={styles['home-page']}>
-    <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3, 1280: 4 }}>
-      <Masonry gutter="10px">
-        {dataWishes.map(elem => (
-          <SmallWish wishData={elem} key={elem.wishId} />
-        ))}
-      </Masonry>
-    </ResponsiveMasonry>
-  </div>
-);
+const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
+  const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
+
+  return (
+    <div className={styles['home-page']}>
+      <ResponsiveMasonry
+        columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
+      >
+        <Masonry gutter="10px">
+          {dataWishes.map(elem => (
+            <SmallWish wishData={elem} key={elem.wishId} />
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
+    </div>
+  );
+};
+
 export default HomePage;

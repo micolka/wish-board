@@ -1,23 +1,23 @@
 .footer {
-  flex: 0 0 auto;
+  max-width: 1280px;
+  height: 64px;
+  margin: 0 auto;
   display: flex;
-  background: radial-gradient(100% 215.42% at 0% 0%, #7c7c7c 0%, #363536 100%), #211f20;
+  background: #3f51b5;
   justify-content: space-around;
   align-items: center;
-  min-height: 50px;
-
-  img {
-    width: 50px;
-  }
+  color: #ffffff;
+  font-size: 20px;
 }
 
 .link-footer {
   display: flex;
   text-decoration: none;
   align-items: center;
-  color: #000000;
   font-weight: 700;
-
+  color: #ffffff;
+  transition: all 0.2s ease-in;
+  font-size: 20px;
   span {
     display: block;
     margin-left: 10px;
@@ -28,11 +28,15 @@
   }
 
   &:hover {
-    color: rgb(255, 255, 255);
+    color: red;
   }
 }
 
 .footer-li-icon {
   width: 30px;
   height: 30px;
+}
+
+.school-link {
+  width: 100px;
 }
