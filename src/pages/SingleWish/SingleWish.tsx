@@ -10,6 +10,7 @@ import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import { IWish, IUser, IComment, IStatsData } from '@/types/SingleWish';
+import AddingWishCard from "@/components/AddingWishCard";
 
 const user: IUser = {
   userId: 1,
@@ -66,6 +67,8 @@ const commentsData: IComment[] = [
   },
 ];
 
+const userCollections:Array<string> = ['Разное','День Рождения', 'Для дома', 'Новый год'];
+
 const SingleWish: FunctionComponent<IWish> = () => {
   const likes: Array<number> = statsData.liked;
   const adding: Array<number> = statsData.active;
@@ -113,13 +116,13 @@ const SingleWish: FunctionComponent<IWish> = () => {
             </div>
             <p className={styles['product-description']}>{wishData.description}</p>
             <div className={styles['stats-container']}>
-              <StatsItem color='red' text={`${likes.length} нравится`}>
+              <StatsItem color='red' text={`${likes.length} нравится`} userCollections={userCollections}>
                 <Favorite className={styles['like-icon']} />
               </StatsItem>
-              <StatsItem color='red' text={`${adding.length} хотят`}>
-                <Add className={styles['add-icon']} />
+              <StatsItem color='red' userCollections={userCollections} text={`${adding.length} хотят`}>
+                <AddingWishCard userCollections={userCollections}/>
               </StatsItem>
-              <StatsItem color='green' text={`${fulfilled.length} исполнено`}>
+              <StatsItem color='green' text={`${fulfilled.length} исполнено`} userCollections={userCollections}>
                 <Check className={styles['check-icon']} />
               </StatsItem>
             </div>

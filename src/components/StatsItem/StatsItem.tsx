@@ -7,6 +7,7 @@ type StatsProps = {
   children: React.ReactNode;
   text: string;
   color: string;
+  userCollections: Array<string>;
 };
 
 const StatsItem: FunctionComponent<StatsProps> = ({ children, text, color }) => {
@@ -15,8 +16,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({ children, text, color }) => 
   const StatsChecked = () => {
     setStatsChecked(!isStatsChecked);
   };
-  return (
-    <div className={styles['stats-item']}>
+  return <div className={styles['stats-item']}>
       <span
         onClick={StatsChecked}
         className={classNames(
@@ -26,8 +26,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({ children, text, color }) => 
       >
         {children}
       </span>
-      <span>{text}</span>
-    </div>
-  );
+    <span>{text}</span>
+  </div>;
 };
 export default StatsItem;
