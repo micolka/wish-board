@@ -21,7 +21,6 @@ import {Add, Close} from "@material-ui/icons";
 
 interface AddingWishProps extends HTMLAttributes<HTMLDivElement> {
   userCollections: Array<string>;
-  state: boolean;
 }
 
 const visibility:Array<string> = ['Видно всем', 'Друзьям', 'Только мне'];

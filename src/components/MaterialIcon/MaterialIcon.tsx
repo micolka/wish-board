@@ -19,7 +19,7 @@ const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color }) 
   return (
     <div className={classNames(styles.single_stat_container, styles[`stat_${color}`])}>
       {iconName === 'heart' ? <FavoriteBorder /> : ''}
-      {iconName === 'active' ? <AddingWishCard userCollections={userCollections} state/> : ''}
+      {iconName === 'active' ? <AddingWishCard userCollections={userCollections}/> : ''}
       {iconName === 'fulfilled' ? <Check /> : ''}
       {iconName === 'comments' ? <Comment /> : ''}
       <span className={styles.stats_count}>{count}</span>
