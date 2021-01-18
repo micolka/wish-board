@@ -16,7 +16,7 @@ import {
   Select,
   TextField
 } from "@material-ui/core";
-import {Add} from "@material-ui/icons";
+import {Add, Close} from "@material-ui/icons";
 
 
 interface AddingWishProps extends HTMLAttributes<HTMLDivElement> {
@@ -28,24 +28,32 @@ const visibility:Array<string> = ['Видно всем', 'Друзьям', 'То
 
 const AddingWishCard : FunctionComponent<AddingWishProps> = ({ userCollections }) => {
   const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState('Видно всем');
+  const [state, setState] = React.useState('Разное');
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const [value, setValue] = React.useState('Видно всем');
-
   const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setValue(event.target.value);
+  };
+
+  const selectHandleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setState(event.target.value);
   };
 
   return(
     <div>
       <Add onClick={() => setOpen(true)} />
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Добавляем в желания</DialogTitle>
-        <DialogContent>
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+          <DialogTitle id="form-dialog-title">Добавляем в желания</DialogTitle>
+          <Close style={{marginRight: '1em'}} onClick={handleClose}/>
+        </div>
+        <DialogContent style={{border: '1px solid grey', margin: '1em'}}>
           <TextField
+            style={{marginBottom: '1em'}}
             autoFocus
             margin="dense"
             id="name"
@@ -54,29 +62,49 @@ const AddingWishCard : FunctionComponent<AddingWishProps> = ({ userCollections }
             fullWidth
           />
           <InputLabel id="label">Коллекции</InputLabel>
-          <Select labelId="label" id="select" value="20">
-            {userCollections.map(collection => (
-            <MenuItem value="0">{collection}</MenuItem>
+          <Select style={{width: '100%'}}
+                  labelId="label"
+                  id="select"
+                  value={state}
+                  onChange={selectHandleChange}
+          >
+            {userCollections.map((collection, i) => (
+            <MenuItem key={i} value={collection}>{collection}</MenuItem>
             ))}
           </Select>
           <FormControl component="fieldset">
-            <RadioGroup
+            <RadioGroup style={{flexDirection: 'row', marginTop: '1em'}}
                         aria-label="visibility"
                         name="visibility"
                         value={value}
                         onChange={handleChange}>
-              {visibility.map(category => (
-                <FormControlLabel value={category} control={<Radio/>} label={category}/>
+              {visibility.map((category, i) => (
+                <FormControlLabel key={i} value={category} control={<Radio/>} label={category}/>
               ))}
             </RadioGroup>
           </FormControl>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
+        <DialogActions style={{justifyContent: 'space-between', marginTop: '1em'}}>
+          <Button
+            style={{
+              boxShadow: "0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)",
+              borderRadius: '0',
+              color: 'black',
+              margin: '0 0 1em 1em',
+            }}
+            onClick={handleClose} color="primary">
+            Отмена
           </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
+          <Button
+            style={{
+              backgroundColor: '#e74c1f',
+              color: 'white',
+              borderRadius: '0',
+              margin: '0 1em 1em 0',
+              boxShadow: '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)'
+            }}
+            onClick={handleClose} color="secondary">
+            Сохранить
           </Button>
         </DialogActions>
       </Dialog>

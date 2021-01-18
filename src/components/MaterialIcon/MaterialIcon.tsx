@@ -12,7 +12,7 @@ interface IconProps extends HTMLAttributes<HTMLDivElement> {
   count: number;
 }
 
-const userCollections:Array<string> = ['День Рождения', 'Для дома', 'Новый год'];
+const userCollections:Array<string> = ['Разное','День Рождения', 'Для дома', 'Новый год'];
 
 const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color }) => {
 
