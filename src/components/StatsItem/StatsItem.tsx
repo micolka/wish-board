@@ -15,6 +15,8 @@ type StatsProps = {
   statName: string;
   stats: TLike[] | TActive[] | TFulfilled[];
   user: TUser;
+  color: string;
+  userCollections: Array<string>;
 };
 
 const StatsItem: FunctionComponent<StatsProps> = ({
@@ -24,6 +26,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   statName,
   wishId,
   user,
+  color,
 }) => {
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
   const history = useHistory();
@@ -72,7 +75,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({
         onKeyPress={() => {}}
         className={classNames(
           styles['stats-icon-border'],
-          isStatsChecked ? styles['checked'] : styles['unchecked']
+          isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
         )}
       >
         {children}

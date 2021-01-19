@@ -1,10 +1,11 @@
 import { useMutation } from '@apollo/client';
-import { FavoriteBorder, Add, Check, Comment } from '@material-ui/icons';
+import { FavoriteBorder, Check, Comment } from '@material-ui/icons';
 import classNames from 'classnames';
 import React, { useContext, useEffect, useState } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
+import AddingWishCard from '@/components/AddingWishCard';
 import styles from '@/components/MaterialIcon/MaterialIcon.scss';
 import { ACTIVE_WISH, FULFILLED_WISH, LIKE_WISH } from '@/components/StatsItem/mutation';
 import AuthContext from '@/context/AuthContex';
@@ -17,6 +18,8 @@ interface IconProps extends HTMLAttributes<HTMLDivElement> {
   wishId: string;
   stats?: TLike[] | TActive[] | TFulfilled[];
 }
+
+const userCollections: Array<string> = ['Разное', 'День Рождения', 'Для дома', 'Новый год'];
 
 const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color, wishId, stats }) => {
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
@@ -79,7 +82,7 @@ const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color, wi
       role="button"
     >
       {iconName === 'heart' ? <FavoriteBorder /> : ''}
-      {iconName === 'active' ? <Add /> : ''}
+      {iconName === 'active' ? <AddingWishCard userCollections={userCollections} /> : ''}
       {iconName === 'fulfilled' ? <Check /> : ''}
       {iconName === 'comments' ? (
         <Link to={`/wish/${wishId}`}>

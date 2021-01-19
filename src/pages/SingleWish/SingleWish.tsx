@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Favorite, Add, Check } from '@material-ui/icons';
+import { Favorite, Check } from '@material-ui/icons';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
@@ -10,6 +10,7 @@ import type { FunctionComponent, HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 import type { RouteComponentProps } from 'react-router-dom';
 
+import AddingWishCard from '@/components/AddingWishCard';
 import Avatar from '@/components/Avatar';
 import Comments from '@/components/Comments/Comments';
 import Price from '@/components/Price';
@@ -59,7 +60,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
 
   const wishData = data?.getWish as TDataWish;
   const creator = wishData?.creator;
-
+  const userCollections: Array<string> = ['Разное', 'День Рождения', 'Для дома', 'Новый год'];
   return (
     <div className={styles['wish-page']}>
       {loading ? (
@@ -106,6 +107,8 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   statName="like"
                   wishId={wishData.id}
                   user={user}
+                  color="red"
+                  userCollections={userCollections}
                 >
                   <Favorite className={styles['like-icon']} />
                 </StatsItem>
@@ -115,8 +118,10 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   stats={wishData.active}
                   wishId={wishData.id}
                   user={user}
+                  color="orange"
+                  userCollections={userCollections}
                 >
-                  <Add className={styles['add-icon']} />
+                  <AddingWishCard userCollections={userCollections} />
                 </StatsItem>
                 <StatsItem
                   text={`${wishData.fulfilledCount} исполнено`}
@@ -124,6 +129,8 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   stats={wishData.fulfilled}
                   wishId={wishData.id}
                   user={user}
+                  color="green"
+                  userCollections={userCollections}
                 >
                   <Check className={styles['check-icon']} />
                 </StatsItem>
