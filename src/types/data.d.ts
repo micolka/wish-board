@@ -11,7 +11,7 @@ export type TDataWish = {
   createdAt: string;
   price: TPrice;
   image: TImage;
-  creator: TCreator;
+  creator: TUser;
   backgroundColor: string;
   originURL: string;
   description: string;
@@ -25,7 +25,7 @@ export type TDataWish = {
   fulfilledCount: number;
 };
 
-export type TCreator = {
+export type TUser = {
   id: string;
   username: string;
   avatar: TAvatar;
@@ -63,7 +63,7 @@ export type TComment = {
   id: string;
   createdAt: string;
   body: string;
-  creator: TCreator;
+  creator: TUser;
 };
 
 export type TUserComment = {

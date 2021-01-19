@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import styles from '@/components/StatsItem/StatsItem.scss';
 import { ACTIVE_WISH, FULFILLED_WISH, LIKE_WISH } from '@/components/StatsItem/mutation';
-import { TActive, TCreator, TFulfilled, TLike } from '@/types/data';
+import { TActive, TUser, TFulfilled, TLike } from '@/types/data';
 
 type StatsProps = {
   children: ReactNode;
@@ -14,7 +14,7 @@ type StatsProps = {
   wishId: string;
   statName: string;
   stats: TLike[] | TActive[] | TFulfilled[];
-  user: TCreator;
+  user: TUser;
 };
 
 const StatsItem: FunctionComponent<StatsProps> = ({

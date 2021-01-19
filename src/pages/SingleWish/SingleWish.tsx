@@ -17,7 +17,7 @@ import StatsItem from '@/components/StatsItem/StatsItem';
 import AuthContext from '@/context/AuthContex';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import FETCH_WISH_QUERY from '@/pages/SingleWish/query';
-import { TCreator, TDataWish, TGetWish } from '@/types/data';
+import { TUser, TDataWish, TGetWish } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,7 +50,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       small: avatar.small,
       normal: avatar.small,
     },
-  } as TCreator;
+  } as TUser;
   const { loading, data } = useQuery<TGetWish>(FETCH_WISH_QUERY, {
     variables: {
       wishId,
@@ -82,7 +82,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
             <div className={styles['data-container']}>
               <div className={styles['data-container_top']}>
                 <div className={styles['user']}>
-                  <Avatar creator={wishData.creator} size="normal" />
+                  <Avatar user={wishData.creator} size="normal" />
                   <span className={styles['user-name']}>{creator.username}</span>
                   хочет
                 </div>

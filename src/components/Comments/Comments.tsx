@@ -10,12 +10,12 @@ import CommentItem from '@/components/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
 import { ADD_COMMENT } from '@/components/Comments/mutation';
 import DeleteButton from '@/components/DeleteButton';
-import { TComment, TCreator } from '@/types/data';
+import { TComment, TUser } from '@/types/data';
 
 interface CommentsProps extends HTMLAttributes<HTMLDivElement> {
   wishId: string;
   comments: TComment[];
-  user: TCreator;
+  user: TUser;
 }
 
 const Comments: FunctionComponent<CommentsProps> = ({ wishId, comments, user }) => {
@@ -52,7 +52,7 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, comments, user }) 
         <span>Комментарии</span>
       </h3>
       <div className={styles['adding-comment-container']}>
-        {user.id ? <Avatar creator={user} size="normal" /> : ''}
+        {user.id ? <Avatar user={user} size="normal" /> : ''}
         <div className={styles['write-send-container']}>
           <form onSubmit={handleSubmit} className={styles['form']} noValidate autoComplete="off">
             <Input

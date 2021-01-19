@@ -79,7 +79,9 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
           </div>
         </div>
         <div className={styles.wish_description}>
-          <Avatar creator={wishData.creator} size="normal" />
+          <Link className={styles['link']} to={`/@${wishData.creator.username}`}>
+            <Avatar user={wishData.creator} size="normal" />
+          </Link>
           <Link className={styles['link']} to={`/wish/${wishData.id}`}>
             <span className={styles.wish_name}>{wishData.name}</span>
           </Link>

@@ -5,8 +5,10 @@ $wish-background-color: #f7f7f7;
 .wish-page {
   display: flex;
   justify-content: center;
+  max-width: 1280px;
+  margin: 0 auto;
   margin-top: 1em;
-  min-height: 500px;
+  min-height: calc(100vh - 128px - 1em);
 }
 .wish-wrapper {
   display: flex;

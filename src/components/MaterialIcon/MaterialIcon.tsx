@@ -8,7 +8,7 @@ import { Link, useHistory } from 'react-router-dom';
 import styles from '@/components/MaterialIcon/MaterialIcon.scss';
 import { ACTIVE_WISH, FULFILLED_WISH, LIKE_WISH } from '@/components/StatsItem/mutation';
 import AuthContext from '@/context/AuthContex';
-import { TActive, TCreator, TFulfilled, TLike } from '@/types/data';
+import { TActive, TUser, TFulfilled, TLike } from '@/types/data';
 
 interface IconProps extends HTMLAttributes<HTMLDivElement> {
   iconName: 'heart' | 'active' | 'fulfilled' | 'comments';
@@ -29,7 +29,7 @@ const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color, wi
       small: avatar.small,
       normal: avatar.small,
     },
-  } as TCreator;
+  } as TUser;
 
   useEffect(() => {
     if (user.id && stats?.find(stat => stat.username === user.username)) {

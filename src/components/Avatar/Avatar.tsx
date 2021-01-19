@@ -2,13 +2,12 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { FunctionComponent, HTMLAttributes } from 'react';
-import { Link } from 'react-router-dom';
 
 import styles from '@/components/Avatar/Avatar.scss';
-import { TCreator } from '@/types/data';
+import { TUser } from '@/types/data';
 
 interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
-  creator: TCreator;
+  user: TUser;
   size: 'small' | 'normal' | 'huge';
 }
 
@@ -29,7 +28,7 @@ const stringToColor = function stringToColor(str: string) {
   return color;
 };
 
-const Avatar: FunctionComponent<AvatarProps> = ({ creator, size }) => (
+const Avatar: FunctionComponent<AvatarProps> = ({ user, size }) => (
   <div
     className={classNames(
       styles.user_avatar,
@@ -37,20 +36,18 @@ const Avatar: FunctionComponent<AvatarProps> = ({ creator, size }) => (
       size === 'normal' ? styles.ava_normal : '',
       size === 'huge' ? styles.ava_huge : ''
     )}
-    title={creator.username}
+    title={user.username}
   >
-    <Link className={styles['link']} to={`/@${creator.username}`}>
-      {creator.avatar.small ? (
-        <img src={creator?.avatar.small} alt={creator.username} />
-      ) : (
-        <div
-          className={styles.user_pseudo_avatar}
-          style={{ backgroundColor: `${stringToColor(creator.username)}` }}
-        >
-          <span>{getUserNameFirstLetter(creator.username)}</span>
-        </div>
-      )}
-    </Link>
+    {user.avatar.small ? (
+      <img src={user.avatar.small} alt={user.username} />
+    ) : (
+      <div
+        className={styles.user_pseudo_avatar}
+        style={{ backgroundColor: `${stringToColor(user.username)}` }}
+      >
+        <span>{getUserNameFirstLetter(user.username)}</span>
+      </div>
+    )}
   </div>
 );
 
