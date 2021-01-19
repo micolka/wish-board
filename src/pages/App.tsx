@@ -13,6 +13,7 @@ import MenuBar from '@/components/MenuBar';
 import { AUTH_TOKEN, routeNamesMap } from '@/constants/';
 import AuthContext from '@/context/AuthContex';
 import useAuth from '@/customHooks/auth.hook';
+import { ILoginInput } from '@/types/AuthContext';
 
 import useRoutes from './routes';
 
@@ -21,7 +22,8 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(AUTH_TOKEN);
+  const userData = JSON.parse(localStorage.getItem(AUTH_TOKEN)!) as ILoginInput;
+  const token = userData ? userData.token : null;
   return {
     headers: {
       ...headers,
@@ -44,7 +46,7 @@ const handleChange = (routeName: string) => {
 };
 const App = (): JSX.Element => {
   const history = useHistory();
-  const { token, username, login, logout, id, ready } = useAuth();
+  const { token, username, avatar, login, logout, id, ready } = useAuth();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
   useEffect(
@@ -54,6 +56,7 @@ const App = (): JSX.Element => {
       }),
     [history]
   );
+
   if (!ready) {
     return <div>Loader...</div>;
   }
@@ -63,6 +66,7 @@ const App = (): JSX.Element => {
         value={{
           token,
           username,
+          avatar,
           login,
           logout,
           id,

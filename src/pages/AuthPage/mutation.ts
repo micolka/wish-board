@@ -6,6 +6,10 @@ const LOGIN_USER = gql`
       id
       username
       token
+      avatar {
+        small
+        normal
+      }
     }
   }
 `;

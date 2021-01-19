@@ -1,6 +1,9 @@
 export type TGetWishes = {
   getWishes: TDataWish[];
 };
+export type TGetWish = {
+  getWish: TDataWish;
+};
 
 export type TDataWish = {
   id: string;
@@ -10,6 +13,8 @@ export type TDataWish = {
   image: TImage;
   creator: TCreator;
   backgroundColor: string;
+  originURL: string;
+  description: string;
   active: [TActive];
   fulfilled: [TFulfilled];
   comments: [TComment];
@@ -30,12 +35,14 @@ export type TAvatar = {
   small: string;
   normal: string;
 };
+
 export type TPrice = {
   value: string;
   currency: string;
 };
 export type TImage = {
   small: string;
+  normal: string;
 };
 export type TLike = {
   id: string;
@@ -55,6 +62,16 @@ export type TFulfilled = {
 export type TComment = {
   id: string;
   createdAt: string;
-  username: string;
   body: string;
+  creator: TCreator;
+};
+
+export type TUserComment = {
+  id: string | null;
+  login: string | null;
+  avatar: TImageAvatar;
+};
+
+export type TImageAvatar = {
+  small: string | null;
 };

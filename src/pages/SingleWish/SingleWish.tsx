@@ -5,18 +5,19 @@ import { Favorite, Add, Check } from '@material-ui/icons';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
-import React from 'react';
+import React, { useContext } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 import type { RouteComponentProps } from 'react-router-dom';
 
+import Avatar from '@/components/Avatar';
 import Comments from '@/components/Comments/Comments';
 import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
-// import AuthContext from '@/context/AuthContex';
+import AuthContext from '@/context/AuthContex';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import FETCH_WISH_QUERY from '@/pages/SingleWish/query';
-import { TDataWish, TGetWish } from '@/types/SingleWish';
+import { TCreator, TDataWish, TGetWish } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,15 +42,23 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   // eslint-disable-next-line react/destructuring-assignment
   const { wishId } = props.match.params;
   const classes = useStyles();
-  // const context = useContext(AuthContext);
-
+  const { id, username, avatar } = useContext(AuthContext);
+  const user = {
+    id,
+    username,
+    avatar: {
+      small: avatar.small,
+      normal: avatar.small,
+    },
+  } as TCreator;
   const { loading, data } = useQuery<TGetWish>(FETCH_WISH_QUERY, {
     variables: {
       wishId,
     },
   });
+
   const wishData = data?.getWish as TDataWish;
-  const user = wishData?.creator;
+  const creator = wishData?.creator;
 
   return (
     <div className={styles['wish-page']}>
@@ -73,14 +82,8 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
             <div className={styles['data-container']}>
               <div className={styles['data-container_top']}>
                 <div className={styles['user']}>
-                  <div className={styles['user-avatar']}>
-                    <img
-                      alt={user.username}
-                      className={styles['user-avatar_small']}
-                      src={user.avatar.small}
-                    />
-                  </div>
-                  <span className={styles['user-name']}>{user.username}</span>
+                  <Avatar creator={wishData.creator} size="normal" />
+                  <span className={styles['user-name']}>{creator.username}</span>
                   хочет
                 </div>
                 <div className={styles['button-container']}>
@@ -97,17 +100,35 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
               </div>
               <p className={styles['product-description']}>{wishData.description}</p>
               <div className={styles['stats-container']}>
-                <StatsItem text={`${wishData.likeCount} нравится`}>
+                <StatsItem
+                  text={`${wishData.likeCount} нравится`}
+                  stats={wishData.likes}
+                  statName="like"
+                  wishId={wishData.id}
+                  user={user}
+                >
                   <Favorite className={styles['like-icon']} />
                 </StatsItem>
-                <StatsItem text={`${wishData.activeCount} хотят`}>
+                <StatsItem
+                  text={`${wishData.activeCount} хотят`}
+                  statName="active"
+                  stats={wishData.active}
+                  wishId={wishData.id}
+                  user={user}
+                >
                   <Add className={styles['add-icon']} />
                 </StatsItem>
-                <StatsItem text={`${wishData.fulfilledCount} исполнено`}>
+                <StatsItem
+                  text={`${wishData.fulfilledCount} исполнено`}
+                  statName="fulfilled"
+                  stats={wishData.fulfilled}
+                  wishId={wishData.id}
+                  user={user}
+                >
                   <Check className={styles['check-icon']} />
                 </StatsItem>
               </div>
-              <Comments comments={wishData.comments} />
+              <Comments wishId={wishData.id} comments={wishData.comments} user={user} />
             </div>
           </div>
         </div>

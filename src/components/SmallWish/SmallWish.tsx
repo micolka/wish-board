@@ -1,15 +1,14 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { FunctionComponent, HTMLAttributes } from 'react';
+import type { FunctionComponent, HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 
+import Avatar from '@/components/Avatar';
+import MaterialIcon from '@/components/MaterialIcon';
+import Price from '@/components/Price';
 import styles from '@/components/SmallWish/SmallWish.scss';
+import WishImage from '@/components/WishImage';
 import { TDataWish } from '@/types/data';
-
-import Avatar from '../Avatar';
-import MaterialIcon from '../MaterialIcon';
-import Price from '../Price';
-import WishImage from '../WishImage';
 
 interface WishProps extends HTMLAttributes<HTMLDivElement> {
   wishData: TDataWish;
@@ -50,10 +49,33 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
               isStatsShown ? styles.wish_stats_container_display : ''
             )}
           >
-            <MaterialIcon color="red" iconName="heart" count={wishData.likeCount} />
-            <MaterialIcon color="orange" iconName="active" count={wishData.activeCount} />
-            <MaterialIcon color="green" iconName="fulfilled" count={wishData.fulfilledCount} />
-            <MaterialIcon color="blue" iconName="comments" count={wishData.commentCount} />
+            <MaterialIcon
+              color="red"
+              iconName="heart"
+              count={wishData.likeCount}
+              stats={wishData.likes}
+              wishId={wishData.id}
+            />
+            <MaterialIcon
+              color="orange"
+              iconName="active"
+              count={wishData.activeCount}
+              stats={wishData.active}
+              wishId={wishData.id}
+            />
+            <MaterialIcon
+              color="green"
+              iconName="fulfilled"
+              count={wishData.fulfilledCount}
+              stats={wishData.fulfilled}
+              wishId={wishData.id}
+            />
+            <MaterialIcon
+              color="blue"
+              iconName="comments"
+              count={wishData.commentCount}
+              wishId={wishData.id}
+            />
           </div>
         </div>
         <div className={styles.wish_description}>

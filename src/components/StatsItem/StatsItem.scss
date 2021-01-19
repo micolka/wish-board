@@ -14,10 +14,10 @@ $light-grey-border: #ebebeb;
     border: 1px solid $light-grey-border;
     transition: all 0.2s ease-in;
   }
-  .unchecked:hover{
+  .unchecked:hover {
     color: red;
   }
-  .checked{
+  .checked {
     background-color: red;
     color: white;
   }

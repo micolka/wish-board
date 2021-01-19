@@ -1,12 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
 
-import { IData, ILoginInput } from '@/types/AuthContext';
-
-const storageName = 'userData';
+import { AUTH_TOKEN } from '@/constants/';
+import { IAvatar, IContextProps, IData, ILoginInput } from '@/types/AuthContext';
 
 const useAuth = (): IData => {
   const [token, setToken] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<IAvatar>({} as IAvatar);
   const [ready, setReady] = useState(false);
   const [id, setId] = useState<string | null>(null);
 
@@ -14,24 +14,25 @@ const useAuth = (): IData => {
     setToken(userData.token);
     setId(userData.id);
     setUsername(userData.username);
-    localStorage.setItem(storageName, JSON.stringify(userData));
+    setAvatar(userData.avatar);
+    localStorage.setItem(AUTH_TOKEN, JSON.stringify(userData));
   }, []);
 
   const logout = useCallback(() => {
     setToken(null);
     setId(null);
-    localStorage.removeItem(storageName);
+    localStorage.removeItem(AUTH_TOKEN);
   }, []);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem(storageName)!) as IData;
+    const data = JSON.parse(localStorage.getItem(AUTH_TOKEN)!) as IContextProps;
     if (data?.token && data?.id && data?.username) {
-      login({ token: data.token, id: data.id, username: data.username });
+      login({ token: data.token, id: data.id, username: data.username, avatar: data.avatar });
     }
     setReady(true);
   }, [login]);
 
-  return { token, username, login, logout, id, ready };
+  return { token, username, avatar, login, logout, id, ready };
 };
 
 export default useAuth;

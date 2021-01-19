@@ -1,18 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
+import type { FunctionComponent, HTMLAttributes } from 'react';
 
+import Avatar from '@/components/Avatar/';
 import styles from '@/components/CommentItem/CommentItem.scss';
-import { TComment } from '@/types/SingleWish';
+import { TComment } from '@/types/data';
 
-const CommentItem: FunctionComponent<TComment> = comment => (
+interface CommentProps extends HTMLAttributes<HTMLDivElement> {
+  comment: TComment;
+}
+const CommentItem: FunctionComponent<CommentProps> = ({ comment }) => (
   <div className={styles['wish-comment']}>
-    <img
-      alt={comment.username}
-      className={styles['user-avatar_small']}
-      src={comment.avatar.small}
-    />
+    <Avatar creator={comment.creator} size="normal" />
     <div className={styles['comment-info-container']}>
       <div className={styles['login-comment-container']}>
-        <h4>{comment.username}</h4>
+        <h4>{comment.creator.username}</h4>
         <p>{comment.body}</p>
       </div>
       <div className={styles['comment-date']}>{comment.createdAt}</div>

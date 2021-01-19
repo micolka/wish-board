@@ -21,18 +21,10 @@ const ADD_COMMENT = gql`
     }
   }
 `;
-
-const LIKE_WISH = gql`
-  mutation likeWish($wishId: ID!) {
-    likeWish(wishId: $wishId) {
-      id
-      likes {
-        username
-        createdAt
-      }
-      likeCount
-    }
+const DELETE_COMMENT = gql`
+  mutation deleteComment($wishId: ID!, $commentId: ID!) {
+    deleteComment(wishId: $wishId, commentId: $commentId)
   }
 `;
 
-export { ADD_COMMENT, LIKE_WISH };
+export { ADD_COMMENT, DELETE_COMMENT };

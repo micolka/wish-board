@@ -1,42 +1,49 @@
+import { useMutation } from '@apollo/client';
 import { Button, Input } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
-import React, { FunctionComponent, HTMLAttributes, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import type { FunctionComponent, FormEvent, HTMLAttributes } from 'react';
+import { useHistory } from 'react-router-dom';
 
+import Avatar from '@/components/Avatar';
 import CommentItem from '@/components/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
-import { IUser, TComment } from '@/types/SingleWish';
+import { ADD_COMMENT } from '@/components/Comments/mutation';
+import DeleteButton from '@/components/DeleteButton';
+import { TComment, TCreator } from '@/types/data';
 
 interface CommentsProps extends HTMLAttributes<HTMLDivElement> {
+  wishId: string;
   comments: TComment[];
+  user: TCreator;
 }
 
-const user: IUser = {
-  userId: 1,
-  login: 'Vasya999',
-  avatar: {
-    small: 'https://99px.ru/sstorage/1/2011/06/image_11406111707363332889.jpg',
-    normal: 'https://99px.ru/sstorage/1/2011/06/image_11406111707363332889.jpg',
-  },
-};
+const Comments: FunctionComponent<CommentsProps> = ({ wishId, comments, user }) => {
+  const [comment, setComment] = useState('');
+  const history = useHistory();
+  const commentInputRef = useRef<HTMLInputElement | null>(null);
+  const [submitComment] = useMutation(ADD_COMMENT, {
+    update() {
+      commentInputRef.current?.blur();
+      setComment('');
+    },
+    variables: {
+      wishId,
+      body: comment,
+    },
+  });
 
-const Comments: FunctionComponent<CommentsProps> = ({ comments }) => {
-  const [coms, setComments] = useState(comments);
+  const routeChange = () => {
+    if (!user.id) {
+      const path = '/login';
+      history.push(path);
+    }
+  };
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
-    // const data = new FormData(e.currentTarget);
-
-    // const newComment = {
-    //   userId: user.userId,
-    //   userAvatarUrl: user.avatar.small,
-    //   login: user.login,
-    //   text: data.get('aaa') as string,
-    //   date: new Date().toString(),
-    // };
-
-    setComments([...coms]);
-
-    e.preventDefault();
-  }
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    return submitComment();
+  };
 
   return (
     <div className={styles['comments-container']}>
@@ -45,18 +52,23 @@ const Comments: FunctionComponent<CommentsProps> = ({ comments }) => {
         <span>Комментарии</span>
       </h3>
       <div className={styles['adding-comment-container']}>
-        <img alt={user.login} className={styles['user-avatar_small']} src={user.avatar.small} />
+        {user.id ? <Avatar creator={user} size="normal" /> : ''}
         <div className={styles['write-send-container']}>
           <form onSubmit={handleSubmit} className={styles['form']} noValidate autoComplete="off">
             <Input
-              name="aaa"
+              name={comment}
               placeholder="Напишите комментарий..."
               inputProps={{ 'aria-label': 'description' }}
+              ref={commentInputRef}
+              value={comment}
+              onFocus={() => routeChange()}
+              onChange={event => setComment(event.target.value)}
             />
             <Button
               className={styles['comment-button']}
               type="submit"
               variant="outlined"
+              disabled={comment.trim() === ''}
               color="secondary"
             >
               Отправить
@@ -64,15 +76,11 @@ const Comments: FunctionComponent<CommentsProps> = ({ comments }) => {
           </form>
         </div>
       </div>
-      {coms.map(comment => (
-        <CommentItem
-          username={comment.username}
-          body={comment.body}
-          createdAt={comment.createdAt}
-          id={comment.id}
-          avatar={comment.avatar}
-          key={comment.id}
-        />
+      {comments?.map(comm => (
+        <div className={styles['comment-item']} key={comm.id}>
+          <CommentItem comment={comm} key={comm.id} />
+          {comm.creator.id === user.id ? <DeleteButton wishId={wishId} commentId={comm.id} /> : ''}
+        </div>
       ))}
     </div>
   );

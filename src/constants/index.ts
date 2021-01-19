@@ -6,7 +6,7 @@ const routeNamesMap = {
   '/friends': 'Friends',
   '/404': 'Not Found Page',
 };
-const AUTH_TOKEN = 'auth-token';
+const AUTH_TOKEN = 'userData';
 const nameApp = 'WishBoard';
 const loginConst = 'login';
 const registrationConst = 'registration';
