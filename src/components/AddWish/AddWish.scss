@@ -102,3 +102,27 @@ textarea {
   background: rgb(255, 130, 130);
   border: none;
 }
+div .close{
+  font-size: 2.5rem;
+  position: absolute;
+  top: 7px;
+  right: 17.5%;
+}
+.close:hover {
+  color: red;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.upload {
+ display: none;
+}
+div .uploadImg {
+  cursor: pointer;
+  font-size: 2rem;
+  margin: 5px;
+  border: 1px solid red;
+  transition: all 0.3s;
+ }
+ div .uploadImg:hover {
+  border: 2px solid  red;
+ }
