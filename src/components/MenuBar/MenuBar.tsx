@@ -14,7 +14,7 @@ import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '@/components/MenuBar/MenuBar.scss';
-import { friendsConst, loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
+import { loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
 import AuthContext from '@/context/AuthContex';
 
 import Avatar from '../Avatar';
@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
-  const { token, id, logout } = useContext(AuthContext);
-  const profileHref = id ? `/@${id}` : null;
+  const { token, username, logout } = useContext(AuthContext);
+  const profileHref = username ? `/@${username}` : null;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 

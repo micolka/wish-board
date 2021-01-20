@@ -2,11 +2,7 @@ import * as React from 'react';
 import { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/Price/Price.scss';
-
-type TPrice = {
-  value: number | null;
-  currency: 'RUB' | 'EUR' | 'USD' | 'BYN' | string;
-};
+import { TPrice } from '@/types/data';
 
 interface PriceProps extends HTMLAttributes<HTMLDivElement> {
   price: TPrice;

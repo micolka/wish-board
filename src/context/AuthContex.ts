@@ -5,6 +5,11 @@ import { IContextProps } from '@/types/AuthContext';
 const AuthContext = createContext({
   token: null,
   id: null,
+  username: null,
+  avatar: {
+    small: null,
+    normal: null,
+  },
   login: () => {},
   logout: () => {},
   isAuthenticated: false,

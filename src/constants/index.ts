@@ -1,11 +1,12 @@
 const routeNamesMap = {
-  '/': 'Wishboard',
+  '/': 'WishBoard',
   '/login': 'Login',
   '/registration': 'Authefication',
+  '/wish': 'Wish',
   '/friends': 'Friends',
   '/404': 'Not Found Page',
 };
-const AUTH_TOKEN = 'auth-token';
+const AUTH_TOKEN = 'userData';
 const nameApp = 'myWishBoard';
 const loginConst = 'login';
 const registrationConst = 'registration';

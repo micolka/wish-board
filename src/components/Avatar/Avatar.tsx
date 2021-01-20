@@ -4,12 +4,10 @@ import * as React from 'react';
 import { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/Avatar/Avatar.scss';
+import { TUser } from '@/types/data';
 
 interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
-  user: {
-    avatarSmall: string;
-    nickname: string;
-  };
+  user: TUser;
   size: 'small' | 'normal' | 'huge';
 }
 
@@ -38,16 +36,16 @@ const Avatar: FunctionComponent<AvatarProps> = ({ user, size }) => (
       size === 'normal' ? styles.ava_normal : '',
       size === 'huge' ? styles.ava_huge : ''
     )}
-    title={user.nickname}
+    title={user.username}
   >
-    {user.avatarSmall ? (
-      <img src={user.avatarSmall} alt={user.nickname} />
+    {user.avatar.small ? (
+      <img src={user.avatar.small} alt={user.username} />
     ) : (
       <div
         className={styles.user_pseudo_avatar}
-        style={{ backgroundColor: `${stringToColor(user.nickname)}` }}
+        style={{ backgroundColor: `${stringToColor(user.username)}` }}
       >
-        <span>{getUserNameFirstLetter(user.nickname)}</span>
+        <span>{getUserNameFirstLetter(user.username)}</span>
       </div>
     )}
   </div>
