@@ -1,77 +1,88 @@
-import {Button, Input} from '@material-ui/core';
+import { useMutation } from '@apollo/client';
+import { Button, Input } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
-import React, {FunctionComponent, HTMLAttributes, useState} from 'react';
+import React, { useRef, useState } from 'react';
+import type { FunctionComponent, FormEvent, HTMLAttributes } from 'react';
+import { useHistory } from 'react-router-dom';
 
-import CommentItem from '@/components/Comment/CommentItem';
+import Avatar from '@/components/Avatar';
+import CommentItem from '@/components/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
-import {IUser, IComment} from '@/types/SingleWish';
+import { ADD_COMMENT } from '@/components/Comments/mutation';
+import DeleteButton from '@/components/DeleteButton';
+import { TComment, TUser } from '@/types/data';
 
 interface CommentsProps extends HTMLAttributes<HTMLDivElement> {
-  comments: IComment[];
+  wishId: string;
+  comments: TComment[];
+  user: TUser;
 }
 
-const user: IUser = {
-  userId: 1,
-  login: 'Vasya999',
-  avatar: {
-    small: 'https://99px.ru/sstorage/1/2011/06/image_11406111707363332889.jpg',
-    normal: 'https://99px.ru/sstorage/1/2011/06/image_11406111707363332889.jpg',
-  },
-};
+const Comments: FunctionComponent<CommentsProps> = ({ wishId, comments, user }) => {
+  const [comment, setComment] = useState('');
+  const history = useHistory();
+  const commentInputRef = useRef<HTMLInputElement | null>(null);
+  const [submitComment] = useMutation(ADD_COMMENT, {
+    update() {
+      commentInputRef.current?.blur();
+      setComment('');
+    },
+    variables: {
+      wishId,
+      body: comment,
+    },
+  });
 
-const Comments: FunctionComponent<CommentsProps> = ({comments}) => {
+  const routeChange = () => {
+    if (!user.id) {
+      const path = '/login';
+      history.push(path);
+    }
+  };
 
-  const [coms, setComments] = useState(comments);
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
-    const data = new FormData(e.currentTarget);
-
-    const newComment = {
-      userId: user.userId,
-      userAvatarUrl: user.avatar.small,
-      login: user.login,
-      text: data.get('aaa') as string,
-      date: new Date().toString(),
-    };
-
-    setComments([newComment, ...coms]);
-
-    e.preventDefault();
-  }
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    return submitComment();
+  };
 
   return (
     <div className={styles['comments-container']}>
       <h3 className={styles['comments-title']}>
-        <CommentIcon/>
+        <CommentIcon />
         <span>Комментарии</span>
       </h3>
       <div className={styles['adding-comment-container']}>
-        <img alt={user.login} className={styles['user-avatar_small']} src={user.avatar.small}/>
+        {user.id ? <Avatar user={user} size="normal" /> : ''}
         <div className={styles['write-send-container']}>
           <form onSubmit={handleSubmit} className={styles['form']} noValidate autoComplete="off">
             <Input
-              name={'aaa'}
+              name={comment}
               placeholder="Напишите комментарий..."
-              inputProps={{'aria-label': 'description'}}
+              inputProps={{ 'aria-label': 'description' }}
+              ref={commentInputRef}
+              value={comment}
+              onFocus={() => routeChange()}
+              onChange={event => setComment(event.target.value)}
             />
-            <Button className={styles['comment-button']} type="submit" variant="outlined"
-                    color="secondary">
+            <Button
+              className={styles['comment-button']}
+              type="submit"
+              variant="outlined"
+              disabled={comment.trim() === ''}
+              color="secondary"
+            >
               Отправить
             </Button>
           </form>
         </div>
       </div>
-      {coms.map(comment => (
-        <CommentItem
-          login={comment.login}
-          text={comment.text}
-          date={comment.date}
-          userId={comment.userId}
-          userAvatarUrl={comment.userAvatarUrl}
-          key={`${comment.userId}${comment.date}`} // Нужно продумать способ задания уникальных ключей
-        />
+      {comments?.map(comm => (
+        <div className={styles['comment-item']} key={comm.id}>
+          <CommentItem comment={comm} key={comm.id} />
+          {comm.creator.id === user.id ? <DeleteButton wishId={wishId} commentId={comm.id} /> : ''}
+        </div>
       ))}
     </div>
-  )
+  );
 };
 export default Comments;

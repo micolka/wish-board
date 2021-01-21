@@ -1,6 +1,8 @@
 export interface IData {
   token: string | null;
   id: string | null;
+  avatar: IAvatar;
+  username: string | null;
   login: (userData: ILoginInput) => void;
   logout: () => void;
   ready: boolean;
@@ -19,11 +21,20 @@ export interface IErrorsLogin {
 export interface IContextProps {
   token: string | null;
   id: string | null;
+  username: string | null;
+  avatar: IAvatar;
   login: (userData: ILoginInput) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
+
+export type IAvatar = {
+  small: string | null;
+  normal: string | null;
+};
 export interface ILoginInput {
   token: string | null;
   id: string | null;
+  username: string | null;
+  avatar: IAvatar;
 }

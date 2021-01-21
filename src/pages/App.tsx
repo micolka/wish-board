@@ -10,10 +10,12 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AddWish from '@/components/AddWish/AddWish';
+import Footer from '@/components/Footer';
 import MenuBar from '@/components/MenuBar';
 import { AUTH_TOKEN, routeNamesMap } from '@/constants/';
 import AuthContext from '@/context/AuthContex';
 import useAuth from '@/customHooks/auth.hook';
+import { ILoginInput } from '@/types/AuthContext';
 
 import useRoutes from './routes';
 
@@ -22,7 +24,8 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(AUTH_TOKEN);
+  const userData = JSON.parse(localStorage.getItem(AUTH_TOKEN)!) as ILoginInput;
+  const token = userData ? userData.token : null;
   return {
     headers: {
       ...headers,
@@ -37,13 +40,15 @@ const client = new ApolloClient({
 });
 
 const handleChange = (routeName: string) => {
-  if (routeName?.indexOf('@') !== 1) {
+  if (routeName?.indexOf('/wish/') !== -1) {
+    document.title = routeNamesMap['/wish'];
+  } else if (routeName?.indexOf('@') === -1) {
     document.title = routeNamesMap[routeName] as string;
   }
 };
 const App = (): JSX.Element => {
   const history = useHistory();
-  const { token, login, logout, id, ready } = useAuth();
+  const { token, username, avatar, login, logout, id, ready } = useAuth();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
   useEffect(
@@ -53,6 +58,7 @@ const App = (): JSX.Element => {
       }),
     [history]
   );
+
   if (!ready) {
     return <div>Loader...</div>;
   }
@@ -61,14 +67,17 @@ const App = (): JSX.Element => {
       <AuthContext.Provider
         value={{
           token,
+          username,
+          avatar,
           login,
           logout,
           id,
           isAuthenticated,
         }}
       >
-        {/* <MenuBar>{routes}</MenuBar> */}
-        <AddWish />
+        <MenuBar />
+        {routes}
+        <Footer />
       </AuthContext.Provider>
     </ApolloProvider>
   );

@@ -28,8 +28,14 @@ $light-grey-border: #ebebeb;
       transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       transition-property: font-size, padding-top, color;
     }
-    .comment-button{
+    .comment-button {
       margin-left: 1em;
     }
   }
+}
+
+.comment-item {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 }
