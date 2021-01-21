@@ -13,11 +13,10 @@ import type { FunctionComponent, MouseEvent, HTMLAttributes } from 'react';
 import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import Avatar from '@/components/Avatar';
 import styles from '@/components/MenuBar/MenuBar.scss';
 import { loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
 import AuthContext from '@/context/AuthContex';
-
-import Avatar from '../Avatar';
 
 import dataCreator from './data';
 

@@ -21,7 +21,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
         <Redirect to="/" />
       </Route>
       <Route path="/friends" exact component={FriendsPage} />
-      <Route path="/wish/:wishId" exact component={SingleWish} />
+      <Route path="/wish/@:nickname/:wishId" exact component={SingleWish} />
       <Route path="/@:username" exact component={ProfilePage} />
       <Route exact path="/404" component={NotFoundPage} />
       <Route exact path="*">
@@ -33,7 +33,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
       <Route exact path="/" component={HomePage} />
       <Route path="/login" exact component={AuthPage} />
       <Route path="/registration" exact component={RegisterPage} />
-      <Route path="/wish/:wishId" exact component={SingleWish} />
+      <Route path="/wish/@:nickname/:wishId" exact component={SingleWish} />
       <Route path="/@:username" exact component={ProfilePage} />
       <Route exact path="*">
         <Redirect to="/404" />

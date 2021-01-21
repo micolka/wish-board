@@ -1,29 +1,37 @@
 import { gql } from '@apollo/client';
 
 const ADD_COMMENT = gql`
-  mutation createComment($wishId: ID!, $body: String!) {
-    createComment(wishId: $wishId, body: $body) {
+  mutation createComment($wishId: ID!, $username: String!, $body: String!) {
+    createComment(wishId: $wishId, username: $username, body: $body) {
       id
-      comments {
-        id
-        username
-        createdAt
-        body
-        creator {
-          username
+      active {
+        comments {
+          createdAt
           id
-          avatar {
-            small
+          body
+          user {
+            username
           }
         }
       }
-      commentCount
     }
   }
 `;
 const DELETE_COMMENT = gql`
-  mutation deleteComment($wishId: ID!, $commentId: ID!) {
-    deleteComment(wishId: $wishId, commentId: $commentId)
+  mutation deleteComment($wishId: ID!, $username: String!, $commentId: ID!) {
+    deleteComment(wishId: $wishId, username: $username, commentId: $commentId) {
+      id
+      active {
+        comments {
+          createdAt
+          id
+          body
+          user {
+            username
+          }
+        }
+      }
+    }
   }
 `;
 
