@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type TWish = {
+  nickname: string;
   wishId: string;
 };
 
@@ -41,7 +42,7 @@ type TSingleWishProps = RouteComponentProps<TWish> & HTMLAttributes<HTMLDivEleme
 
 const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   // eslint-disable-next-line react/destructuring-assignment
-  const { wishId } = props.match.params;
+  const { nickname, wishId } = props.match.params;
   const classes = useStyles();
   const { id, username, avatar } = useContext(AuthContext);
   const user = {
@@ -55,11 +56,12 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const { loading, data } = useQuery<TGetWish>(FETCH_WISH_QUERY, {
     variables: {
       wishId,
+      username: nickname,
     },
   });
 
   const wishData = data?.getWish as TDataWish;
-  const creator = wishData?.creator;
+  const userWant = wishData?.active[0].user;
   const userCollections: Array<string> = ['Разное', 'День Рождения', 'Для дома', 'Новый год'];
   return (
     <div className={styles['wish-page']}>
@@ -83,8 +85,8 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
             <div className={styles['data-container']}>
               <div className={styles['data-container_top']}>
                 <div className={styles['user']}>
-                  <Avatar user={wishData.creator} size="normal" />
-                  <span className={styles['user-name']}>{creator.username}</span>
+                  <Avatar user={userWant} size="normal" />
+                  <span className={styles['user-name']}>{userWant.username}</span>
                   хочет
                 </div>
                 <div className={styles['button-container']}>
@@ -126,7 +128,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 <StatsItem
                   text={`${wishData.fulfilledCount} исполнено`}
                   statName="fulfilled"
-                  stats={wishData.fulfilled}
+                  stats={wishData.active}
                   wishId={wishData.id}
                   user={user}
                   color="green"

@@ -79,7 +79,7 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, comments, user }) 
       {comments?.map(comm => (
         <div className={styles['comment-item']} key={comm.id}>
           <CommentItem comment={comm} key={comm.id} />
-          {comm.creator.id === user.id ? <DeleteButton wishId={wishId} commentId={comm.id} /> : ''}
+          {comm.user.id === user.id ? <DeleteButton wishId={wishId} commentId={comm.id} /> : ''}
         </div>
       ))}
     </div>

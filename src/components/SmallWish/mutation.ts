@@ -4,11 +4,12 @@ const LIKE_WISH = gql`
   mutation likeWish($wishId: ID!) {
     likeWish(wishId: $wishId) {
       id
-      likes {
-        username
-        createdAt
-      }
+      activeCount
+      fulfilledCount
       likeCount
+      likes {
+        id
+      }
     }
   }
 `;
@@ -17,11 +18,9 @@ const ACTIVE_WISH = gql`
   mutation activeWish($wishId: ID!) {
     activeWish(wishId: $wishId) {
       id
-      active {
-        username
-        createdAt
-      }
       activeCount
+      fulfilledCount
+      likeCount
     }
   }
 `;
@@ -30,11 +29,9 @@ const FULFILLED_WISH = gql`
   mutation fulfilledWish($wishId: ID!) {
     fulfilledWish(wishId: $wishId) {
       id
-      fulfilled {
-        username
-        createdAt
-      }
+      activeCount
       fulfilledCount
+      likeCount
     }
   }
 `;

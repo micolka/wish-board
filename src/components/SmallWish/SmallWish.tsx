@@ -34,7 +34,10 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
             name={wishData.name}
             color={wishData.backgroundColor}
           />
-          <Link className={styles['link']} to={`/wish/${wishData.id}`}>
+          <Link
+            className={styles['link']}
+            to={`/wish/@${wishData.active[0].user.username}/${wishData.id}`}
+          >
             <div
               className={classNames(
                 styles.wish_container_curtain,
@@ -67,22 +70,25 @@ const SmallWish: FunctionComponent<WishProps> = ({ wishData }) => {
               color="green"
               iconName="fulfilled"
               count={wishData.fulfilledCount}
-              stats={wishData.fulfilled}
+              stats={wishData.active}
               wishId={wishData.id}
             />
             <MaterialIcon
               color="blue"
               iconName="comments"
-              count={wishData.commentCount}
+              count={wishData.active[0].commentCount}
               wishId={wishData.id}
             />
           </div>
         </div>
         <div className={styles.wish_description}>
-          <Link className={styles['link']} to={`/@${wishData.creator.username}`}>
-            <Avatar user={wishData.creator} size="normal" />
+          <Link className={styles['link']} to={`/@${wishData.active[0].user.username}`}>
+            <Avatar user={wishData.active[0].user} size="normal" />
           </Link>
-          <Link className={styles['link']} to={`/wish/${wishData.id}`}>
+          <Link
+            className={styles['link']}
+            to={`/wish/@${wishData.active[0].user.username}/${wishData.id}`}
+          >
             <span className={styles.wish_name}>{wishData.name}</span>
           </Link>
         </div>

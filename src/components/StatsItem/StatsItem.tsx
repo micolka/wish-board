@@ -6,14 +6,14 @@ import { useHistory } from 'react-router-dom';
 
 import styles from '@/components/StatsItem/StatsItem.scss';
 import { ACTIVE_WISH, FULFILLED_WISH, LIKE_WISH } from '@/components/StatsItem/mutation';
-import { TActive, TUser, TFulfilled, TLike } from '@/types/data';
+import { TActive, TUser, TLike } from '@/types/data';
 
 type StatsProps = {
   children: ReactNode;
   text: string;
   wishId: string;
   statName: string;
-  stats: TLike[] | TActive[] | TFulfilled[];
+  stats: TLike[] | TActive[];
   user: TUser;
   color: string;
   userCollections: Array<string>;
@@ -31,7 +31,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
   const history = useHistory();
   useEffect(() => {
-    if (user && stats.find(stat => stat.username === user.username)) {
+    if (user && stats.find(stat => stat.user.username === user.username)) {
       setStatsChecked(true);
     } else setStatsChecked(false);
   }, [user, stats]);

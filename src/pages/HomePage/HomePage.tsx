@@ -26,9 +26,13 @@ const useStyles = makeStyles((theme: Theme) =>
 const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
-  const { loading, data } = useQuery<TGetWishes>(FETCH_WISHES_QUERY);
+  const nameSearch = '';
+  const { loading, data } = useQuery<TGetWishes>(FETCH_WISHES_QUERY, {
+    variables: {
+      name: nameSearch,
+    },
+  });
   const dataWishes = data?.getWishes as TDataWish[];
-
   return (
     <div className={styles['home-page']}>
       {loading ? (

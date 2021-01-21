@@ -7,16 +7,16 @@ import { Link, useHistory } from 'react-router-dom';
 
 import AddingWishCard from '@/components/AddingWishCard';
 import styles from '@/components/MaterialIcon/MaterialIcon.scss';
-import { ACTIVE_WISH, FULFILLED_WISH, LIKE_WISH } from '@/components/StatsItem/mutation';
+import { ACTIVE_WISH, FULFILLED_WISH, LIKE_WISH } from '@/components/MaterialIcon/mutation';
 import AuthContext from '@/context/AuthContex';
-import { TActive, TUser, TFulfilled, TLike } from '@/types/data';
+import { TActive, TUser, TLike } from '@/types/data';
 
 interface IconProps extends HTMLAttributes<HTMLDivElement> {
   iconName: 'heart' | 'active' | 'fulfilled' | 'comments';
   color: 'red' | 'orange' | 'blue' | 'green';
   count: number;
   wishId: string;
-  stats?: TLike[] | TActive[] | TFulfilled[];
+  stats?: TLike[] | TActive[];
 }
 
 const userCollections: Array<string> = ['Разное', 'День Рождения', 'Для дома', 'Новый год'];
@@ -35,7 +35,7 @@ const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color, wi
   } as TUser;
 
   useEffect(() => {
-    if (user.id && stats?.find(stat => stat.username === user.username)) {
+    if (user.id && stats?.find(stat => stat.user.username === user.username)) {
       setStatsChecked(true);
     } else setStatsChecked(false);
   }, [user.id, user.username, stats]);
