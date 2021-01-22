@@ -1,27 +1,36 @@
 import { useMutation } from '@apollo/client';
-import { FavoriteBorder, Check, Comment } from '@material-ui/icons';
+import { FavoriteBorder, Check, Comment, Add } from '@material-ui/icons';
 import classNames from 'classnames';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import AddingWishCard from '@/components/AddingWishCard';
 import styles from '@/components/MaterialIcon/MaterialIcon.scss';
-import { ACTIVE_WISH, FULFILLED_WISH, LIKE_WISH } from '@/components/MaterialIcon/mutation';
+import LIKE_WISH from '@/components/MaterialIcon/mutation';
+import { MODAL_NAME, STAT_NAME } from '@/constants';
 import AuthContext from '@/context/AuthContex';
-import { TActive, TUser, TLike } from '@/types/data';
+import { TUser } from '@/types/data';
 
 interface IconProps extends HTMLAttributes<HTMLDivElement> {
-  iconName: 'heart' | 'active' | 'fulfilled' | 'comments';
-  color: 'red' | 'orange' | 'blue' | 'green';
+  iconName: string;
+  color: string;
+  nickname?: string;
+  wishName: string;
   count: number;
   wishId: string;
-  stats?: TLike[] | TActive[];
+  isActiveStat?: boolean;
 }
 
-const userCollections: Array<string> = ['Разное', 'День Рождения', 'Для дома', 'Новый год'];
-
-const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color, wishId, stats }) => {
+const MaterialIcon: FunctionComponent<IconProps> = ({
+  iconName,
+  count,
+  nickname,
+  wishName,
+  color,
+  wishId,
+  isActiveStat,
+}) => {
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
   const history = useHistory();
   const { id, username, avatar } = useContext(AuthContext);
@@ -35,20 +44,12 @@ const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color, wi
   } as TUser;
 
   useEffect(() => {
-    if (user.id && stats?.find(stat => stat.user.username === user.username)) {
+    if (user.id && isActiveStat) {
       setStatsChecked(true);
     } else setStatsChecked(false);
-  }, [user.id, user.username, stats]);
+  }, [user.id, user.username, isActiveStat]);
 
   const [likeWish] = useMutation(LIKE_WISH, {
-    variables: { wishId },
-  });
-
-  const [activeWish] = useMutation(ACTIVE_WISH, {
-    variables: { wishId },
-  });
-
-  const [fulfilledWish] = useMutation(FULFILLED_WISH, {
     variables: { wishId },
   });
 
@@ -60,39 +61,80 @@ const MaterialIcon: FunctionComponent<IconProps> = ({ iconName, count, color, wi
   };
 
   const StatsChecked = () => {
-    setStatsChecked(!isStatsChecked);
     if (user.id) {
-      if (iconName === 'fulfilled') {
-        return fulfilledWish();
+      if (iconName === STAT_NAME.like) {
+        return likeWish();
       }
-      if (iconName === 'active') {
-        return activeWish();
-      }
-      return likeWish();
+      return undefined;
     }
     return routeChange();
   };
 
   return (
-    <div
-      className={classNames(styles.single_stat_container, styles[`stat_${color}`])}
-      onClick={StatsChecked}
-      onKeyPress={() => {}}
-      tabIndex={0}
-      role="button"
-    >
-      {iconName === 'heart' ? <FavoriteBorder /> : ''}
-      {iconName === 'active' ? <AddingWishCard userCollections={userCollections} /> : ''}
-      {iconName === 'fulfilled' ? <Check /> : ''}
-      {iconName === 'comments' ? (
-        <Link to={`/wish/${wishId}`}>
+    <Fragment>
+      {iconName === STAT_NAME.like ? (
+        <div
+          className={classNames(
+            styles.single_stat_container,
+            isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
+          )}
+          onClick={StatsChecked}
+          onKeyPress={() => {}}
+          tabIndex={0}
+          role="button"
+        >
+          <FavoriteBorder />
+          <span className={styles.stats_count}>{count}</span>
+        </div>
+      ) : (
+        ''
+      )}
+      {iconName === STAT_NAME.active ? (
+        <AddingWishCard nameModal={MODAL_NAME.active} wishName={wishName} wishId={wishId}>
+          <div
+            className={classNames(
+              styles.single_stat_container,
+              isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
+            )}
+            onClick={StatsChecked}
+            onKeyPress={() => {}}
+            tabIndex={0}
+            role="button"
+          >
+            <Add />
+            <span className={styles.stats_count}>{count}</span>
+          </div>
+        </AddingWishCard>
+      ) : (
+        ''
+      )}
+      {iconName === STAT_NAME.fulfilled ? (
+        <AddingWishCard nameModal={MODAL_NAME.fulfilled} wishName={wishName} wishId={wishId}>
+          <div
+            className={classNames(
+              styles.single_stat_container,
+              isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
+            )}
+            onClick={StatsChecked}
+            onKeyPress={() => {}}
+            tabIndex={0}
+            role="button"
+          >
+            <Check />
+            <span className={styles.stats_count}>{count}</span>
+          </div>
+        </AddingWishCard>
+      ) : (
+        ''
+      )}
+      {iconName === STAT_NAME.comments && nickname ? (
+        <Link to={`/wish/@${nickname}/${wishId}`}>
           <Comment />
         </Link>
       ) : (
         ''
       )}
-      <span className={styles.stats_count}>{count}</span>
-    </div>
+    </Fragment>
   );
 };
 

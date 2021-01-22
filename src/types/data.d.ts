@@ -15,11 +15,13 @@ export type TDataWish = {
   originURL: string;
   description: string;
   active: [TActive];
-  comments: [TComment];
   likes: [TLike];
   likeCount: number;
   activeCount: number;
   fulfilledCount: number;
+  isLike: boolean;
+  isActive: boolean;
+  isFulfilled: boolean;
 };
 
 export type TPrice = {
@@ -42,7 +44,7 @@ export type TActive = {
   visibility: string;
   fulfilled: boolean;
   user: TUser;
-  comments: [Comment];
+  comments: [TComment];
   commentCount: number;
 };
 

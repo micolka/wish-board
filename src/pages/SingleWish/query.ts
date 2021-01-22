@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client';
 
 const FETCH_WISH_QUERY = gql`
-  query getWish($wishId: ID!, $username: String!) {
-    getWish(wishId: $wishId, username: $username) {
+  query getWish($wishId: ID!, $usernameOwner: String!, $usernameGuest: String) {
+    getWish(wishId: $wishId, usernameOwner: $usernameOwner, usernameGuest: $usernameGuest) {
+      isLike
+      isFulfilled
+      isActive
       id
       name
       originURL
@@ -37,7 +40,17 @@ const FETCH_WISH_QUERY = gql`
         visibility
         fulfilled
         comments {
+          id
+          createdAt
           body
+          user {
+            id
+            username
+            avatar {
+              small
+              normal
+            }
+          }
         }
         commentCount
         user {
