@@ -5,24 +5,24 @@ import type { FunctionComponent, ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import styles from '@/components/StatsItem/StatsItem.scss';
-import { ACTIVE_WISH, FULFILLED_WISH, LIKE_WISH } from '@/components/StatsItem/mutation';
-import { TActive, TUser, TLike } from '@/types/data';
+import LIKE_WISH from '@/components/StatsItem/mutation';
+import { STAT_NAME } from '@/constants';
+import { TUser } from '@/types/data';
 
 type StatsProps = {
   children: ReactNode;
   text: string;
   wishId: string;
   statName: string;
-  stats: TLike[] | TActive[];
+  isActiveStat: boolean;
   user: TUser;
   color: string;
-  userCollections: Array<string>;
 };
 
 const StatsItem: FunctionComponent<StatsProps> = ({
   children,
   text,
-  stats,
+  isActiveStat,
   statName,
   wishId,
   user,
@@ -31,20 +31,12 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
   const history = useHistory();
   useEffect(() => {
-    if (user && stats.find(stat => stat.user.username === user.username)) {
-      setStatsChecked(true);
-    } else setStatsChecked(false);
-  }, [user, stats]);
+    if (user && isActiveStat) {
+      setStatsChecked(isActiveStat);
+    } else setStatsChecked(isActiveStat);
+  }, [user, isActiveStat]);
 
   const [likeWish] = useMutation(LIKE_WISH, {
-    variables: { wishId },
-  });
-
-  const [activeWish] = useMutation(ACTIVE_WISH, {
-    variables: { wishId },
-  });
-
-  const [fulfilledWish] = useMutation(FULFILLED_WISH, {
     variables: { wishId },
   });
 
@@ -54,21 +46,18 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   };
 
   const StatsChecked = () => {
-    setStatsChecked(!isStatsChecked);
     if (user.id) {
-      if (statName === 'fulfilled') {
-        return fulfilledWish();
+      if (statName === STAT_NAME.like) {
+        return likeWish();
       }
-      if (statName === 'active') {
-        return activeWish();
-      }
-      return likeWish();
+      return undefined;
     }
     return routeChange();
   };
+
   return (
     <div className={styles['stats-item']}>
-      <span
+      <div
         tabIndex={0}
         role="button"
         onClick={StatsChecked}
@@ -79,7 +68,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({
         )}
       >
         {children}
-      </span>
+      </div>
       <span>{text}</span>
     </div>
   );

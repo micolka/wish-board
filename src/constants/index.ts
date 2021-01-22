@@ -1,4 +1,4 @@
-const routeNamesMap = {
+const routeNamesMap: IConstant = {
   '/': 'WishBoard',
   '/login': 'Login',
   '/registration': 'Authefication',
@@ -6,6 +6,36 @@ const routeNamesMap = {
   '/friends': 'Friends',
   '/404': 'Not Found Page',
 };
+
+export interface IConstant {
+  [index: string]: string;
+}
+
+const visibility: IConstant = {
+  all: 'Видно всем',
+  friends: 'Друзьям',
+  meOnly: 'Только мне',
+};
+
+const MODAL_NAME: IConstant = {
+  active: 'Добавляем в желания',
+  fulfilled: 'Добавляем в исполненные',
+};
+
+const STAT_NAME: IConstant = {
+  like: 'heart',
+  active: 'add',
+  fulfilled: 'check',
+  comments: 'comments',
+};
+
+const STAT_COLOR: IConstant = {
+  like: 'red',
+  active: 'orange',
+  fulfilled: 'green',
+  comments: 'blue',
+};
+
 const AUTH_TOKEN = 'userData';
 const nameApp = 'myWishBoard';
 const loginConst = 'login';
@@ -33,4 +63,8 @@ export {
   addWishConst,
   registrationConst,
   SCREEN_SIZES,
+  visibility,
+  MODAL_NAME,
+  STAT_NAME,
+  STAT_COLOR,
 };

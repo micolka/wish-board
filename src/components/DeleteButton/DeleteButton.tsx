@@ -21,11 +21,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 interface DeleteButtonProps extends HTMLAttributes<HTMLDivElement> {
   wishId: string;
+  username: string;
   commentId: string;
   callback?: () => void;
 }
 
-const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ wishId, commentId, callback }) => {
+const DeleteButton: FunctionComponent<DeleteButtonProps> = ({
+  wishId,
+  username,
+  commentId,
+  callback,
+}) => {
   const classes = useStyles();
   const mutation = commentId ? DELETE_COMMENT : DELETE_WISH;
 
@@ -42,6 +48,7 @@ const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ wishId, commentId,
     },
     variables: {
       wishId,
+      username,
       commentId,
     },
   });

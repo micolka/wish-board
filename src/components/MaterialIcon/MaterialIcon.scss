@@ -5,20 +5,41 @@
   cursor: pointer;
 }
 
-.stat_red:hover {
+.unchecked-red:hover {
   color: red;
 }
-
-.stat_blue:hover {
-  color: blue;
+.checked-red {
+  color: red;
+}
+.checked-red:hover {
+  color: red;
+  opacity: 0.5;
 }
 
-.stat_green:hover {
+.unchecked-orange:hover {
+  color: orange;
+}
+.checked-orange {
+  color: orange;
+}
+.checked-orange:hover {
+  color: orange;
+  opacity: 0.5;
+}
+
+.unchecked-green:hover {
   color: green;
 }
+.checked-green {
+  color: green;
+}
+.checked-green:hover {
+  color: green;
+  opacity: 0.5;
+}
 
-.stat_orange:hover {
-  color: orange;
+.unchecked-blue:hover {
+  color: blue;
 }
 
 .stats_count {

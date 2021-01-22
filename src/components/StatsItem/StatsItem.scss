@@ -14,18 +14,50 @@ $light-grey-border: #ebebeb;
     border: 1px solid $light-grey-border;
     transition: all 0.2s ease-in;
   }
-  .unchecked-red:hover{
+  .unchecked-red:hover {
     color: red;
+    cursor: pointer;
   }
-  .checked-red{
+  .checked-red {
     background-color: red;
     color: white;
   }
-  .unchecked-green:hover{
-    color: green;
+
+  .checked-red:hover {
+    background-color: red;
+    color: white;
+    opacity: 0.5;
+    cursor: pointer;
   }
-  .checked-green{
+
+  .unchecked-orange:hover {
+    color: orange;
+    cursor: pointer;
+  }
+  .checked-orange {
+    background-color: orange;
+    color: white;
+  }
+  .checked-orange:hover {
+    background-color: orange;
+    color: white;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  .unchecked-green:hover {
+    color: green;
+    cursor: pointer;
+  }
+
+  .checked-green {
     background-color: green;
     color: white;
+  }
+  .checked-green:hover {
+    background-color: green;
+    color: white;
+    opacity: 0.5;
+    cursor: pointer;
   }
 }

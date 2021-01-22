@@ -17,22 +17,5 @@ const ADD_COMMENT = gql`
     }
   }
 `;
-const DELETE_COMMENT = gql`
-  mutation deleteComment($wishId: ID!, $username: String!, $commentId: ID!) {
-    deleteComment(wishId: $wishId, username: $username, commentId: $commentId) {
-      id
-      active {
-        comments {
-          createdAt
-          id
-          body
-          user {
-            username
-          }
-        }
-      }
-    }
-  }
-`;
 
-export { ADD_COMMENT, DELETE_COMMENT };
+export default ADD_COMMENT;

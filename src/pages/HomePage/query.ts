@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client';
 
 const FETCH_WISHES_QUERY = gql`
-  query getWishes($name: String) {
-    getWishes(name: $name) {
+  query getWishes($name: String, $usernameGuest: String) {
+    getWishes(name: $name, usernameGuest: $usernameGuest) {
+      isLike
+      isFulfilled
+      isActive
       id
       name
       originURL
