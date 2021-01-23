@@ -30,7 +30,8 @@ $wish-background-color: #f7f7f7;
 }
 
 .wish-link:hover {
-  color: red;
+  color: #ffdd40;
+  cursor: pointer;
 }
 
 .arrow {
@@ -72,7 +73,8 @@ $wish-background-color: #f7f7f7;
     }
     .user-name:hover {
       color: red;
-      text-decoration: underline;
+      // text-decoration: underline;
+      cursor: pointer;
     }
   }
   .product-description {
