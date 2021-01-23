@@ -64,7 +64,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   });
 
   const wishData = data?.getWish as TDataWish;
-  if (wishData?.active.length < 1) {
+  if (!loading && wishData?.active.length < 1) {
     const path = '/';
     history.push(path);
   }

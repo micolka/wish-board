@@ -128,9 +128,17 @@ const MaterialIcon: FunctionComponent<IconProps> = ({
         ''
       )}
       {iconName === STAT_NAME.comments && nickname ? (
-        <Link to={`/wish/@${nickname}/${wishId}`}>
-          <Comment />
-        </Link>
+        <div
+          className={classNames(
+            styles.single_stat_container,
+            isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
+          )}
+        >
+          <Link to={`/wish/@${nickname}/${wishId}`}>
+            <Comment />
+          </Link>
+          <span className={styles.stats_count}>{count}</span>
+        </div>
       ) : (
         ''
       )}

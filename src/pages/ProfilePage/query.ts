@@ -1,52 +1,79 @@
 import { gql } from '@apollo/client';
 
 const FETCH_WISHES_QUERY = gql`
-  query getWishByUser($usernameOwner: String!) {
-    getWishByUserName(usernameOwner: $usernameOwner) {
-      isLike
-      isFulfilled
-      isActive
-      id
-      name
-      originURL
-      description
-      backgroundColor
-      image {
-        small
-        normal
-      }
-      price {
-        value
-        currency
-      }
-      likes {
+  query getInfoUserByName($usernameOwner: String!) {
+    getInfoUserByName(usernameOwner: $usernameOwner) {
+      wishes {
         id
-        createdAt
-        user {
-          username
+        name
+        originURL
+        description
+        backgroundColor
+        image {
+          small
+          normal
         }
-      }
-      likeCount
-      active {
-        id
-        createdAt
-        visibility
-        fulfilled
-        comments {
-          body
+        price {
+          value
+          currency
         }
-        commentCount
-        user {
+        likes {
           id
-          username
-          avatar {
-            small
-            normal
+          createdAt
+          user {
+            username
           }
         }
+        likeCount
+        active {
+          id
+          createdAt
+          visibility
+          fulfilled
+          comments {
+            body
+          }
+          commentCount
+          user {
+            id
+            username
+            avatar {
+              small
+              normal
+            }
+          }
+        }
+        activeCount
+        fulfilledCount
+        isLike
+        isFulfilled
+        isActive
       }
-      activeCount
-      fulfilledCount
+
+      user {
+        id
+        email
+        avatar {
+          small
+          normal
+        }
+        personalData {
+          name
+          surname
+          patronymic
+          dateOfBirth
+          hideDate
+          hideYear
+        }
+        socialNetworks {
+          facebok
+          vk
+          odnoklassniki
+        }
+        connectionsLists {
+          friends
+        }
+      }
     }
   }
 `;
