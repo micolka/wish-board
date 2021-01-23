@@ -7,7 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 import React, { useContext } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import type { RouteComponentProps } from 'react-router-dom';
 
 import AddingWishCard from '@/components/AddingWishCard';
@@ -68,6 +68,9 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     const path = '/';
     history.push(path);
   }
+  const goBack = () => {
+    history.goBack();
+  };
   const userWant = wishData?.active.length > 0 ? wishData?.active[0].user : ({} as TUser);
 
   if (loading) {
@@ -84,10 +87,16 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       {wishData?.active.length > 0 ? (
         <div className={styles['wish-wrapper']}>
           <nav className={styles['wish-nav']}>
-            <Link className={styles['wish-link']} to="/">
+            <div
+              className={styles['wish-link']}
+              onClick={() => goBack()}
+              onKeyPress={() => {}}
+              tabIndex={0}
+              role="button"
+            >
               <TrendingFlatIcon className={styles['arrow']} />
               Back
-            </Link>
+            </div>
           </nav>
           <div className={styles['wish-content']}>
             <div className={styles['img-container']}>
