@@ -17,8 +17,7 @@ import Avatar from '@/components/Avatar';
 import styles from '@/components/MenuBar/MenuBar.scss';
 import { loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
 import AuthContext from '@/context/AuthContex';
-
-import dataCreator from './data';
+import { TUser } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,10 +35,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
-  const { token, username, logout } = useContext(AuthContext);
+  const { id, token, avatar, username, logout } = useContext(AuthContext);
   const profileHref = username ? `/@${username}` : null;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const user = {
+    id,
+    username,
+    avatar: {
+      small: avatar.small,
+      normal: avatar.small,
+    },
+  } as TUser;
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -78,7 +86,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         size="small"
       >
         {/* <AccountCircle /> */}
-        <Avatar size="normal" user={dataCreator} />
+        {id ? <Avatar size="normal" user={user} /> : ''}
       </IconButton>
       <Menu
         id="menu-appbar"
