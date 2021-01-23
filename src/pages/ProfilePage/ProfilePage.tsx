@@ -12,7 +12,7 @@ import { SCREEN_SIZES } from '@/constants';
 import AuthContext from '@/context/AuthContex';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import FETCH_WISHES_QUERY from '@/pages/ProfilePage/query';
-import { TDataWish, TGetWishes, TUser } from '@/types/data';
+import { TDataWish, TGetWishByUserName, TUser } from '@/types/data';
 
 import { dataUser } from './data';
 
@@ -33,8 +33,6 @@ const ProfilePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
   const { nickname, personalData } = dataUser;
   const { name, surname, patronymic, dateOfBirth } = personalData;
-  const { loading, data } = useQuery<TGetWishes>(FETCH_WISHES_QUERY);
-  const dataWishes = data?.getWishes as TDataWish[];
   const { id, username, avatar } = useContext(AuthContext);
   const user = {
     id,
@@ -44,7 +42,12 @@ const ProfilePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       normal: avatar.small,
     },
   } as TUser;
-
+  const { loading, data } = useQuery<TGetWishByUserName>(FETCH_WISHES_QUERY, {
+    variables: {
+      usernameOwner: username,
+    },
+  });
+  const dataWishes = data?.getWishByUserName as TDataWish[];
   return (
     <div className={styles['profile-page']}>
       {loading ? (

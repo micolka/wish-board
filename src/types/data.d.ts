@@ -1,6 +1,11 @@
 export type TGetWishes = {
   getWishes: TDataWish[];
 };
+
+export type TGetWishByUserName = {
+  getWishByUserName: TDataWish[];
+};
+
 export type TGetWish = {
   getWish: TDataWish;
 };

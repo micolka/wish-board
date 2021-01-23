@@ -1,18 +1,15 @@
 import { gql } from '@apollo/client';
 
 const FETCH_WISHES_QUERY = gql`
-  {
-    getWishes {
+  query getWishByUser($usernameOwner: String!) {
+    getWishByUserName(usernameOwner: $usernameOwner) {
+      isLike
+      isFulfilled
+      isActive
       id
       name
-      createdAt
-      creator {
-        id
-        username
-        avatar {
-          small
-        }
-      }
+      originURL
+      description
       backgroundColor
       image {
         small
@@ -22,22 +19,33 @@ const FETCH_WISHES_QUERY = gql`
         value
         currency
       }
-      active {
-        username
-      }
-      activeCount
-      comments {
-        username
-      }
-      commentCount
       likes {
-        username
+        id
         createdAt
+        user {
+          username
+        }
       }
       likeCount
-      fulfilled {
-        username
+      active {
+        id
+        createdAt
+        visibility
+        fulfilled
+        comments {
+          body
+        }
+        commentCount
+        user {
+          id
+          username
+          avatar {
+            small
+            normal
+          }
+        }
       }
+      activeCount
       fulfilledCount
     }
   }
