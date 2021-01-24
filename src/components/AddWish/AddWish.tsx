@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/AddWish/AddWish.scss';
+import { visibility, addwish, gradientsColor } from '@/constants';
 
 const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [WishName, setWishName] = useState('');
@@ -13,7 +14,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [selectedFile, setSelectedFile] = useState<string | Blob>('');
   const [Value, setValue] = useState('');
   const [Site, setSite] = useState('');
-  const [Currency, setCurrency] = useState('руб');
+  const [Currency, setCurrency] = useState(addwish.rub);
   const [Collection, setCollection] = useState('');
   const [Tag, setTag] = useState('');
   const [Visibility, setVisibility] = useState('All');
@@ -95,7 +96,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setSelectedFile('');
     setValue('');
     setSite('');
-    setCurrency('руб');
+    setCurrency(addwish.rub);
     setCollection('');
     setTag('');
     setVisibility('All');
@@ -127,18 +128,6 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     // eslint-disable-next-line no-console
     console.log('ВЫХОД');
   };
-
-  const gradientsColor: Array<string> = [
-    'linear-gradient(0deg, rgb(191, 90, 224) 0%, rgb(168, 17, 218) 100%) rgb(191, 90, 224)',
-    'linear-gradient(0deg, rgb(230, 92, 0) 0%, rgb(249, 212, 35) 100%) rgb(230, 92, 0)',
-    'linear-gradient(0deg, rgb(200, 78, 137) 0%, rgb(241, 95, 121) 100%) rgb(200, 78, 137)',
-    'linear-gradient(0deg, rgb(255, 224, 0) 0%, rgb(121, 159, 12) 100%) rgb(255, 224, 0)',
-    'linear-gradient(0deg, rgb(151, 150, 240) 0%, rgb(251, 199, 212) 100%) rgb(151, 150, 240)',
-    'linear-gradient(0deg, rgb(22, 34, 42) 0%, rgb(58, 96, 115) 100%) rgb(22, 34, 42)',
-    'linear-gradient(0deg, rgb(236, 0, 140) 0%, rgb(252, 103, 103) 100%) rgb(236, 0, 140)',
-    'linear-gradient(0deg, rgb(255, 239, 186) 0%, rgb(255, 255, 255) 100%) rgb(255, 239, 186)',
-    'linear-gradient(0deg, rgb(26, 41, 128) 0%, rgb(38, 208, 206) 100%) rgb(26, 41, 128)',
-  ];
 
   useEffect(() => {
     gradientsColor.forEach((el: string) => {
@@ -209,13 +198,13 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   return (
     <div className={styles['addWish_wrapper']}>
       <div className={styles['addWish_content']}>
-        <h1>Я хочу...</h1>
+        <h1>{addwish.IWant}</h1>
         <Close className={styles['close']} onClick={handleClose} />
         <form onSubmit={submitForm}>
           <div className={styles['wish_descriptions']}>
             <div>
               <label htmlFor="descriptions">
-                Название *
+                {addwish.name}
                 <input
                   type="text"
                   required
@@ -228,7 +217,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             </div>
             <div className={styles['desriptionOfWish']}>
               <label htmlFor="description">
-                Описание
+                {addwish.description}
                 <textarea
                   name="description"
                   id="description"
@@ -240,7 +229,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             </div>
             <div className={styles['addFile']}>
               <label htmlFor="addFile">
-                Изображение или цветной фон
+                {addwish.picture}
                 <br />
                 <div className={styles['addFileInformation']}>
                   <ImageSearchOutlinedIcon onClick={handleClick} className={styles['uploadImg']} />
@@ -261,7 +250,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             <div className={styles['wishCost']}>
               <div className={styles['cost']}>
                 <label htmlFor="wishCost">
-                  Стоимость?
+                  {addwish.cost}
                   <input
                     type="text"
                     className={styles['wishPrice']}
@@ -272,9 +261,9 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               </div>
               <div className={styles['costCurrency']}>
                 <label htmlFor="costCurrency">
-                  Валюта
+                  {addwish.currency}
                   <select value={Currency} onChange={ChangeCurrency}>
-                    <option value="rub">руб</option>
+                    <option value="rub">{addwish.rub}</option>
                     <option value="euro">&euro;</option>
                     <option value="dollar">&#36;</option>
                   </select>
@@ -283,19 +272,19 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             </div>
             <div>
               <label htmlFor="site">
-                Ссылка на сайт
+                {addwish.site}
                 <input type="text" value={Site} onChange={ChangeSite} />
               </label>
             </div>
             <div>
               <label htmlFor="collection">
-                Добавить в колекцию
+                {addwish.collection}
                 <input type="text" value={Collection} onChange={ChangeCollection} />
               </label>
             </div>
             <div>
               <label htmlFor="tags">
-                Теги
+                {addwish.tags}
                 <input type="text" value={Tag} onChange={ChangeTag} />
               </label>
             </div>
@@ -307,20 +296,20 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                 value={Visibility}
                 onChange={ChangeVisibility}
               >
-                <FormControlLabel value="All" control={<Radio />} label="Видно всем" />
-                <FormControlLabel value="Friends" control={<Radio />} label="Друзьям" />
-                <FormControlLabel value="OnlyMe" control={<Radio />} label="Только мне" />
+                <FormControlLabel value="All" control={<Radio />} label={visibility.all} />
+                <FormControlLabel value="Friends" control={<Radio />} label={visibility.friends} />
+                <FormControlLabel value="OnlyMe" control={<Radio />} label={visibility.meOnly} />
               </RadioGroup>
             </FormControl>
           </div>
           <div className={styles['submit_btns']}>
             <div>
               <button type="button" onClick={handleClose}>
-                ОТМЕНА
+                {addwish.cancel.toUpperCase()}
               </button>
             </div>
             <div>
-              <button type="submit">ХОЧУ</button>
+              <button type="submit">{addwish.want}</button>
             </div>
           </div>
         </form>
@@ -328,11 +317,11 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           <div className={styles['addImageUrl']}>
             <form onSubmit={submitUrl}>
               <div className={styles['headerUrl']}>
-                <h2>Вставьте ссылку на изображение</h2>
+                <h2>{addwish.addUrl}</h2>
                 <Close className={styles['closeUrl']} onClick={closeUrl} />
               </div>
               <label htmlFor="url">
-                Ссылка *
+                {addwish.url}
                 <input
                   type="text"
                   required
@@ -345,11 +334,11 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               <div className={styles['submit_btns']}>
                 <div>
                   <button type="button" onClick={closeUrl}>
-                    Отмена
+                    {addwish.cancel}
                   </button>
                 </div>
                 <div>
-                  <button type="submit">Отправить</button>
+                  <button type="submit">{addwish.send}</button>
                 </div>
               </div>
             </form>
