@@ -117,7 +117,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
             >
               <Masonry gutter="10px">
                 {dataWishes.map(elem => (
-                  <SmallWish wishData={elem} key={elem.id} />
+                  <SmallWish wishData={elem} key={elem.active[0].id} />
                 ))}
               </Masonry>
             </ResponsiveMasonry>
