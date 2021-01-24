@@ -5,6 +5,7 @@ import React, { useContext } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
+import AddWish from '@/components/AddWish';
 import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
 import AuthContext from '@/context/AuthContex';
@@ -43,15 +44,19 @@ const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           <CircularProgress />
         </div>
       ) : (
-        <ResponsiveMasonry
-          columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
-        >
-          <Masonry gutter="10px">
-            {dataWishes.map(elem => (
-              <SmallWish wishData={elem} key={elem.id} />
-            ))}
-          </Masonry>
-        </ResponsiveMasonry>
+        <React.Fragment>
+          <ResponsiveMasonry
+            columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
+          >
+            <Masonry gutter="10px">
+              {dataWishes.map(elem => (
+                <SmallWish wishData={elem} key={elem.id} />
+              ))}
+            </Masonry>
+          </ResponsiveMasonry>
+
+          <AddWish />
+        </React.Fragment>
       )}
     </div>
   );

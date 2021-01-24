@@ -209,8 +209,10 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   return (
     <div className={styles['addWish_wrapper']}>
       <div className={styles['addWish_content']}>
-        <h1>Я хочу...</h1>
-        <Close className={styles['close']} onClick={handleClose} />
+        <div className={styles['addWish_content_header']}>
+          <h1>Я хочу...</h1>
+          <Close className={styles['close']} onClick={handleClose} />
+        </div>
         <form onSubmit={submitForm}>
           <div className={styles['wish_descriptions']}>
             <div>
