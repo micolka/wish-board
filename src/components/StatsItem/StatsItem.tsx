@@ -1,9 +1,11 @@
 import { useMutation } from '@apollo/client';
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import type { FunctionComponent, ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import AddingWishCard from '@/components/AddingWishCard';
+import ModalDeleting from '@/components/ModalDeleting';
 import styles from '@/components/StatsItem/StatsItem.scss';
 import LIKE_WISH from '@/components/StatsItem/mutation';
 import { STAT_NAME } from '@/constants';
@@ -14,6 +16,8 @@ type StatsProps = {
   text: string;
   wishId: string;
   statName: string;
+  wishName: string;
+  modalTitle: string;
   isActiveStat: boolean;
   user: TUser;
   color: string;
@@ -24,7 +28,9 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   text,
   isActiveStat,
   statName,
+  wishName,
   wishId,
+  modalTitle,
   user,
   color,
 }) => {
@@ -55,7 +61,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({
     return routeChange();
   };
 
-  return (
+  const iconComponent = (
     <div className={styles['stats-item']}>
       <div
         tabIndex={0}
@@ -71,6 +77,24 @@ const StatsItem: FunctionComponent<StatsProps> = ({
       </div>
       <span>{text}</span>
     </div>
+  );
+
+  const iconWithModal = isActiveStat ? (
+    <ModalDeleting nameModal={modalTitle} wishId={wishId}>
+      {iconComponent}
+    </ModalDeleting>
+  ) : (
+    <AddingWishCard nameModal={modalTitle} wishName={wishName} wishId={wishId}>
+      {iconComponent}
+    </AddingWishCard>
+  );
+
+  return (
+    <Fragment>
+      {statName === STAT_NAME.active || statName === STAT_NAME.fulfilled
+        ? iconWithModal
+        : iconComponent}
+    </Fragment>
   );
 };
 export default StatsItem;

@@ -4,6 +4,7 @@ const FETCH_WISHES_QUERY = gql`
   query getInfoUserByName($usernameOwner: String!) {
     getInfoUserByName(usernameOwner: $usernameOwner) {
       wishes {
+        id
         name
         originURL
         description
@@ -52,6 +53,7 @@ const FETCH_WISHES_QUERY = gql`
       user {
         id
         email
+        username
         avatar {
           small
           normal

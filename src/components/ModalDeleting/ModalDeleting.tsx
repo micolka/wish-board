@@ -8,16 +8,31 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import type { FunctionComponent, HTMLAttributes, ReactNode } from 'react';
 import React, { Fragment, useState } from 'react';
 
-import { ACTIVE_WISH, FULFILLED_WISH } from '@/components/AddingWishCard/mutation';
+import {
+  ACTIVE_WISH,
+  FULFILLED_WISH,
+  DELETE_WISH,
+  DELETE_COMMENT,
+} from '@/components/ModalDeleting/mutation';
 import { MODAL_NAME } from '@/constants';
+import { TGetWishes } from '@/types/data';
+import { FETCH_WISHES_QUERY } from '@/utils/query';
 
 interface DeletingWishProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   wishId: string;
   nameModal: string;
+  commentId?: string;
+  username?: string;
 }
 
-const ModalDeleting: FunctionComponent<DeletingWishProps> = ({ wishId, children, nameModal }) => {
+const ModalDeleting: FunctionComponent<DeletingWishProps> = ({
+  wishId,
+  commentId,
+  children,
+  nameModal,
+  username,
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -35,13 +50,34 @@ const ModalDeleting: FunctionComponent<DeletingWishProps> = ({ wishId, children,
   const handleClose = () => {
     setOpen(false);
   };
+  const mutation = commentId ? DELETE_COMMENT : DELETE_WISH;
+  const [deleteComment] = useMutation(mutation, {
+    update(proxy) {
+      if (!commentId) {
+        const data = proxy.readQuery<TGetWishes>({
+          query: FETCH_WISHES_QUERY,
+        });
+        data!.getWishes = data!.getWishes.filter(wish => wish.id !== wishId);
+        proxy.writeQuery({ query: FETCH_WISHES_QUERY, data });
+      }
+    },
+    variables: {
+      wishId,
+      username,
+      commentId,
+    },
+  });
 
   const handleSubmit = () => {
     setOpen(false);
     if (nameModal === MODAL_NAME.activeDelete) {
       return activeWish();
     }
-    return fulfilledWish();
+    if (nameModal === MODAL_NAME.fulfilledDelete) {
+      return fulfilledWish();
+    }
+
+    return deleteComment();
   };
 
   return (
