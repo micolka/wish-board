@@ -70,6 +70,7 @@ const addwish: IConstant = {
   addUrl: 'Вставьте ссылку на изображение',
   url: 'Ссылка *',
   send: 'Отправить',
+  badUrl: 'Неверная ссылка',
 };
 
 const gradientsColor: Array<string> = [
