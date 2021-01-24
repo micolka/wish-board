@@ -163,6 +163,10 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     if (container) {
       container.style.display = 'block';
     }
+    const check: HTMLElement | null = document.getElementById('badUrl');
+    if (check) {
+      check.style.display = 'none';
+    }
   };
   const closeUrl = (): void => {
     const container: HTMLElement | null = document.getElementById('urlContainer');
@@ -173,27 +177,37 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   };
   const submitUrl = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    setFinalUrl(Url);
-    const image: HTMLElement | null = document.getElementById('image');
-    if (image) {
-      image.remove();
-    }
-    const divElem: HTMLElement | null = document.getElementById('preview');
-    const img: HTMLImageElement = document.createElement('img');
-    img.id = 'image';
-    img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';
-    img.src = Url;
-    if (divElem) {
-      divElem.appendChild(img);
-      divElem.style.background = 'none';
-    }
-    setUrl('');
-    const container: HTMLElement | null = document.getElementById('urlContainer');
-    if (container) {
-      container.style.display = 'none';
-    }
-    setImageGradient('');
-    setSelectedFile('');
+    const checkImg = new Image();
+    checkImg.src = Url;
+    checkImg.onerror = (): void => {
+      const check: HTMLElement | null = document.getElementById('badUrl');
+      if (check) {
+        check.style.display = 'inline';
+      }
+    };
+    checkImg.onload = (): void => {
+      setFinalUrl(Url);
+      const image: HTMLElement | null = document.getElementById('image');
+      if (image) {
+        image.remove();
+      }
+      const divElem: HTMLElement | null = document.getElementById('preview');
+      const img: HTMLImageElement = document.createElement('img');
+      img.id = 'image';
+      img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';
+      img.src = Url;
+      if (divElem) {
+        divElem.appendChild(img);
+        divElem.style.background = 'none';
+      }
+      setUrl('');
+      const container: HTMLElement | null = document.getElementById('urlContainer');
+      if (container) {
+        container.style.display = 'none';
+      }
+      setImageGradient('');
+      setSelectedFile('');
+    };
   };
 
   return (
@@ -241,10 +255,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   {addwish.picture}
                   <br />
                   <div className={styles['addFileInformation']}>
-                    <ImageSearchOutlinedIcon
-                      onClick={handleClick}
-                      className={styles['uploadImg']}
-                    />
+                    <ImageSearchOutlinedIcon onClick={handleClick} className={styles['uploadImg']} />
                     <input
                       type="file"
                       accept="image/*"
@@ -309,11 +320,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   onChange={ChangeVisibility}
                 >
                   <FormControlLabel value="All" control={<Radio />} label={visibility.all} />
-                  <FormControlLabel
-                    value="Friends"
-                    control={<Radio />}
-                    label={visibility.friends}
-                  />
+                  <FormControlLabel value="Friends" control={<Radio />} label={visibility.friends} />
                   <FormControlLabel value="OnlyMe" control={<Radio />} label={visibility.meOnly} />
                 </RadioGroup>
               </FormControl>
@@ -337,7 +344,10 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   <Close className={styles['closeUrl']} onClick={closeUrl} />
                 </div>
                 <label htmlFor="url">
-                  {addwish.url}
+                  <span>{addwish.url}</span>
+                  <span className={styles['badUrl']} id="badUrl">
+                    {addwish.badUrl}
+                  </span>
                   <input
                     type="text"
                     required
