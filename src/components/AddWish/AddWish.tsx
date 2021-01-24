@@ -2,11 +2,12 @@ import { RadioGroup, Radio, FormControlLabel, FormControl } from '@material-ui/c
 import { Close } from '@material-ui/icons';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/AddWish/AddWish.scss';
 import { visibility, addwish, gradientsColor } from '@/constants';
+import AddWishWindowContext from '@/context/AddWishContext';
 
 const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [WishName, setWishName] = useState('');
@@ -21,6 +22,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [Url, setUrl] = useState('');
   const [FinalUrl, setFinalUrl] = useState('');
   const [ImageGradient, setImageGradient] = useState('');
+  const { closeAddWishWindow } = useContext(AddWishWindowContext);
 
   const hiddenFileInput = React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const handleClick = (): void => {
@@ -125,8 +127,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
 
   const handleClose = (): void => {
     resetData();
-    // eslint-disable-next-line no-console
-    console.log('ВЫХОД');
+    closeAddWishWindow();
   };
 
   useEffect(() => {
@@ -196,158 +197,172 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   };
 
   return (
-    <div className={styles['addWish_wrapper']}>
-      <div className={styles['addWish_content']}>
-        <div className={styles['addWish_content_header']}>    
-          <h1>{addwish.IWant}</h1>
-          <Close className={styles['close']} onClick={handleClose} />
-        </div>
-        <form onSubmit={submitForm}>
-          <div className={styles['wish_descriptions']}>
-            <div>
-              <label htmlFor="descriptions">
-                {addwish.name}
-                <input
-                  type="text"
-                  required
-                  value={WishName}
-                  className={styles['wishName']}
-                  onChange={ChangeWishName}
-                  id="descriptions"
-                />
-              </label>
-            </div>
-            <div className={styles['desriptionOfWish']}>
-              <label htmlFor="description">
-                {addwish.description}
-                <textarea
-                  name="description"
-                  id="description"
-                  rows={8}
-                  value={Description}
-                  onChange={ChangeDescription}
-                />
-              </label>
-            </div>
-            <div className={styles['addFile']}>
-              <label htmlFor="addFile">
-                {addwish.picture}
-                <br />
-                <div className={styles['addFileInformation']}>
-                  <ImageSearchOutlinedIcon onClick={handleClick} className={styles['uploadImg']} />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={SelectFile}
-                    id="upload"
-                    className={styles['upload']}
-                    ref={hiddenFileInput}
-                  />
-                  <CallMadeIcon className={styles['uploadImg']} onClick={openUrl} />
-                  <div id="gradients" className={styles['addFileGradients']} />
-                </div>
-              </label>
-              <div id="preview" className={styles['filePreview']} />
-            </div>
-            <div className={styles['wishCost']}>
-              <div className={styles['cost']}>
-                <label htmlFor="wishCost">
-                  {addwish.cost}
+    <React.Fragment>
+      <div className={styles['home-page-cover']} />
+      <div className={styles['addWish_wrapper']}>
+        <div className={styles['addWish_content']}>
+          <div className={styles['addWish_content_header']}>
+            <h1>{addwish.IWant}</h1>
+            <Close
+              className={styles['close-icon']}
+              onClick={handleClose}
+              style={{ fontSize: 40 }}
+            />
+          </div>
+          <form onSubmit={submitForm}>
+            <div className={styles['wish_descriptions']}>
+              <div>
+                <label htmlFor="descriptions">
+                  {addwish.name}
                   <input
                     type="text"
-                    className={styles['wishPrice']}
-                    onChange={ChangeValue}
-                    value={Value}
+                    required
+                    value={WishName}
+                    className={styles['wishName']}
+                    onChange={ChangeWishName}
+                    id="descriptions"
                   />
                 </label>
               </div>
-              <div className={styles['costCurrency']}>
-                <label htmlFor="costCurrency">
-                  {addwish.currency}
-                  <select value={Currency} onChange={ChangeCurrency}>
-                    <option value="rub">{addwish.rub}</option>
-                    <option value="euro">&euro;</option>
-                    <option value="dollar">&#36;</option>
-                  </select>
+              <div className={styles['desriptionOfWish']}>
+                <label htmlFor="description">
+                  {addwish.description}
+                  <textarea
+                    name="description"
+                    id="description"
+                    rows={8}
+                    value={Description}
+                    onChange={ChangeDescription}
+                  />
                 </label>
               </div>
-            </div>
-            <div>
-              <label htmlFor="site">
-                {addwish.site}
-                <input type="text" value={Site} onChange={ChangeSite} />
-              </label>
-            </div>
-            <div>
-              <label htmlFor="collection">
-                {addwish.collection}
-                <input type="text" value={Collection} onChange={ChangeCollection} />
-              </label>
-            </div>
-            <div>
-              <label htmlFor="tags">
-                {addwish.tags}
-                <input type="text" value={Tag} onChange={ChangeTag} />
-              </label>
-            </div>
-            <FormControl component="fieldset">
-              <RadioGroup
-                style={{ flexDirection: 'row', marginBottom: '10px' }}
-                aria-label="gender"
-                name="gender1"
-                value={Visibility}
-                onChange={ChangeVisibility}
-              >
-                <FormControlLabel value="All" control={<Radio />} label={visibility.all} />
-                <FormControlLabel value="Friends" control={<Radio />} label={visibility.friends} />
-                <FormControlLabel value="OnlyMe" control={<Radio />} label={visibility.meOnly} />
-              </RadioGroup>
-            </FormControl>
-          </div>
-          <div className={styles['submit_btns']}>
-            <div>
-              <button type="button" onClick={handleClose}>
-                {addwish.cancel.toUpperCase()}
-              </button>
-            </div>
-            <div>
-              <button type="submit">{addwish.want}</button>
-            </div>
-          </div>
-        </form>
-        <div className={styles['addImageUrlContainer']} id="urlContainer">
-          <div className={styles['addImageUrl']}>
-            <form onSubmit={submitUrl}>
-              <div className={styles['headerUrl']}>
-                <h2>{addwish.addUrl}</h2>
-                <Close className={styles['closeUrl']} onClick={closeUrl} />
+              <div className={styles['addFile']}>
+                <label htmlFor="addFile">
+                  {addwish.picture}
+                  <br />
+                  <div className={styles['addFileInformation']}>
+                    <ImageSearchOutlinedIcon
+                      onClick={handleClick}
+                      className={styles['uploadImg']}
+                    />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={SelectFile}
+                      id="upload"
+                      className={styles['upload']}
+                      ref={hiddenFileInput}
+                    />
+                    <CallMadeIcon className={styles['uploadImg']} onClick={openUrl} />
+                    <div id="gradients" className={styles['addFileGradients']} />
+                  </div>
+                </label>
+                <div id="preview" className={styles['filePreview']} />
               </div>
-              <label htmlFor="url">
-                {addwish.url}
-                <input
-                  type="text"
-                  required
-                  value={Url}
-                  className={styles['inputUrl']}
-                  onChange={ChangeUrl}
-                  id="url"
-                />
-              </label>
-              <div className={styles['submit_btns']}>
-                <div>
-                  <button type="button" onClick={closeUrl}>
-                    {addwish.cancel}
-                  </button>
+              <div className={styles['wishCost']}>
+                <div className={styles['cost']}>
+                  <label htmlFor="wishCost">
+                    {addwish.cost}
+                    <input
+                      type="text"
+                      className={styles['wishPrice']}
+                      onChange={ChangeValue}
+                      value={Value}
+                    />
+                  </label>
                 </div>
-                <div>
-                  <button type="submit">{addwish.send}</button>
+                <div className={styles['costCurrency']}>
+                  <label htmlFor="costCurrency">
+                    {addwish.currency}
+                    <select value={Currency} onChange={ChangeCurrency}>
+                      <option value="rub">{addwish.rub}</option>
+                      <option value="euro">&euro;</option>
+                      <option value="dollar">&#36;</option>
+                    </select>
+                  </label>
                 </div>
               </div>
-            </form>
+              <div>
+                <label htmlFor="site">
+                  {addwish.site}
+                  <input type="text" value={Site} onChange={ChangeSite} />
+                </label>
+              </div>
+              <div>
+                <label htmlFor="collection">
+                  {addwish.collection}
+                  <input type="text" value={Collection} onChange={ChangeCollection} />
+                </label>
+              </div>
+              <div>
+                <label htmlFor="tags">
+                  {addwish.tags}
+                  <input type="text" value={Tag} onChange={ChangeTag} />
+                </label>
+              </div>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  style={{ flexDirection: 'row', marginBottom: '10px' }}
+                  aria-label="gender"
+                  name="gender1"
+                  value={Visibility}
+                  onChange={ChangeVisibility}
+                >
+                  <FormControlLabel value="All" control={<Radio />} label={visibility.all} />
+                  <FormControlLabel
+                    value="Friends"
+                    control={<Radio />}
+                    label={visibility.friends}
+                  />
+                  <FormControlLabel value="OnlyMe" control={<Radio />} label={visibility.meOnly} />
+                </RadioGroup>
+              </FormControl>
+            </div>
+            <div className={styles['submit_btns']}>
+              <div>
+                <button type="button" onClick={handleClose}>
+                  {addwish.cancel.toUpperCase()}
+                </button>
+              </div>
+              <div>
+                <button type="submit">{addwish.want}</button>
+              </div>
+            </div>
+          </form>
+          <div className={styles['addImageUrlContainer']} id="urlContainer">
+            <div className={styles['addImageUrl']}>
+              <form onSubmit={submitUrl}>
+                <div className={styles['headerUrl']}>
+                  <h2>{addwish.addUrl}</h2>
+                  <Close className={styles['closeUrl']} onClick={closeUrl} />
+                </div>
+                <label htmlFor="url">
+                  {addwish.url}
+                  <input
+                    type="text"
+                    required
+                    value={Url}
+                    className={styles['inputUrl']}
+                    onChange={ChangeUrl}
+                    id="url"
+                  />
+                </label>
+                <div className={styles['submit_btns']}>
+                  <div>
+                    <button type="button" onClick={closeUrl}>
+                      {addwish.cancel}
+                    </button>
+                  </div>
+                  <div>
+                    <button type="submit">{addwish.send}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

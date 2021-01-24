@@ -16,7 +16,8 @@ import { Link } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
 import styles from '@/components/MenuBar/MenuBar.scss';
 import { loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
-import AuthContext from '@/context/AuthContex';
+import AddWishWindowContext from '@/context/AddWishContext';
+import AuthContext from '@/context/AuthContext';
 
 import dataCreator from './data';
 
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
   const { token, username, logout } = useContext(AuthContext);
+  const { openAddWishWindow } = useContext(AddWishWindowContext);
   const profileHref = username ? `/@${username}` : null;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -57,12 +59,14 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setAnchorEl(null);
   };
 
+  const handleAddWish = () => {
+    openAddWishWindow();
+  };
+
   const menuBar = token ? (
     <Fragment>
-      <Button color="inherit">
-        <Link className={styles['link']} to="/">
-          {addWishConst}
-        </Link>
+      <Button color="inherit" onClick={handleAddWish}>
+        {addWishConst}
       </Button>
       {/* <Button color="inherit">
         <Link className={styles['link']} to={`/${friendsConst}`}>

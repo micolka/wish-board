@@ -9,7 +9,7 @@ import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
 import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
-import AuthContext from '@/context/AuthContex';
+import AuthContext from '@/context/AuthContext';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import FETCH_WISHES_QUERY from '@/pages/ProfilePage/query';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
