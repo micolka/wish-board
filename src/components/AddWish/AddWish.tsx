@@ -1,7 +1,8 @@
 import { RadioGroup, Radio, FormControlLabel, FormControl } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
+import CallMadeIcon from '@material-ui/icons/CallMade';
 import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/AddWish/AddWish.scss';
@@ -16,9 +17,12 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [Collection, setCollection] = useState('');
   const [Tag, setTag] = useState('');
   const [Visibility, setVisibility] = useState('All');
+  const [Url, setUrl] = useState('');
+  const [FinalUrl, setFinalUrl] = useState('');
+  const [ImageGradient, setImageGradient] = useState('');
 
-  const hiddenFileInput: React.MutableRefObject<null> = React.useRef(null);
-  const handleClick = ():void => {
+  const hiddenFileInput = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+  const handleClick = (): void => {
     if (hiddenFileInput) {
       hiddenFileInput.current.click();
     }
@@ -55,7 +59,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       reader.addEventListener('load', (event: ProgressEvent<FileReader>) => {
         if (event.target) {
           const img: HTMLImageElement = document.createElement('img');
-          img.id ='image';
+          img.id = 'image';
           img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';
           img.src = event.target.result as string;
           if (divElem) {
@@ -69,6 +73,8 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     if (e.target.files) {
       preview(e.target.files[0]);
     }
+    setImageGradient('');
+    setFinalUrl('');
   };
 
   const ChangeCollection = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -78,31 +84,64 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setTag(e.currentTarget.value);
   };
   const ChangeVisibility = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    // eslint-disable-next-line no-console
-    console.log(e.currentTarget.value);
     setVisibility(e.currentTarget.value);
+  };
+  const ChangeUrl = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setUrl(e.currentTarget.value);
+  };
+  const resetData = (): void => {
+    setWishName('');
+    setDescription('');
+    setSelectedFile('');
+    setValue('');
+    setSite('');
+    setCurrency('руб');
+    setCollection('');
+    setTag('');
+    setVisibility('All');
+    setFinalUrl('');
+    setImageGradient('');
+    const image: HTMLElement | null = document.getElementById('image');
+    if (image) {
+      image.remove();
+    }
+    const divElem: HTMLElement | null = document.getElementById('preview');
+    if (divElem) {
+      divElem.style.background = 'none';
+    }
   };
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     // eslint-disable-next-line no-console
-    console.log(`WishName-${WishName}, Description-${Description}, selectedFile-${selectedFile as string},
-    Value-${Value}, Currency-${Currency}, Site-${Site}, Collection-${Collection}, Tag-${Tag}, Visiblity-${Visibility}`);
+    console.log(`WishName-${WishName}, Description-${Description}, selectedFile-${
+      selectedFile as string
+    },
+    Value-${Value}, Currency-${Currency}, Site-${Site}, Collection-${Collection}, Tag-${Tag},
+    Visiblity-${Visibility}, url-${FinalUrl}, ImageGradient-${ImageGradient}`);
+    resetData();
   };
 
   const handleClose = (): void => {
+    resetData();
     // eslint-disable-next-line no-console
     console.log('ВЫХОД');
   };
 
-  const gradientsColor:Array<string> = ['linear-gradient(0deg, rgb(191, 90, 224) 0%, rgb(168, 17, 218) 100%) rgb(191, 90, 224)',
-    'linear-gradient(0deg, rgb(230, 92, 0) 0%, rgb(249, 212, 35) 100%) rgb(230, 92, 0)', 'linear-gradient(0deg, rgb(200, 78, 137) 0%, rgb(241, 95, 121) 100%) rgb(200, 78, 137)',
-    'linear-gradient(0deg, rgb(255, 224, 0) 0%, rgb(121, 159, 12) 100%) rgb(255, 224, 0)', 'linear-gradient(0deg, rgb(151, 150, 240) 0%, rgb(251, 199, 212) 100%) rgb(151, 150, 240)',
-    'linear-gradient(0deg, rgb(22, 34, 42) 0%, rgb(58, 96, 115) 100%) rgb(22, 34, 42)', 'linear-gradient(0deg, rgb(236, 0, 140) 0%, rgb(252, 103, 103) 100%) rgb(236, 0, 140)',
-    'linear-gradient(0deg, rgb(255, 239, 186) 0%, rgb(255, 255, 255) 100%) rgb(255, 239, 186)', 'linear-gradient(0deg, rgb(26, 41, 128) 0%, rgb(38, 208, 206) 100%) rgb(26, 41, 128)'];
+  const gradientsColor: Array<string> = [
+    'linear-gradient(0deg, rgb(191, 90, 224) 0%, rgb(168, 17, 218) 100%) rgb(191, 90, 224)',
+    'linear-gradient(0deg, rgb(230, 92, 0) 0%, rgb(249, 212, 35) 100%) rgb(230, 92, 0)',
+    'linear-gradient(0deg, rgb(200, 78, 137) 0%, rgb(241, 95, 121) 100%) rgb(200, 78, 137)',
+    'linear-gradient(0deg, rgb(255, 224, 0) 0%, rgb(121, 159, 12) 100%) rgb(255, 224, 0)',
+    'linear-gradient(0deg, rgb(151, 150, 240) 0%, rgb(251, 199, 212) 100%) rgb(151, 150, 240)',
+    'linear-gradient(0deg, rgb(22, 34, 42) 0%, rgb(58, 96, 115) 100%) rgb(22, 34, 42)',
+    'linear-gradient(0deg, rgb(236, 0, 140) 0%, rgb(252, 103, 103) 100%) rgb(236, 0, 140)',
+    'linear-gradient(0deg, rgb(255, 239, 186) 0%, rgb(255, 255, 255) 100%) rgb(255, 239, 186)',
+    'linear-gradient(0deg, rgb(26, 41, 128) 0%, rgb(38, 208, 206) 100%) rgb(26, 41, 128)',
+  ];
 
   useEffect(() => {
-    gradientsColor.forEach((el:string) => {
+    gradientsColor.forEach((el: string) => {
       const gradient = document.createElement('div');
       gradient.style.cssText = `width: 30px; height:30px; border-radius:100%; background:${el}; margin:5px; cursor:pointer; `;
       const elem: HTMLElement | null = document.getElementById('gradients');
@@ -110,21 +149,62 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         elem.style.cssText = 'display:flex';
         elem.append(gradient);
       }
-      gradient.onclick = ():void => {
+      gradient.onclick = (): void => {
         const prev: HTMLElement | null = document.getElementById('preview');
         if (prev) {
           if (document.getElementById('image')) {
-            setSelectedFile('');
             const image: HTMLElement | null = document.getElementById('image');
             if (image) {
               image.remove();
             }
           }
           prev.style.background = el;
+          setImageGradient(el);
+          setFinalUrl('');
+          setSelectedFile('');
         }
       };
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const openUrl = (): void => {
+    const container: HTMLElement | null = document.getElementById('urlContainer');
+    if (container) {
+      container.style.display = 'block';
+    }
+  };
+  const closeUrl = (): void => {
+    const container: HTMLElement | null = document.getElementById('urlContainer');
+    if (container) {
+      container.style.display = 'none';
+    }
+    setUrl('');
+  };
+  const submitUrl = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    setFinalUrl(Url);
+    const image: HTMLElement | null = document.getElementById('image');
+    if (image) {
+      image.remove();
+    }
+    const divElem: HTMLElement | null = document.getElementById('preview');
+    const img: HTMLImageElement = document.createElement('img');
+    img.id = 'image';
+    img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';
+    img.src = Url;
+    if (divElem) {
+      divElem.appendChild(img);
+      divElem.style.background = 'none';
+    }
+    setUrl('');
+    const container: HTMLElement | null = document.getElementById('urlContainer');
+    if (container) {
+      container.style.display = 'none';
+    }
+    setImageGradient('');
+    setSelectedFile('');
+  };
 
   return (
     <div className={styles['addWish_wrapper']}>
@@ -139,6 +219,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                 <input
                   type="text"
                   required
+                  value={WishName}
                   className={styles['wishName']}
                   onChange={ChangeWishName}
                   id="descriptions"
@@ -152,6 +233,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   name="description"
                   id="description"
                   rows={8}
+                  value={Description}
                   onChange={ChangeDescription}
                 />
               </label>
@@ -160,17 +242,32 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               <label htmlFor="addFile">
                 Изображение или цветной фон
                 <br />
-                <ImageSearchOutlinedIcon onClick={handleClick} className={styles['uploadImg']} />
-                <input type="file" accept="image/*" onChange={SelectFile} id="upload" className={styles['upload']} ref={hiddenFileInput} />
+                <div className={styles['addFileInformation']}>
+                  <ImageSearchOutlinedIcon onClick={handleClick} className={styles['uploadImg']} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={SelectFile}
+                    id="upload"
+                    className={styles['upload']}
+                    ref={hiddenFileInput}
+                  />
+                  <CallMadeIcon className={styles['uploadImg']} onClick={openUrl} />
+                  <div id="gradients" className={styles['addFileGradients']} />
+                </div>
               </label>
-              <div id="gradients" />
               <div id="preview" className={styles['filePreview']} />
             </div>
             <div className={styles['wishCost']}>
               <div className={styles['cost']}>
                 <label htmlFor="wishCost">
                   Стоимость?
-                  <input type="text" className={styles['wishPrice']} onChange={ChangeValue} />
+                  <input
+                    type="text"
+                    className={styles['wishPrice']}
+                    onChange={ChangeValue}
+                    value={Value}
+                  />
                 </label>
               </div>
               <div className={styles['costCurrency']}>
@@ -187,40 +284,29 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             <div>
               <label htmlFor="site">
                 Ссылка на сайт
-                <input type="text" onChange={ChangeSite} />
+                <input type="text" value={Site} onChange={ChangeSite} />
               </label>
             </div>
             <div>
               <label htmlFor="collection">
                 Добавить в колекцию
-                <input type="text" onChange={ChangeCollection} />
+                <input type="text" value={Collection} onChange={ChangeCollection} />
               </label>
             </div>
             <div>
               <label htmlFor="tags">
                 Теги
-                <input type="text" onChange={ChangeTag} />
+                <input type="text" value={Tag} onChange={ChangeTag} />
               </label>
             </div>
-            {/* <div className={styles['visibleProperties']}>
-              <div>
-                <input type="radio" value="All" name="visibleWish" onChange={ChangeVisibility} checked={Visibility === 'All'} />
-                {' '}
-                Видно всем
-              </div>
-              <div>
-                <input type="radio" value="Friends" name="visibleWish" onChange={ChangeVisibility} />
-                {' '}
-                Друзьям
-              </div>
-              <div>
-                <input type="radio" value="OnlyMe" name="visibleWish" onChange={ChangeVisibility} />
-                {' '}
-                Только мне
-              </div>
-            </div> */}
             <FormControl component="fieldset">
-              <RadioGroup style={{flexDirection: 'row', marginBottom: '10px'}} aria-label="gender" name="gender1" value={Visibility} onChange={ChangeVisibility}>
+              <RadioGroup
+                style={{ flexDirection: 'row', marginBottom: '10px' }}
+                aria-label="gender"
+                name="gender1"
+                value={Visibility}
+                onChange={ChangeVisibility}
+              >
                 <FormControlLabel value="All" control={<Radio />} label="Видно всем" />
                 <FormControlLabel value="Friends" control={<Radio />} label="Друзьям" />
                 <FormControlLabel value="OnlyMe" control={<Radio />} label="Только мне" />
@@ -229,13 +315,46 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           </div>
           <div className={styles['submit_btns']}>
             <div>
-              <button type="button" onClick={handleClose}>ОТМЕНА</button>
+              <button type="button" onClick={handleClose}>
+                ОТМЕНА
+              </button>
             </div>
             <div>
               <button type="submit">ХОЧУ</button>
             </div>
           </div>
         </form>
+        <div className={styles['addImageUrlContainer']} id="urlContainer">
+          <div className={styles['addImageUrl']}>
+            <form onSubmit={submitUrl}>
+              <div className={styles['headerUrl']}>
+                <h2>Вставьте ссылку на изображение</h2>
+                <Close className={styles['closeUrl']} onClick={closeUrl} />
+              </div>
+              <label htmlFor="url">
+                Ссылка *
+                <input
+                  type="text"
+                  required
+                  value={Url}
+                  className={styles['inputUrl']}
+                  onChange={ChangeUrl}
+                  id="url"
+                />
+              </label>
+              <div className={styles['submit_btns']}>
+                <div>
+                  <button type="button" onClick={closeUrl}>
+                    Отмена
+                  </button>
+                </div>
+                <div>
+                  <button type="submit">Отправить</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

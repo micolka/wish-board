@@ -43,7 +43,7 @@ textarea {
 .desriptionOfWish {
   width: 100%;
 }
-.desriptionOfWish textarea{
+.desriptionOfWish textarea {
   width: 100%;
 }
 .addFile {
@@ -70,7 +70,7 @@ textarea {
 .costCurrency {
   width: 25%;
 }
-.costCurrency select{
+.costCurrency select {
   width: 100%;
 }
 .visibleProperties {
@@ -93,28 +93,28 @@ textarea {
   display: flex;
   justify-content: space-between;
 }
-.submit_btns button{
+.submit_btns button {
   width: 90px;
   height: 30px;
   cursor: pointer;
 }
-.submit_btns div:last-child button{
+.submit_btns div:last-child button {
   background: rgb(255, 130, 130);
   border: none;
 }
-div .close{
+div .close {
   font-size: 2.5rem;
   position: absolute;
   top: 7px;
   right: 17.5%;
+  cursor: pointer;
 }
 .close:hover {
   color: red;
-  cursor: pointer;
   transition: all 0.3s;
 }
 .upload {
- display: none;
+  display: none;
 }
 div .uploadImg {
   cursor: pointer;
@@ -122,7 +122,47 @@ div .uploadImg {
   margin: 5px;
   border: 1px solid red;
   transition: all 0.3s;
- }
- div .uploadImg:hover {
-  border: 2px solid  red;
- }
+}
+div .uploadImg:hover {
+  border: 2px solid red;
+}
+.addFileInformation {
+  display: flex;
+  flex-wrap: wrap;
+}
+.addFileGradients {
+  display: flex;
+  flex-wrap: wrap;
+}
+.addImageUrlContainer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(189, 189, 189, 0.7);
+  z-index: 90;
+}
+.addImageUrl {
+  width: 60%;
+  margin: 20vh auto;
+  padding: 10px;
+  background: rgb(255, 255, 255);
+  z-index: 100;
+}
+.headerUrl {
+  display: flex;
+  justify-content: space-between;
+}
+div .closeUrl {
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+.closeUrl:hover {
+  color: red;
+  transition: all 0.3s;
+}
+.addImageUrl form {
+  width: 100%;
+}

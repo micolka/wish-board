@@ -9,7 +9,6 @@ import { setContext } from '@apollo/client/link/context';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import AddWish from '@/components/AddWish/AddWish';
 import Footer from '@/components/Footer';
 import MenuBar from '@/components/MenuBar';
 import { AUTH_TOKEN, routeNamesMap } from '@/constants/';
