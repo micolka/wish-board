@@ -57,68 +57,85 @@ input {
 textarea {
   outline: none;
 }
+
 .desriptionOfWish {
   width: 100%;
 }
+
 .desriptionOfWish textarea {
   width: 100%;
 }
+
 .addFile {
   margin-top: 15px;
 }
+
 .filePreview {
   position: relative;
   max-width: 300px;
   height: 200px;
   display: flex;
 }
+
 .foto {
   position: absolute;
   width: 100%;
   height: auto;
 }
+
 .wishCost {
   display: flex;
   justify-content: space-between;
 }
+
 .cost {
   width: 60%;
 }
+
 .costCurrency {
   width: 25%;
 }
+
 .costCurrency select {
   width: 100%;
 }
+
 .visibleProperties {
   margin-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
 }
+
 .visibleProperties div {
   margin-left: 15px;
 }
+
 .visibleProperties div input {
   width: auto;
   margin-left: 15px;
 }
+
 .visibleProperties input:first-child {
   margin-left: 0;
 }
+
 .submit_btns {
   margin: 25px;
   display: flex;
   justify-content: space-between;
 }
+
 .submit_btns button {
   width: 90px;
   height: 30px;
   cursor: pointer;
 }
+
 .submit_btns div:last-child button {
   background: rgb(255, 130, 130);
   border: none;
 }
+
 div .close {
   font-size: 2.5rem;
   position: absolute;
@@ -126,13 +143,16 @@ div .close {
   right: 17.5%;
   cursor: pointer;
 }
+
 .close:hover {
   color: red;
   transition: all 0.3s;
 }
+
 .upload {
   display: none;
 }
+
 div .uploadImg {
   cursor: pointer;
   font-size: 2rem;
@@ -140,17 +160,21 @@ div .uploadImg {
   border: 1px solid red;
   transition: all 0.3s;
 }
+
 div .uploadImg:hover {
   border: 2px solid red;
 }
+
 .addFileInformation {
   display: flex;
   flex-wrap: wrap;
 }
+
 .addFileGradients {
   display: flex;
   flex-wrap: wrap;
 }
+
 .addImageUrlContainer {
   display: none;
   position: fixed;
@@ -161,6 +185,7 @@ div .uploadImg:hover {
   background: rgb(189, 189, 189, 0.7);
   z-index: 90;
 }
+
 .addImageUrl {
   width: 60%;
   margin: 20vh auto;
@@ -168,18 +193,22 @@ div .uploadImg:hover {
   background: rgb(255, 255, 255);
   z-index: 100;
 }
+
 .headerUrl {
   display: flex;
   justify-content: space-between;
 }
+
 div .closeUrl {
   font-size: 2.5rem;
   cursor: pointer;
 }
+
 .closeUrl:hover {
   color: red;
   transition: all 0.3s;
 }
+
 .addImageUrl form {
   width: 100%;
 }
