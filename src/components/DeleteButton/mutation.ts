@@ -1,29 +1,25 @@
 import { gql } from '@apollo/client';
 
 const DELETE_WISH = gql`
-  mutation deletePost($postId: ID!) {
-    deleteWish(postId: $postId)
+  mutation deleteWish($wishId: ID!) {
+    deleteWish(wishId: $wishId)
   }
 `;
 
 const DELETE_COMMENT = gql`
-  mutation deleteComment($wishId: ID!, $commentId: ID!) {
-    deleteComment(wishId: $wishId, commentId: $commentId) {
+  mutation deleteComment($wishId: ID!, $username: String!, $commentId: ID!) {
+    deleteComment(wishId: $wishId, username: $username, commentId: $commentId) {
       id
-      comments {
-        id
-        username
-        createdAt
-        body
-        creator {
-          username
+      active {
+        comments {
+          createdAt
           id
-          avatar {
-            small
+          body
+          user {
+            username
           }
         }
       }
-      commentCount
     }
   }
 `;

@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import {
   Button,
   Dialog,
@@ -6,59 +7,82 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  InputLabel,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
   TextField,
 } from '@material-ui/core';
-import { Add, Close } from '@material-ui/icons';
-import * as React from 'react';
-import { FunctionComponent, HTMLAttributes } from 'react';
+import { Close } from '@material-ui/icons';
+import React, { Fragment, useState } from 'react';
+import type { FunctionComponent, HTMLAttributes, SetStateAction, ReactNode } from 'react';
+
+import { ACTIVE_WISH, FULFILLED_WISH } from '@/components/AddingWishCard/mutation';
+import { visibility, MODAL_NAME } from '@/constants';
 
 interface AddingWishProps extends HTMLAttributes<HTMLDivElement> {
-  userCollections: Array<string>;
+  children: ReactNode;
+  wishId: string;
+  wishName: string;
+  nameModal: string;
 }
 
-const visibility: Array<string> = ['Видно всем', 'Друзьям', 'Только мне'];
+const AddingWishCard: FunctionComponent<AddingWishProps> = ({
+  wishId,
+  children,
+  wishName,
+  nameModal,
+}) => {
+  const keys = Object.keys(visibility);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(keys[0]);
 
-const AddingWishCard: FunctionComponent<AddingWishProps> = ({ userCollections }) => {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('Видно всем');
-  const [state, setState] = React.useState('Разное');
+  const [activeWish] = useMutation(ACTIVE_WISH, {
+    variables: { wishId, visibility: value },
+  });
+
+  const [fulfilledWish] = useMutation(FULFILLED_WISH, {
+    variables: { wishId, visibility: value },
+  });
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+  const handleSubmit = () => {
+    setOpen(false);
+    if (nameModal === MODAL_NAME.active) {
+      return activeWish();
+    }
+    return fulfilledWish();
+  };
+
+  const handleChange = (event: { target: { value: SetStateAction<string> } }) => {
     setValue(event.target.value);
   };
 
-  const selectHandleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setState(event.target.value);
-  };
-
   return (
-    <div>
-      <Add onClick={() => setOpen(true)} />
+    <Fragment>
+      <div onClick={() => setOpen(true)} onKeyPress={() => {}} tabIndex={0} role="button">
+        {children}
+      </div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <DialogTitle id="form-dialog-title">Добавляем в желания</DialogTitle>
+          <DialogTitle id="form-dialog-title">{nameModal}</DialogTitle>
           <Close style={{ marginRight: '1em' }} onClick={handleClose} />
         </div>
         <DialogContent style={{ border: '1px solid grey', margin: '1em' }}>
           <TextField
             style={{ marginBottom: '1em' }}
-            autoFocus
+            value={wishName}
             margin="dense"
             id="name"
             label="Название"
             type="text"
             fullWidth
+            InputProps={{
+              readOnly: true,
+            }}
           />
-          <InputLabel id="label">Коллекции</InputLabel>
+          {/* <InputLabel id="label">Коллекции</InputLabel>
           <Select
             style={{ width: '100%' }}
             labelId="label"
@@ -71,7 +95,7 @@ const AddingWishCard: FunctionComponent<AddingWishProps> = ({ userCollections })
                 {collection}
               </MenuItem>
             ))}
-          </Select>
+          </Select> */}
           <FormControl component="fieldset">
             <RadioGroup
               style={{ flexDirection: 'row', marginTop: '1em' }}
@@ -80,12 +104,12 @@ const AddingWishCard: FunctionComponent<AddingWishProps> = ({ userCollections })
               value={value}
               onChange={handleChange}
             >
-              {visibility.map(category => (
+              {keys.map(category => (
                 <FormControlLabel
                   key={category}
                   value={category}
                   control={<Radio />}
-                  label={category}
+                  label={visibility[category]}
                 />
               ))}
             </RadioGroup>
@@ -114,14 +138,14 @@ const AddingWishCard: FunctionComponent<AddingWishProps> = ({ userCollections })
               boxShadow:
                 '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
             }}
-            onClick={handleClose}
+            onClick={handleSubmit}
             color="secondary"
           >
             Сохранить
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Fragment>
   );
 };
 export default AddingWishCard;

@@ -8,17 +8,18 @@ import { useHistory } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
 import CommentItem from '@/components/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
-import { ADD_COMMENT } from '@/components/Comments/mutation';
+import ADD_COMMENT from '@/components/Comments/mutation';
 import DeleteButton from '@/components/DeleteButton';
 import { TComment, TUser } from '@/types/data';
 
 interface CommentsProps extends HTMLAttributes<HTMLDivElement> {
   wishId: string;
+  username: string;
   comments: TComment[];
   user: TUser;
 }
 
-const Comments: FunctionComponent<CommentsProps> = ({ wishId, comments, user }) => {
+const Comments: FunctionComponent<CommentsProps> = ({ wishId, username, comments, user }) => {
   const [comment, setComment] = useState('');
   const history = useHistory();
   const commentInputRef = useRef<HTMLInputElement | null>(null);
@@ -29,6 +30,7 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, comments, user }) 
     },
     variables: {
       wishId,
+      username,
       body: comment,
     },
   });
@@ -79,7 +81,11 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, comments, user }) 
       {comments?.map(comm => (
         <div className={styles['comment-item']} key={comm.id}>
           <CommentItem comment={comm} key={comm.id} />
-          {comm.creator.id === user.id ? <DeleteButton wishId={wishId} commentId={comm.id} /> : ''}
+          {comm.user.id === user.id ? (
+            <DeleteButton wishId={wishId} username={username} commentId={comm.id} />
+          ) : (
+            ''
+          )}
         </div>
       ))}
     </div>

@@ -4,7 +4,7 @@ import { CakeOutlined } from '@material-ui/icons';
 import React, { Fragment, useContext } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 
 import Avatar from '@/components/Avatar';
 import SmallWish from '@/components/SmallWish';
@@ -12,9 +12,7 @@ import { SCREEN_SIZES } from '@/constants';
 import AuthContext from '@/context/AuthContex';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import FETCH_WISHES_QUERY from '@/pages/ProfilePage/query';
-import { TDataWish, TGetWishes, TUser } from '@/types/data';
-
-import { dataUser } from './data';
+import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,13 +26,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ProfilePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
+type TWish = {
+  nickname: string;
+};
+type TSingleWishProps = RouteComponentProps<TWish> & HTMLAttributes<HTMLDivElement>;
+
+const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
+  // eslint-disable-next-line react/destructuring-assignment
+  const { nickname } = props.match.params;
+  const history = useHistory();
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
-  const { nickname, personalData } = dataUser;
-  const { name, surname, patronymic, dateOfBirth } = personalData;
-  const { loading, data } = useQuery<TGetWishes>(FETCH_WISHES_QUERY);
-  const dataWishes = data?.getWishes as TDataWish[];
   const { id, username, avatar } = useContext(AuthContext);
   const user = {
     id,
@@ -44,14 +46,34 @@ const ProfilePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       normal: avatar.small,
     },
   } as TUser;
+  const { loading, data } = useQuery<TGetInfoUserByName>(FETCH_WISHES_QUERY, {
+    variables: {
+      usernameOwner: nickname,
+    },
+  });
+  const dataInfo = data?.getInfoUserByName as TGetInfoUser;
+  const infoUser = dataInfo?.user;
+  const dataWishes = dataInfo?.wishes;
 
-  return (
-    <div className={styles['profile-page']}>
-      {loading ? (
+  const personalData = infoUser?.personalData;
+
+  if (!loading && !dataInfo) {
+    const path = '/';
+    history.push(path);
+  }
+
+  if (loading) {
+    return (
+      <div className={styles['profile-page']}>
         <div className={classes.root}>
           <CircularProgress />
         </div>
-      ) : (
+      </div>
+    );
+  }
+  return (
+    <div className={styles['profile-page']}>
+      {dataWishes?.length > 0 ? (
         <Fragment>
           <div className={styles['profile_page_info-container']}>
             <div className={styles['profile_page_info-text']}>
@@ -60,7 +82,9 @@ const ProfilePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   <span className={styles.nickname}>{nickname}</span>
                 </Link>
                 <span className={styles.symbol}>&mdash;</span>
-                <span className={styles.name}>{`${name} ${surname} ${patronymic}`}</span>
+                <span className={styles.name}>
+                  {`${personalData?.name} ${personalData?.surname} ${personalData?.patronymic}`}
+                </span>
               </div>
               <div className={styles['profile_info-socials']}>
                 {/* // !! создать страницу для спсков ниже. сделать переходы */}
@@ -84,7 +108,7 @@ const ProfilePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           <div className={styles['birth_date_info-container']}>
             <div className={styles['birth_date_info-wrapper']}>
               <CakeOutlined />
-              <span>{dateOfBirth}</span>
+              <span>{personalData?.dateOfBirth}</span>
             </div>
           </div>
           <div>
@@ -99,6 +123,8 @@ const ProfilePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             </ResponsiveMasonry>
           </div>
         </Fragment>
+      ) : (
+        ''
       )}
     </div>
   );

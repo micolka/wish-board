@@ -18,6 +18,10 @@ import { ILoginInput } from '@/types/AuthContext';
 
 import useRoutes from './routes';
 
+// const httpLink = createHttpLink({
+//   uri: 'http://localhost:5000/',
+// });
+
 const httpLink = createHttpLink({
   uri: 'https://graphql-wishboard-server.herokuapp.com/',
 });
@@ -42,7 +46,7 @@ const handleChange = (routeName: string) => {
   if (routeName?.indexOf('/wish/') !== -1) {
     document.title = routeNamesMap['/wish'];
   } else if (routeName?.indexOf('@') === -1) {
-    document.title = routeNamesMap[routeName] as string;
+    document.title = routeNamesMap[routeName];
   }
 };
 const App = (): JSX.Element => {

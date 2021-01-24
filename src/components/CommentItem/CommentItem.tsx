@@ -10,10 +10,10 @@ interface CommentProps extends HTMLAttributes<HTMLDivElement> {
 }
 const CommentItem: FunctionComponent<CommentProps> = ({ comment }) => (
   <div className={styles['wish-comment']}>
-    <Avatar user={comment.creator} size="normal" />
+    <Avatar user={comment.user} size="normal" />
     <div className={styles['comment-info-container']}>
       <div className={styles['login-comment-container']}>
-        <h4>{comment.creator.username}</h4>
+        <h4>{comment.user.username}</h4>
         <p>{comment.body}</p>
       </div>
       <div className={styles['comment-date']}>{comment.createdAt}</div>
