@@ -15,7 +15,7 @@ import Avatar from '@/components/Avatar';
 import Comments from '@/components/Comments/Comments';
 import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
-import { STAT_NAME, STAT_COLOR } from '@/constants';
+import { STAT_NAME, STAT_COLOR, MODAL_NAME } from '@/constants';
 import AuthContext from '@/context/AuthContex';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import FETCH_WISH_QUERY from '@/pages/SingleWish/query';
@@ -135,7 +135,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   <Favorite className={styles['like-icon']} />
                 </StatsItem>
                 <AddingWishCard
-                  nameModal="Добавляем в желания"
+                  nameModal={wishData.isActive ? MODAL_NAME.activeDelete : MODAL_NAME.active}
                   wishName={wishData.name}
                   wishId={wishId}
                 >
@@ -151,7 +151,9 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   </StatsItem>
                 </AddingWishCard>
                 <AddingWishCard
-                  nameModal="Добавляем в исполненные"
+                  nameModal={
+                    wishData.isFulfilled ? MODAL_NAME.fulfilledDelete : MODAL_NAME.fulfilled
+                  }
                   wishName={wishData.name}
                   wishId={wishId}
                 >

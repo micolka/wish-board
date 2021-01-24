@@ -86,7 +86,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         size="small"
       >
         {/* <AccountCircle /> */}
-        {id ? <Avatar size="normal" user={user} /> : ''}
+        {id && token && avatar && username ? <Avatar size="normal" user={user} /> : ''}
       </IconButton>
       <Menu
         id="menu-appbar"

@@ -83,3 +83,16 @@
   text-decoration: none;
   color: inherit;
 }
+
+.stats_count {
+  pointer-events: none;
+  user-select: none;
+}
+
+.link_material {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
