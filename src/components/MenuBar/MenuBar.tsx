@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      width: 1280,
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -133,8 +134,8 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   );
 
   return (
-    <div className={styles['menu']}>
-      <AppBar position="static">
+    <AppBar position="static">
+      <div className={styles['menu']}>
         <Toolbar>
           {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
@@ -146,8 +147,8 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           </Typography>
           {menuBar}
         </Toolbar>
-      </AppBar>
-    </div>
+      </div>
+    </AppBar>
   );
 };
 
