@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { Button, CircularProgress, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { CakeOutlined } from '@material-ui/icons';
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
@@ -9,9 +9,11 @@ import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
 import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
+import AddWishWindowContext from '@/context/AddWishContext';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import FETCH_WISHES_QUERY from '@/pages/ProfilePage/query';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
+import { formatUserName } from '@/utils/formaters';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +38,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const history = useHistory();
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
-
+  const { openAddWishWindow } = useContext(AddWishWindowContext);
   const { loading, data } = useQuery<TGetInfoUserByName>(FETCH_WISHES_QUERY, {
     variables: {
       usernameOwner: nickname,
@@ -53,11 +55,16 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   } as TUser;
 
   const personalData = infoUser?.personalData;
+  const fullUserName = formatUserName(personalData);
 
   if (!loading && !dataInfo) {
     const path = '/login';
     history.push(path);
   }
+
+  const handleAddWish = () => {
+    openAddWishWindow();
+  };
 
   if (loading) {
     return (
@@ -70,7 +77,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   }
   return (
     <div className={styles['profile-page']}>
-      {dataWishes?.length > 0 && infoUser ? (
+      {infoUser && (
         <Fragment>
           <div className={styles['profile_page_info-container']}>
             <div className={styles['profile_page_info-text']}>
@@ -78,10 +85,12 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 <Link className={styles['link']} to={`/@${nickname}`}>
                   <span className={styles.nickname}>{nickname}</span>
                 </Link>
-                <span className={styles.symbol}>&mdash;</span>
-                <span className={styles.name}>
-                  {`${personalData?.name} ${personalData?.surname} ${personalData?.patronymic}`}
-                </span>
+                {fullUserName && (
+                  <Fragment>
+                    <span className={styles.symbol}>&mdash;</span>
+                    <span className={styles.name}>{fullUserName}</span>
+                  </Fragment>
+                )}
               </div>
               <div className={styles['profile_info-socials']}>
                 {/* // !! создать страницу для спсков ниже. сделать переходы */}
@@ -102,26 +111,40 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
             </div>
             <Avatar size="huge" user={user} />
           </div>
-          <div className={styles['birth_date_info-container']}>
-            <div className={styles['birth_date_info-wrapper']}>
-              <CakeOutlined />
-              <span>{personalData?.dateOfBirth}</span>
+          {personalData.dateOfBirth && (
+            <div className={styles['birth_date_info-container']}>
+              <div className={styles['birth_date_info-wrapper']}>
+                <CakeOutlined />
+                <span>{personalData?.dateOfBirth}</span>
+              </div>
             </div>
-          </div>
-          <div>
-            <ResponsiveMasonry
-              columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
-            >
-              <Masonry gutter="10px">
-                {dataWishes.map(elem => (
-                  <SmallWish wishData={elem} key={elem.id} />
-                ))}
-              </Masonry>
-            </ResponsiveMasonry>
-          </div>
+          )}
+          {dataWishes?.length > 0 ? (
+            <div>
+              <ResponsiveMasonry
+                columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
+              >
+                <Masonry gutter="10px">
+                  {dataWishes.map(elem => (
+                    <SmallWish wishData={elem} key={elem.id} />
+                  ))}
+                </Masonry>
+              </ResponsiveMasonry>
+            </div>
+          ) : (
+            <div className={styles['no_wishes_info-container']}>
+              <div className={styles['no_wishes_info-text']}>No wishes added yet</div>
+              <Button
+                onClick={handleAddWish}
+                variant="outlined"
+                color="secondary"
+                className={styles['profile_page-button']}
+              >
+                Add Wish
+              </Button>
+            </div>
+          )}
         </Fragment>
-      ) : (
-        ''
       )}
     </div>
   );

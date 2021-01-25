@@ -86,3 +86,18 @@
   column-gap: 10px;
   align-items: center;
 }
+
+.no_wishes_info-container {
+  width: 100%;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.no_wishes_info-text {
+  font-size: 34px;
+  line-height: 40px;
+  color: #333333;
+}
