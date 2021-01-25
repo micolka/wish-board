@@ -10,6 +10,7 @@ import Avatar from '@/components/Avatar';
 import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
+import AuthContext from '@/context/AuthContext';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import FETCH_WISHES_QUERY from '@/pages/ProfilePage/query';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
@@ -39,6 +40,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
   const { openAddWishWindow } = useContext(AddWishWindowContext);
+  const { username } = useContext(AuthContext);
   const { loading, data } = useQuery<TGetInfoUserByName>(FETCH_WISHES_QUERY, {
     variables: {
       usernameOwner: nickname,
@@ -64,6 +66,11 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
 
   const handleAddWish = () => {
     openAddWishWindow();
+  };
+
+  const handleUserSubscribe = () => {
+    // eslint-disable-next-line no-console
+    console.log(`user ${username as string} subscribes to ${infoUser?.username}`);
   };
 
   if (loading) {
@@ -100,14 +107,26 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 <span>&bull;</span>
                 <span>Subscribers</span>
               </div>
-              {/* // !! если не на своей странице название "Subscribe" иначе "Prefences" (создать странцу) */}
-              <Button
-                variant="outlined"
-                color="secondary"
-                className={styles['profile_page-button']}
-              >
-                Prefences
-              </Button>
+              {username === infoUser?.username ? (
+                <Link className={styles['link']} to="/settings">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={styles['profile_page-button']}
+                  >
+                    Prefences
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  onClick={handleUserSubscribe}
+                  variant="outlined"
+                  color="secondary"
+                  className={styles['profile_page-button']}
+                >
+                  Subscribe
+                </Button>
+              )}
             </div>
             <Avatar size="huge" user={user} />
           </div>

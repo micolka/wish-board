@@ -29,10 +29,6 @@
   min-height: 40px;
   font-family: 'Secular One', sans-serif;
 
-  .link {
-    text-decoration: none;
-  }
-
   .nickname {
     color: #333333;
     cursor: pointer;
@@ -50,6 +46,11 @@
     margin: 0 15px;
     font-weight: 900;
   }
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .profile_info-socials {
