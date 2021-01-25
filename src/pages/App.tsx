@@ -20,13 +20,13 @@ import { ILoginInput } from '@/types/AuthContext';
 
 import useRoutes from './routes';
 
-const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/',
-});
-
 // const httpLink = createHttpLink({
-//   uri: 'https://graphql-wishboard-server.herokuapp.com/',
+//   uri: 'http://localhost:5000/',
 // });
+
+const httpLink = createHttpLink({
+  uri: 'https://graphql-wishboard-server.herokuapp.com/',
+});
 
 const authLink = setContext((_, { headers }) => {
   const userData = JSON.parse(localStorage.getItem(AUTH_TOKEN)!) as ILoginInput;

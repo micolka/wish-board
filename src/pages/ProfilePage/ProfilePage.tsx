@@ -55,7 +55,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const personalData = infoUser?.personalData;
 
   if (!loading && !dataInfo) {
-    const path = '/';
+    const path = '/login';
     history.push(path);
   }
 

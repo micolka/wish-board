@@ -13,6 +13,7 @@ import type { FunctionComponent, MouseEvent, HTMLAttributes } from 'react';
 import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import AddWish from '@/components/AddWish';
 import Avatar from '@/components/Avatar';
 import styles from '@/components/MenuBar/MenuBar.scss';
 import { loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
   const { id, token, avatar, username, logout } = useContext(AuthContext);
-  const { openAddWishWindow } = useContext(AddWishWindowContext);
+  const { openAddWishWindow, isAddWishWindowOpen } = useContext(AddWishWindowContext);
   const profileHref = username ? `/@${username}` : null;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -148,6 +149,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           {menuBar}
         </Toolbar>
       </div>
+      {isAddWishWindowOpen ? <AddWish /> : ''}
     </AppBar>
   );
 };

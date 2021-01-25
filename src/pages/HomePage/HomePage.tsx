@@ -5,10 +5,8 @@ import React, { useContext } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
-import AddWish from '@/components/AddWish';
 import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
-import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
 import styles from '@/pages/HomePage/HomePage.scss';
 import FETCH_WISHES_QUERY from '@/pages/HomePage/query';
@@ -31,7 +29,6 @@ const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
   const { username } = useContext(AuthContext);
   const nameSearch = '';
-  const { isAddWishWindowOpen } = useContext(AddWishWindowContext);
 
   const { loading, data } = useQuery<TGetWishes>(FETCH_WISHES_QUERY, {
     variables: {
@@ -63,7 +60,6 @@ const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           </React.Fragment>
         )}
       </div>
-      {isAddWishWindowOpen ? <AddWish /> : ''}
     </div>
   );
 };

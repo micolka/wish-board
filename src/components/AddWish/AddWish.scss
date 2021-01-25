@@ -9,6 +9,8 @@
   height: 100%;
   top: 0;
   left: 0;
+  color: black;
+  z-index: 100;
 }
 
 .addWish_content {
@@ -36,7 +38,7 @@
   align-items: center;
 }
 
-.home-page-cover {
+.wish-window-cover {
   position: absolute;
   top: 0;
   left: 0;
@@ -44,6 +46,7 @@
   bottom: 0;
   background-color: white;
   opacity: 0.8;
+  z-index: 50;
 }
 
 .wish_descriptions {
