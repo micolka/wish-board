@@ -15,7 +15,7 @@ import Comments from '@/components/Comments/Comments';
 import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
 import { STAT_NAME, STAT_COLOR, MODAL_NAME } from '@/constants';
-import AuthContext from '@/context/AuthContex';
+import AuthContext from '@/context/AuthContext';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import FETCH_WISH_QUERY from '@/pages/SingleWish/query';
 import { TUser, TDataWish, TGetWish } from '@/types/data';

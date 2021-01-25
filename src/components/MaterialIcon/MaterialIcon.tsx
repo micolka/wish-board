@@ -9,7 +9,7 @@ import styles from '@/components/MaterialIcon/MaterialIcon.scss';
 import LIKE_WISH from '@/components/MaterialIcon/mutation';
 import ModalDeleting from '@/components/ModalDeleting';
 import { STAT_NAME } from '@/constants';
-import AuthContext from '@/context/AuthContex';
+import AuthContext from '@/context/AuthContext';
 import { TUser } from '@/types/data';
 
 interface IconProps extends HTMLAttributes<HTMLDivElement> {

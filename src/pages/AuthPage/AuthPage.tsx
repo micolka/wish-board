@@ -6,7 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import React, { FunctionComponent, HTMLAttributes, useContext, useState } from 'react';
 import type { RouteComponentProps } from 'react-router-dom';
 
-import AuthContext from '@/context/AuthContex';
+import AuthContext from '@/context/AuthContext';
 import useForm from '@/customHooks/form.hooks';
 import styles from '@/pages/AuthPage/AuthPage.scss';
 import LOGIN_USER from '@/pages/AuthPage/mutation';
