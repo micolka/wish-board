@@ -6,7 +6,7 @@ import { Alert } from '@material-ui/lab';
 import React, { FunctionComponent, useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import AuthContext from '@/context/AuthContex';
+import AuthContext from '@/context/AuthContext';
 import useForm from '@/customHooks/form.hooks';
 import styles from '@/pages/RegistrationPage/RegistrationPage.scss';
 import REGISTER_USER from '@/pages/RegistrationPage/mutation';

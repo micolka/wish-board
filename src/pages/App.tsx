@@ -12,8 +12,10 @@ import { useHistory } from 'react-router-dom';
 import Footer from '@/components/Footer';
 import MenuBar from '@/components/MenuBar';
 import { AUTH_TOKEN, routeNamesMap } from '@/constants/';
-import AuthContext from '@/context/AuthContex';
+import AddWishWindowContext from '@/context/AddWishContext';
+import AuthContext from '@/context/AuthContext';
 import useAuth from '@/customHooks/auth.hook';
+import useWish from '@/customHooks/wish.hook';
 import { ILoginInput } from '@/types/AuthContext';
 
 import useRoutes from './routes';
@@ -52,6 +54,7 @@ const handleChange = (routeName: string) => {
 const App = (): JSX.Element => {
   const history = useHistory();
   const { token, username, avatar, login, logout, id, ready } = useAuth();
+  const { isAddWishWindowOpen, openAddWishWindow, closeAddWishWindow } = useWish();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
   useEffect(
@@ -78,9 +81,13 @@ const App = (): JSX.Element => {
           isAuthenticated,
         }}
       >
-        <MenuBar />
-        {routes}
-        <Footer />
+        <AddWishWindowContext.Provider
+          value={{ isAddWishWindowOpen, openAddWishWindow, closeAddWishWindow }}
+        >
+          <MenuBar />
+          {routes}
+          <Footer />
+        </AddWishWindowContext.Provider>
       </AuthContext.Provider>
     </ApolloProvider>
   );
