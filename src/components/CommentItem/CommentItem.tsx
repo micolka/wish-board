@@ -1,5 +1,6 @@
 import React from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
+import { Link } from 'react-router-dom';
 
 import Avatar from '@/components/Avatar/';
 import styles from '@/components/CommentItem/CommentItem.scss';
@@ -10,10 +11,14 @@ interface CommentProps extends HTMLAttributes<HTMLDivElement> {
 }
 const CommentItem: FunctionComponent<CommentProps> = ({ comment }) => (
   <div className={styles['wish-comment']}>
-    <Avatar user={comment.user} size="normal" />
+    <Link className={styles['user-link']} to={`/@${comment.user.username}`}>
+      <Avatar user={comment.user} size="normal" />
+    </Link>
     <div className={styles['comment-info-container']}>
       <div className={styles['login-comment-container']}>
-        <h4>{comment.user.username}</h4>
+        <Link className={styles['user-link']} to={`/@${comment.user.username}`}>
+          <h4>{comment.user.username}</h4>
+        </Link>
         <p>{comment.body}</p>
       </div>
       <div className={styles['comment-date']}>{comment.createdAt}</div>

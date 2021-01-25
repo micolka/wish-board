@@ -255,7 +255,10 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   {addwish.picture}
                   <br />
                   <div className={styles['addFileInformation']}>
-                    <ImageSearchOutlinedIcon onClick={handleClick} className={styles['uploadImg']} />
+                    <ImageSearchOutlinedIcon
+                      onClick={handleClick}
+                      className={styles['uploadImg']}
+                    />
                     <input
                       type="file"
                       accept="image/*"
@@ -320,7 +323,11 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   onChange={ChangeVisibility}
                 >
                   <FormControlLabel value="All" control={<Radio />} label={visibility.all} />
-                  <FormControlLabel value="Friends" control={<Radio />} label={visibility.friends} />
+                  <FormControlLabel
+                    value="Friends"
+                    control={<Radio />}
+                    label={visibility.friends}
+                  />
                   <FormControlLabel value="OnlyMe" control={<Radio />} label={visibility.meOnly} />
                 </RadioGroup>
               </FormControl>

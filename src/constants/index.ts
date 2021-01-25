@@ -20,6 +20,9 @@ const visibility: IConstant = {
 const MODAL_NAME: IConstant = {
   active: 'Добавляем в желания',
   fulfilled: 'Добавляем в исполненные',
+  activeDelete: 'Удалить желание',
+  fulfilledDelete: 'Удалить из исполненных',
+  commentDelete: 'Удалить комментарий?',
 };
 
 const STAT_NAME: IConstant = {

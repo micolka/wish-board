@@ -1,32 +1,32 @@
 import { useMutation } from '@apollo/client';
-import { FavoriteBorder, Check, Comment, Add } from '@material-ui/icons';
 import classNames from 'classnames';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, ReactNode, useContext, useEffect, useState } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import AddingWishCard from '@/components/AddingWishCard';
 import styles from '@/components/MaterialIcon/MaterialIcon.scss';
 import LIKE_WISH from '@/components/MaterialIcon/mutation';
-import { MODAL_NAME, STAT_NAME } from '@/constants';
+import ModalDeleting from '@/components/ModalDeleting';
+import { STAT_NAME } from '@/constants';
 import AuthContext from '@/context/AuthContext';
 import { TUser } from '@/types/data';
 
 interface IconProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
   iconName: string;
-  color: string;
-  nickname?: string;
   wishName: string;
-  count: number;
+  modalTitle: string;
   wishId: string;
-  isActiveStat?: boolean;
+  isActiveStat: boolean;
+  color: string;
 }
 
 const MaterialIcon: FunctionComponent<IconProps> = ({
+  children,
   iconName,
-  count,
-  nickname,
   wishName,
+  modalTitle,
   color,
   wishId,
   isActiveStat,
@@ -54,7 +54,7 @@ const MaterialIcon: FunctionComponent<IconProps> = ({
   });
 
   const routeChange = () => {
-    if (iconName !== 'comments') {
+    if (iconName !== STAT_NAME.comment) {
       const path = '/login';
       history.push(path);
     }
@@ -70,78 +70,36 @@ const MaterialIcon: FunctionComponent<IconProps> = ({
     return routeChange();
   };
 
+  const iconComponent = (
+    <div
+      className={classNames(
+        styles.single_stat_container,
+        isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
+      )}
+      onClick={StatsChecked}
+      onKeyPress={() => {}}
+      tabIndex={0}
+      role="button"
+    >
+      {children}
+    </div>
+  );
+
+  const iconWithModal = isActiveStat ? (
+    <ModalDeleting nameModal={modalTitle} wishId={wishId}>
+      {iconComponent}
+    </ModalDeleting>
+  ) : (
+    <AddingWishCard nameModal={modalTitle} wishName={wishName} wishId={wishId}>
+      {iconComponent}
+    </AddingWishCard>
+  );
+
   return (
     <Fragment>
-      {iconName === STAT_NAME.like ? (
-        <div
-          className={classNames(
-            styles.single_stat_container,
-            isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
-          )}
-          onClick={StatsChecked}
-          onKeyPress={() => {}}
-          tabIndex={0}
-          role="button"
-        >
-          <FavoriteBorder />
-          <span className={styles.stats_count}>{count}</span>
-        </div>
-      ) : (
-        ''
-      )}
-      {iconName === STAT_NAME.active ? (
-        <AddingWishCard nameModal={MODAL_NAME.active} wishName={wishName} wishId={wishId}>
-          <div
-            className={classNames(
-              styles.single_stat_container,
-              isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
-            )}
-            onClick={StatsChecked}
-            onKeyPress={() => {}}
-            tabIndex={0}
-            role="button"
-          >
-            <Add />
-            <span className={styles.stats_count}>{count}</span>
-          </div>
-        </AddingWishCard>
-      ) : (
-        ''
-      )}
-      {iconName === STAT_NAME.fulfilled ? (
-        <AddingWishCard nameModal={MODAL_NAME.fulfilled} wishName={wishName} wishId={wishId}>
-          <div
-            className={classNames(
-              styles.single_stat_container,
-              isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
-            )}
-            onClick={StatsChecked}
-            onKeyPress={() => {}}
-            tabIndex={0}
-            role="button"
-          >
-            <Check />
-            <span className={styles.stats_count}>{count}</span>
-          </div>
-        </AddingWishCard>
-      ) : (
-        ''
-      )}
-      {iconName === STAT_NAME.comments && nickname ? (
-        <div
-          className={classNames(
-            styles.single_stat_container,
-            isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
-          )}
-        >
-          <Link to={`/wish/@${nickname}/${wishId}`}>
-            <Comment />
-          </Link>
-          <span className={styles.stats_count}>{count}</span>
-        </div>
-      ) : (
-        ''
-      )}
+      {iconName === STAT_NAME.active || iconName === STAT_NAME.fulfilled
+        ? iconWithModal
+        : iconComponent}
     </Fragment>
   );
 };

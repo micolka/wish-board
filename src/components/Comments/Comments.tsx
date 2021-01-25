@@ -3,13 +3,14 @@ import { Button, Input } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import React, { useRef, useState } from 'react';
 import type { FunctionComponent, FormEvent, HTMLAttributes } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Avatar from '@/components/Avatar';
 import CommentItem from '@/components/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
 import ADD_COMMENT from '@/components/Comments/mutation';
 import DeleteButton from '@/components/DeleteButton';
+import { MODAL_NAME } from '@/constants';
 import { TComment, TUser } from '@/types/data';
 
 interface CommentsProps extends HTMLAttributes<HTMLDivElement> {
@@ -54,7 +55,13 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, username, comments
         <span>Комментарии</span>
       </h3>
       <div className={styles['adding-comment-container']}>
-        {user.id ? <Avatar user={user} size="normal" /> : ''}
+        {user.id ? (
+          <Link className={styles['user-link']} to={`/@${user.username}`}>
+            <Avatar user={user} size="normal" />
+          </Link>
+        ) : (
+          ''
+        )}
         <div className={styles['write-send-container']}>
           <form onSubmit={handleSubmit} className={styles['form']} noValidate autoComplete="off">
             <Input
@@ -82,7 +89,12 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, username, comments
         <div className={styles['comment-item']} key={comm.id}>
           <CommentItem comment={comm} key={comm.id} />
           {comm.user.id === user.id ? (
-            <DeleteButton wishId={wishId} username={username} commentId={comm.id} />
+            <DeleteButton
+              wishId={wishId}
+              modalTitle={MODAL_NAME.commentDelete}
+              username={username}
+              commentId={comm.id}
+            />
           ) : (
             ''
           )}
