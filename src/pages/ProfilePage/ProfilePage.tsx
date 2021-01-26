@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
 import { Button, CircularProgress, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { CakeOutlined } from '@material-ui/icons';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
@@ -9,9 +9,12 @@ import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
 import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
+import AddWishWindowContext from '@/context/AddWishContext';
+import AuthContext from '@/context/AuthContext';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import FETCH_WISHES_QUERY from '@/pages/ProfilePage/query';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
+import { formatUserName } from '@/utils/formaters';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,6 +38,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const { nickname } = props.match.params;
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
+  const { openAddWishWindow } = useContext(AddWishWindowContext);
 
   const [getInfoUserByName, { called, loading, data }] = useLazyQuery<TGetInfoUserByName>(
     FETCH_WISHES_QUERY,
@@ -56,6 +60,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     };
   }, []);
 
+  const { username } = useContext(AuthContext);
   const dataInfo = data?.getInfoUserByName as TGetInfoUser;
   const infoUser = dataInfo?.user;
   const dataWishes = dataInfo?.wishes;
@@ -67,6 +72,16 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   } as TUser;
 
   const personalData = infoUser?.personalData;
+  const fullUserName = formatUserName(personalData);
+
+  const handleAddWish = () => {
+    openAddWishWindow();
+  };
+
+  const handleUserSubscribe = () => {
+    // eslint-disable-next-line no-console
+    console.log(`user ${username as string} subscribes to ${infoUser?.username}`);
+  };
 
   if (loading || !called) {
     return (
@@ -77,10 +92,19 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       </div>
     );
   }
+  if (!infoUser) {
+    return (
+      <div className={styles['profile-page']}>
+        <div className={classes.root}>
+          <Redirect to="/login" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles['profile-page']}>
-      {dataWishes?.length > 0 && infoUser ? (
+      {infoUser && (
         <Fragment>
           <div className={styles['profile_page_info-container']}>
             <div className={styles['profile_page_info-text']}>
@@ -88,10 +112,12 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 <Link className={styles['link']} to={`/@${nickname}`}>
                   <span className={styles.nickname}>{nickname}</span>
                 </Link>
-                <span className={styles.symbol}>&mdash;</span>
-                <span className={styles.name}>
-                  {`${personalData?.name} ${personalData?.surname} ${personalData?.patronymic}`}
-                </span>
+                {fullUserName && (
+                  <Fragment>
+                    <span className={styles.symbol}>&mdash;</span>
+                    <span className={styles.name}>{fullUserName}</span>
+                  </Fragment>
+                )}
               </div>
               <div className={styles['profile_info-socials']}>
                 {/* // !! создать страницу для спсков ниже. сделать переходы */}
@@ -101,37 +127,63 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 <span>&bull;</span>
                 <span>Subscribers</span>
               </div>
-              {/* // !! если не на своей странице название "Subscribe" иначе "Prefences" (создать странцу) */}
+              {username === infoUser?.username ? (
+                <Link className={styles['link']} to="/settings">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={styles['profile_page-button']}
+                  >
+                    Prefences
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  onClick={handleUserSubscribe}
+                  variant="outlined"
+                  color="secondary"
+                  className={styles['profile_page-button']}
+                >
+                  Subscribe
+                </Button>
+              )}
+            </div>
+            <Avatar size="huge" user={user} />
+          </div>
+          {personalData.dateOfBirth && (
+            <div className={styles['birth_date_info-container']}>
+              <div className={styles['birth_date_info-wrapper']}>
+                <CakeOutlined />
+                <span>{personalData?.dateOfBirth}</span>
+              </div>
+            </div>
+          )}
+          {dataWishes?.length > 0 ? (
+            <div>
+              <ResponsiveMasonry
+                columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
+              >
+                <Masonry gutter="10px">
+                  {dataWishes.map(elem => (
+                    <SmallWish wishData={elem} key={elem.id} />
+                  ))}
+                </Masonry>
+              </ResponsiveMasonry>
+            </div>
+          ) : (
+            <div className={styles['no_wishes_info-container']}>
+              <div className={styles['no_wishes_info-text']}>No wishes added yet</div>
               <Button
+                onClick={handleAddWish}
                 variant="outlined"
                 color="secondary"
                 className={styles['profile_page-button']}
               >
-                Prefences
+                Add Wish
               </Button>
             </div>
-            <Avatar size="huge" user={user} />
-          </div>
-          <div className={styles['birth_date_info-container']}>
-            <div className={styles['birth_date_info-wrapper']}>
-              <CakeOutlined />
-              <span>{personalData?.dateOfBirth}</span>
-            </div>
-          </div>
-          <div>
-            <ResponsiveMasonry
-              columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
-            >
-              <Masonry gutter="10px">
-                {dataWishes.map(elem => (
-                  <SmallWish wishData={elem} key={elem.id} />
-                ))}
-              </Masonry>
-            </ResponsiveMasonry>
-          </div>
+          )}
         </Fragment>
-      ) : (
-        <Redirect to="/login" />
       )}
     </div>
   );
