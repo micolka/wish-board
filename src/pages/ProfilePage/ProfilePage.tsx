@@ -1,10 +1,10 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { Button, CircularProgress, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { CakeOutlined } from '@material-ui/icons';
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
+import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 
 import Avatar from '@/components/Avatar';
 import SmallWish from '@/components/SmallWish';
@@ -36,16 +36,31 @@ type TSingleWishProps = RouteComponentProps<TWish> & HTMLAttributes<HTMLDivEleme
 const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   // eslint-disable-next-line react/destructuring-assignment
   const { nickname } = props.match.params;
-  const history = useHistory();
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
   const { openAddWishWindow } = useContext(AddWishWindowContext);
+
+  const [getInfoUserByName, { called, loading, data }] = useLazyQuery<TGetInfoUserByName>(
+    FETCH_WISHES_QUERY,
+    {
+      variables: {
+        usernameOwner: nickname,
+      },
+      fetchPolicy: 'network-only',
+    }
+  );
+
+  let isMounted = true;
+  useEffect(() => {
+    if (isMounted) {
+      getInfoUserByName();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const { username } = useContext(AuthContext);
-  const { loading, data } = useQuery<TGetInfoUserByName>(FETCH_WISHES_QUERY, {
-    variables: {
-      usernameOwner: nickname,
-    },
-  });
   const dataInfo = data?.getInfoUserByName as TGetInfoUser;
   const infoUser = dataInfo?.user;
   const dataWishes = dataInfo?.wishes;
@@ -59,11 +74,6 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const personalData = infoUser?.personalData;
   const fullUserName = formatUserName(personalData);
 
-  if (!loading && !dataInfo) {
-    const path = '/login';
-    history.push(path);
-  }
-
   const handleAddWish = () => {
     openAddWishWindow();
   };
@@ -73,7 +83,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     console.log(`user ${username as string} subscribes to ${infoUser?.username}`);
   };
 
-  if (loading) {
+  if (loading || !called) {
     return (
       <div className={styles['profile-page']}>
         <div className={classes.root}>
@@ -82,6 +92,16 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       </div>
     );
   }
+  if (!infoUser) {
+    return (
+      <div className={styles['profile-page']}>
+        <div className={classes.root}>
+          <Redirect to="/login" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles['profile-page']}>
       {infoUser && (
