@@ -1,4 +1,5 @@
 $grey-text: #828282;
+$black-text: #000;
 
 .user-avatar_small {
   width: 30px;
@@ -10,6 +11,13 @@ $grey-text: #828282;
   display: flex;
   width: 100%;
   margin-top: 1em;
+}
+
+.user-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: $black-text;
 }
 
 .comment-info-container {

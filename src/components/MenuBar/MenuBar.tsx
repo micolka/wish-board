@@ -13,18 +13,19 @@ import type { FunctionComponent, MouseEvent, HTMLAttributes } from 'react';
 import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import AddWish from '@/components/AddWish';
 import Avatar from '@/components/Avatar';
 import styles from '@/components/MenuBar/MenuBar.scss';
 import { loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
-
-import dataCreator from './data';
+import { TUser } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      width: 1280,
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -37,11 +38,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
-  const { token, username, logout } = useContext(AuthContext);
-  const { openAddWishWindow } = useContext(AddWishWindowContext);
+  const { id, token, avatar, username, logout } = useContext(AuthContext);
+  const { openAddWishWindow, isAddWishWindowOpen } = useContext(AddWishWindowContext);
   const profileHref = username ? `/@${username}` : null;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const user = {
+    id,
+    username,
+    avatar: {
+      small: avatar.small,
+      normal: avatar.small,
+    },
+  } as TUser;
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -82,7 +92,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         size="small"
       >
         {/* <AccountCircle /> */}
-        <Avatar size="normal" user={dataCreator} />
+        {id && token && avatar && username ? <Avatar size="normal" user={user} /> : ''}
       </IconButton>
       <Menu
         id="menu-appbar"
@@ -125,8 +135,8 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   );
 
   return (
-    <div className={styles['menu']}>
-      <AppBar position="static">
+    <AppBar position="static">
+      <div className={styles['menu']}>
         <Toolbar>
           {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
@@ -138,8 +148,9 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           </Typography>
           {menuBar}
         </Toolbar>
-      </AppBar>
-    </div>
+      </div>
+      {isAddWishWindowOpen ? <AddWish /> : ''}
+    </AppBar>
   );
 };
 

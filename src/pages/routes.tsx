@@ -35,6 +35,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
       <Route path="/registration" exact component={RegisterPage} />
       <Route path="/wish/@:nickname/:wishId" exact component={SingleWish} />
       <Route path="/@:nickname" exact component={ProfilePage} />
+      <Route exact path="/404" component={NotFoundPage} />
       <Route exact path="*">
         <Redirect to="/404" />
       </Route>

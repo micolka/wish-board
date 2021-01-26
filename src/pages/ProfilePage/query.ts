@@ -53,6 +53,7 @@ const FETCH_WISHES_QUERY = gql`
       user {
         id
         email
+        username
         avatar {
           small
           normal

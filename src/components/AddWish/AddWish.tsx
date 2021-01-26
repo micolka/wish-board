@@ -230,7 +230,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
 
   return (
     <React.Fragment>
-      <div className={styles['home-page-cover']} />
+      <div className={styles['wish-window-cover']} />
       <div className={styles['addWish_wrapper']}>
         <div className={styles['addWish_content']}>
           <div className={styles['addWish_content_header']}>

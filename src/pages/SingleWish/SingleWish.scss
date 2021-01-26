@@ -1,4 +1,6 @@
 $grey-text: #828282;
+$black-text: #000;
+$color-hover: #ffdd40;
 $light-grey-border: #ebebeb;
 $wish-background-color: #f7f7f7;
 
@@ -15,7 +17,7 @@ $wish-background-color: #f7f7f7;
   flex-direction: column;
   width: 80%;
   background-color: $wish-background-color;
-  color: black;
+  color: $black-text;
   .wish-nav {
     display: flex;
     margin: 1em;
@@ -26,7 +28,7 @@ $wish-background-color: #f7f7f7;
   text-decoration: none;
   display: flex;
   align-items: center;
-  color: black;
+  color: $black-text;
 }
 
 .wish-link:hover {
@@ -68,12 +70,18 @@ $wish-background-color: #f7f7f7;
   .user {
     display: flex;
     align-items: center;
+
+    .user-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: $black-text;
+    }
     .user-name {
       margin-right: 0.7em;
     }
     .user-name:hover {
-      color: red;
-      // text-decoration: underline;
+      color: $color-hover;
       cursor: pointer;
     }
   }

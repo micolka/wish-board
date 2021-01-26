@@ -1,21 +1,20 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Favorite, Check, Add } from '@material-ui/icons';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import type { RouteComponentProps } from 'react-router-dom';
 
-import AddingWishCard from '@/components/AddingWishCard';
 import Avatar from '@/components/Avatar';
 import Comments from '@/components/Comments/Comments';
 import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
-import { STAT_NAME, STAT_COLOR } from '@/constants';
+import { STAT_NAME, STAT_COLOR, MODAL_NAME } from '@/constants';
 import AuthContext from '@/context/AuthContext';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import FETCH_WISH_QUERY from '@/pages/SingleWish/query';
@@ -55,7 +54,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       normal: avatar.small,
     },
   } as TUser;
-  const { loading, data } = useQuery<TGetWish>(FETCH_WISH_QUERY, {
+  const [getWish, { called, loading, data }] = useLazyQuery<TGetWish>(FETCH_WISH_QUERY, {
     variables: {
       wishId,
       usernameOwner: nickname,
@@ -63,17 +62,24 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     },
   });
 
+  let isMounted = true;
+  useEffect(() => {
+    if (isMounted) {
+      getWish();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const wishData = data?.getWish as TDataWish;
-  if (!loading && wishData?.active.length < 1) {
-    const path = '/';
-    history.push(path);
-  }
+
   const goBack = () => {
     history.goBack();
   };
   const userWant = wishData?.active.length > 0 ? wishData?.active[0].user : ({} as TUser);
 
-  if (loading) {
+  if (loading || !called) {
     return (
       <div className={styles['wish-page']}>
         <div className={classes.root}>
@@ -106,8 +112,13 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
             <div className={styles['data-container']}>
               <div className={styles['data-container_top']}>
                 <div className={styles['user']}>
-                  <Avatar user={userWant} size="normal" />
-                  <span className={styles['user-name']}>{userWant.username}</span>
+                  <Link
+                    className={styles['user-link']}
+                    to={`/@${wishData.active[0].user.username}`}
+                  >
+                    <Avatar user={userWant} size="normal" />
+                    <span className={styles['user-name']}>{userWant.username}</span>
+                  </Link>
                   хочет
                 </div>
                 <div className={styles['button-container']}>
@@ -128,44 +139,40 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   text={`${wishData.likeCount} нравится`}
                   isActiveStat={!!wishData.isLike}
                   statName={STAT_NAME.like}
+                  modalTitle={wishData.isLike ? '' : ''}
+                  wishName={wishData.name}
                   wishId={wishData.id}
                   user={user}
                   color={STAT_COLOR.like}
                 >
                   <Favorite className={styles['like-icon']} />
                 </StatsItem>
-                <AddingWishCard
-                  nameModal="Добавляем в желания"
+                <StatsItem
+                  text={`${wishData.activeCount} хотят`}
+                  statName={STAT_NAME.active}
+                  modalTitle={wishData.isActive ? MODAL_NAME.activeDelete : MODAL_NAME.active}
+                  isActiveStat={!!wishData.isActive}
+                  wishId={wishData.id}
                   wishName={wishData.name}
-                  wishId={wishId}
+                  user={user}
+                  color={STAT_COLOR.active}
                 >
-                  <StatsItem
-                    text={`${wishData.activeCount} хотят`}
-                    statName={STAT_NAME.active}
-                    isActiveStat={!!wishData.isActive}
-                    wishId={wishData.id}
-                    user={user}
-                    color={STAT_COLOR.active}
-                  >
-                    <Add className={styles['add-icon']} />
-                  </StatsItem>
-                </AddingWishCard>
-                <AddingWishCard
-                  nameModal="Добавляем в исполненные"
+                  <Add className={styles['add-icon']} />
+                </StatsItem>
+                <StatsItem
+                  text={`${wishData.fulfilledCount} исполнено`}
+                  statName={STAT_NAME.fulfilled}
                   wishName={wishData.name}
-                  wishId={wishId}
+                  modalTitle={
+                    wishData.isFulfilled ? MODAL_NAME.fulfilledDelete : MODAL_NAME.fulfilled
+                  }
+                  isActiveStat={!!wishData.isFulfilled}
+                  wishId={wishData.id}
+                  user={user}
+                  color={STAT_COLOR.fulfilled}
                 >
-                  <StatsItem
-                    text={`${wishData.fulfilledCount} исполнено`}
-                    statName={STAT_NAME.fulfilled}
-                    isActiveStat={!!wishData.isFulfilled}
-                    wishId={wishData.id}
-                    user={user}
-                    color={STAT_COLOR.fulfilled}
-                  >
-                    <Check className={styles['check-icon']} />
-                  </StatsItem>
-                </AddingWishCard>
+                  <Check className={styles['check-icon']} />
+                </StatsItem>
               </div>
               <Comments
                 wishId={wishData.id}
@@ -177,7 +184,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
           </div>
         </div>
       ) : (
-        ''
+        <Redirect to="/" />
       )}
     </div>
   );

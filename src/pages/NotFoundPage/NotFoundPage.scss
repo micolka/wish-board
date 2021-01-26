@@ -1,6 +1,14 @@
 .not-found-page {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  min-height: calc(100vh - 128px);
+}
+
+.not-found-title {
+  display: flex;
   justify-content: center;
-  margin: 50px;
+  margin: 50px 0;
 }
