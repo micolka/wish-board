@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import classNames from 'classnames';
 import React, { Fragment, ReactNode, useContext, useEffect, useState } from 'react';
-import type { FunctionComponent, HTMLAttributes } from 'react';
+import type {FunctionComponent, HTMLAttributes, useState} from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AddingWishCard from '@/components/AddingWishCard';
