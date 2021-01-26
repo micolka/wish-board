@@ -1,5 +1,11 @@
 $light-grey-border: #ebebeb;
 
+button,
+button:active,
+button:focus {
+  outline: none;
+}
+
 .stats-item {
   margin-top: 0.5em;
   display: flex;
