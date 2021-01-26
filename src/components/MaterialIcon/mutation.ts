@@ -8,6 +8,15 @@ const LIKE_WISH = gql`
       likeCount
       likes {
         id
+        createdAt
+        user {
+          id
+          username
+          avatar {
+            small
+            normal
+          }
+        }
       }
     }
   }

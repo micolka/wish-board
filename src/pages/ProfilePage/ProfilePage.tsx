@@ -1,10 +1,10 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { Button, CircularProgress, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { CakeOutlined } from '@material-ui/icons';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
+import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 
 import Avatar from '@/components/Avatar';
 import SmallWish from '@/components/SmallWish';
@@ -33,15 +33,29 @@ type TSingleWishProps = RouteComponentProps<TWish> & HTMLAttributes<HTMLDivEleme
 const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   // eslint-disable-next-line react/destructuring-assignment
   const { nickname } = props.match.params;
-  const history = useHistory();
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
 
-  const { loading, data } = useQuery<TGetInfoUserByName>(FETCH_WISHES_QUERY, {
-    variables: {
-      usernameOwner: nickname,
-    },
-  });
+  const [getInfoUserByName, { called, loading, data }] = useLazyQuery<TGetInfoUserByName>(
+    FETCH_WISHES_QUERY,
+    {
+      variables: {
+        usernameOwner: nickname,
+      },
+      fetchPolicy: 'network-only',
+    }
+  );
+
+  let isMounted = true;
+  useEffect(() => {
+    if (isMounted) {
+      getInfoUserByName();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const dataInfo = data?.getInfoUserByName as TGetInfoUser;
   const infoUser = dataInfo?.user;
   const dataWishes = dataInfo?.wishes;
@@ -54,12 +68,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
 
   const personalData = infoUser?.personalData;
 
-  if (!loading && !dataInfo) {
-    const path = '/';
-    history.push(path);
-  }
-
-  if (loading) {
+  if (loading || !called) {
     return (
       <div className={styles['profile-page']}>
         <div className={classes.root}>
@@ -68,6 +77,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       </div>
     );
   }
+
   return (
     <div className={styles['profile-page']}>
       {dataWishes?.length > 0 && infoUser ? (
@@ -121,7 +131,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
           </div>
         </Fragment>
       ) : (
-        ''
+        <Redirect to="/login" />
       )}
     </div>
   );
