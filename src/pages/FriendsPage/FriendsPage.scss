@@ -7,130 +7,129 @@
   color: black;
   margin-top: 2em;
   margin-bottom: 1em;
-  .friends-page-container{
+  .friends-page-container {
     width: 80%;
   }
 }
 
-.friends-title{
+.friends-title {
   display: flex;
   align-items: center;
   line-height: 40px;
-  .friends{
+  .friends {
     color: #828282;
   }
 }
 
-nav{
+nav {
   margin: 1em 0;
 }
 
-.search-sort-container{
+.search-sort-container {
   display: flex;
-  .sort-container{
+  .sort-container {
     width: 20%;
   }
 }
 
-.friends-nav-list{
+.friends-nav-list {
   display: flex;
-  li:first-child{
+  li:first-child {
     list-style-type: none;
   }
-  li{
+  li {
     margin-right: 1.3em;
-    a{
+    a {
       font-size: 1.1em;
       line-height: 2em;
       text-decoration: none;
       color: #333;
-      transition: color .2s ease-in;
+      transition: color 0.2s ease-in;
     }
-    a:hover{
+    a:hover {
       color: red;
       text-decoration: underline;
     }
   }
 }
 
-.friends-container{
+.friends-container {
   margin-top: 2em;
 }
 
-.friend-container{
+.friend-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 0.7em;
 }
-.avatar-login-container{
+.avatar-login-container {
   display: flex;
   align-items: center;
   color: black;
   text-decoration: none;
   width: 70%;
-  .friend-login{
+  .friend-login {
     font-weight: bold;
     margin-left: 1em;
   }
 }
 
-.people-icon{
+.people-icon {
   color: #828282;
 }
 
-.avatar-container{
+.avatar-container {
   margin-left: 1em;
-  .avatar{
+  .avatar {
     width: 50px;
   }
 }
-.birthday-container{
+.birthday-container {
   display: flex;
   align-items: center;
   width: 18%;
   color: #828282;
-  .cake-icon{
+  .cake-icon {
     margin-right: 0.4em;
     margin-bottom: 4px;
   }
 }
 
-@media(max-width: 700px) {
-  .search-sort-container{
+@media (max-width: 700px) {
+  .search-sort-container {
     flex-direction: column;
-    .sort-container{
+    .sort-container {
       width: 30%;
       margin-top: 1em;
     }
   }
-  .avatar-login-container{
+  .avatar-login-container {
     width: 50%;
   }
-  .birthday-container{
+  .birthday-container {
     width: 30%;
   }
-  .friends-title{
+  .friends-title {
     font-size: 1.1em;
   }
 }
 
-
-@media(max-width: 700px) {
-  .friends-page-container{
+@media (max-width: 700px) {
+  .friends-page-container {
     width: 90%;
   }
-  .avatar-login-container{
-    .friend-login{
+  .avatar-login-container {
+    .friend-login {
       font-size: 0.9em;
     }
   }
-  .friends-title h1{
+  .friends-title h1 {
     font-size: 1.4em;
   }
 }
 
-@media(max-width: 400px) {
+@media (max-width: 400px) {
   .friends-page-container {
     width: 98%;
   }

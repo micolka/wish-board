@@ -71,7 +71,8 @@ const StatsItem: FunctionComponent<StatsProps> = ({
         className={classNames(
           styles['stats-icon-border'],
           isStatsChecked ? styles['checked'] : styles['unchecked']
-        )}>
+        )}
+      >
         {children}
       </div>
       <span>{text}</span>
