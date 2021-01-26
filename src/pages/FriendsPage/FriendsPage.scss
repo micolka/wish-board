@@ -75,9 +75,13 @@ nav {
   }
 }
 
-.people-icon {
+.people-icon{
   color: #828282;
 }
+.people-icon:hover{
+  color: darkgray;
+}
+
 
 .avatar-container {
   margin-left: 1em;
