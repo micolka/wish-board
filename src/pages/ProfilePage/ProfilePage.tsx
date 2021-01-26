@@ -47,6 +47,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
         usernameOwner: nickname,
       },
       fetchPolicy: 'network-only',
+      nextFetchPolicy: 'cache-first',
     }
   );
 
