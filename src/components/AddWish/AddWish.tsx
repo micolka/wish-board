@@ -1,8 +1,26 @@
-import { RadioGroup, Radio, FormControlLabel, FormControl } from '@material-ui/core';
+import {
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  FormControl,
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+} from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  FormEvent,
+  ChangeEvent,
+  MutableRefObject,
+} from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/AddWish/AddWish.scss';
@@ -15,7 +33,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [selectedFile, setSelectedFile] = useState<string | Blob>('');
   const [Value, setValue] = useState('');
   const [Site, setSite] = useState('');
-  const [Currency, setCurrency] = useState(addwish.rub);
+  const [Currency, setCurrency] = useState('rub');
   const [Collection, setCollection] = useState('');
   const [Tag, setTag] = useState('');
   const [Visibility, setVisibility] = useState('All');
@@ -24,29 +42,29 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [ImageGradient, setImageGradient] = useState('');
   const { closeAddWishWindow } = useContext(AddWishWindowContext);
 
-  const hiddenFileInput = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+  const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const handleClick = (): void => {
-    if (hiddenFileInput) {
+    if (hiddenFileInput.current) {
       hiddenFileInput.current.click();
     }
   };
 
-  const ChangeWishName = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeWishName = (e: { currentTarget: { value: string } }): void => {
     setWishName(e.currentTarget.value);
   };
-  const ChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+  const ChangeDescription = (e: { currentTarget: { value: string } }): void => {
     setDescription(e.currentTarget.value);
   };
-  const ChangeValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeValue = (e: { currentTarget: { value: string } }): void => {
     setValue(e.currentTarget.value);
   };
-  const ChangeSite = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeSite = (e: { currentTarget: { value: string } }): void => {
     setSite(e.currentTarget.value);
   };
-  const ChangeCurrency = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    setCurrency(e.currentTarget.value);
+  const ChangeCurrency = (e: ChangeEvent<HTMLSelectElement>): void => {
+    setCurrency(e.target.value);
   };
-  const SelectFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const SelectFile = (e: { target: { files: Blob | null | FileList } }): void => {
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
     }
@@ -80,16 +98,16 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setFinalUrl('');
   };
 
-  const ChangeCollection = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeCollection = (e: { currentTarget: { value: string } }): void => {
     setCollection(e.currentTarget.value);
   };
-  const ChangeTag = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeTag = (e: { currentTarget: { value: string } }): void => {
     setTag(e.currentTarget.value);
   };
-  const ChangeVisibility = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeVisibility = (e: { currentTarget: { value: string } }): void => {
     setVisibility(e.currentTarget.value);
   };
-  const ChangeUrl = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeUrl = (e: { currentTarget: { value: string } }): void => {
     setUrl(e.currentTarget.value);
   };
   const resetData = (): void => {
@@ -114,7 +132,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     }
   };
 
-  const submitForm = (e: React.FormEvent<HTMLFormElement>): void => {
+  const submitForm = (e: FormEvent): void => {
     e.preventDefault();
     // eslint-disable-next-line no-console
     console.log(`WishName-${WishName}, Description-${Description}, selectedFile-${
@@ -175,7 +193,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     }
     setUrl('');
   };
-  const submitUrl = (e: React.FormEvent<HTMLFormElement>): void => {
+  const submitUrl = (e: FormEvent): void => {
     e.preventDefault();
     const checkImg = new Image();
     checkImg.src = Url;
@@ -223,39 +241,41 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               style={{ fontSize: 40 }}
             />
           </div>
-          <form onSubmit={submitForm}>
+          <form onSubmit={submitForm} className={styles['form']}>
             <div className={styles['wish_descriptions']}>
               <div>
-                <label htmlFor="descriptions">
-                  {addwish.name}
-                  <input
-                    type="text"
-                    required
-                    value={WishName}
-                    className={styles['wishName']}
-                    onChange={ChangeWishName}
-                    id="descriptions"
-                  />
-                </label>
+                <TextField
+                  onChange={ChangeWishName}
+                  style={{ marginBottom: '1em' }}
+                  value={WishName}
+                  margin="dense"
+                  required
+                  label={addwish.name}
+                  type="text"
+                  fullWidth
+                />
               </div>
               <div className={styles['desriptionOfWish']}>
-                <label htmlFor="description">
-                  {addwish.description}
-                  <textarea
-                    name="description"
-                    id="description"
-                    rows={8}
-                    value={Description}
-                    onChange={ChangeDescription}
-                  />
-                </label>
+                <TextField
+                  onChange={ChangeDescription}
+                  style={{ marginBottom: '1em' }}
+                  multiline
+                  rows={6}
+                  value={Description}
+                  label={addwish.description}
+                  fullWidth
+                  variant="outlined"
+                />
               </div>
               <div className={styles['addFile']}>
                 <label htmlFor="addFile">
                   {addwish.picture}
                   <br />
                   <div className={styles['addFileInformation']}>
-                    <ImageSearchOutlinedIcon onClick={handleClick} className={styles['uploadImg']} />
+                    <ImageSearchOutlinedIcon
+                      onClick={handleClick}
+                      className={styles['uploadImg']}
+                    />
                     <input
                       type="file"
                       accept="image/*"
@@ -272,44 +292,59 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               </div>
               <div className={styles['wishCost']}>
                 <div className={styles['cost']}>
-                  <label htmlFor="wishCost">
-                    {addwish.cost}
-                    <input
-                      type="text"
-                      className={styles['wishPrice']}
-                      onChange={ChangeValue}
-                      value={Value}
-                    />
-                  </label>
+                  <TextField
+                    onChange={ChangeValue}
+                    style={{ marginBottom: '1em' }}
+                    value={Value}
+                    margin="dense"
+                    label={addwish.cost}
+                    type="text"
+                    fullWidth
+                  />
                 </div>
                 <div className={styles['costCurrency']}>
-                  <label htmlFor="costCurrency">
-                    {addwish.currency}
-                    <select value={Currency} onChange={ChangeCurrency}>
-                      <option value="rub">{addwish.rub}</option>
-                      <option value="euro">&euro;</option>
-                      <option value="dollar">&#36;</option>
-                    </select>
-                  </label>
+                  <FormControl>
+                    <InputLabel id="currencyLabel">{addwish.currency}</InputLabel>
+                    <Select labelId="currencyLabel" value={Currency} onChange={ChangeCurrency}>
+                      <MenuItem value="rub">{addwish.rub}</MenuItem>
+                      <MenuItem value="euro">&euro;</MenuItem>
+                      <MenuItem value="dollar">&#36;</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
               </div>
               <div>
-                <label htmlFor="site">
-                  {addwish.site}
-                  <input type="text" value={Site} onChange={ChangeSite} />
-                </label>
+                <TextField
+                  onChange={ChangeSite}
+                  style={{ marginBottom: '1em' }}
+                  value={Site}
+                  margin="dense"
+                  label={addwish.site}
+                  type="text"
+                  fullWidth
+                />
               </div>
               <div>
-                <label htmlFor="collection">
-                  {addwish.collection}
-                  <input type="text" value={Collection} onChange={ChangeCollection} />
-                </label>
+                <TextField
+                  onChange={ChangeCollection}
+                  style={{ marginBottom: '1em' }}
+                  value={Collection}
+                  margin="dense"
+                  label={addwish.collection}
+                  type="text"
+                  fullWidth
+                />
               </div>
               <div>
-                <label htmlFor="tags">
-                  {addwish.tags}
-                  <input type="text" value={Tag} onChange={ChangeTag} />
-                </label>
+                <TextField
+                  onChange={ChangeTag}
+                  style={{ marginBottom: '1em' }}
+                  value={Tag}
+                  margin="dense"
+                  label={addwish.tags}
+                  type="text"
+                  fullWidth
+                />
               </div>
               <FormControl component="fieldset">
                 <RadioGroup
@@ -320,52 +355,92 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   onChange={ChangeVisibility}
                 >
                   <FormControlLabel value="All" control={<Radio />} label={visibility.all} />
-                  <FormControlLabel value="Friends" control={<Radio />} label={visibility.friends} />
+                  <FormControlLabel
+                    value="Friends"
+                    control={<Radio />}
+                    label={visibility.friends}
+                  />
                   <FormControlLabel value="OnlyMe" control={<Radio />} label={visibility.meOnly} />
                 </RadioGroup>
               </FormControl>
             </div>
             <div className={styles['submit_btns']}>
-              <div>
-                <button type="button" onClick={handleClose}>
-                  {addwish.cancel.toUpperCase()}
-                </button>
-              </div>
-              <div>
-                <button type="submit">{addwish.want}</button>
-              </div>
+              <Button
+                onClick={handleClose}
+                variant="outlined"
+                color="primary"
+                style={{
+                  boxShadow:
+                    '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
+                  color: 'black',
+                  margin: '0 0 1em 1em',
+                }}
+              >
+                {addwish.cancel.toUpperCase()}
+              </Button>
+              <Button
+                type="submit"
+                variant="outlined"
+                color="secondary"
+                style={{
+                  boxShadow:
+                    '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
+                  color: 'white',
+                  margin: '0 0 1em 1em',
+                }}
+              >
+                {addwish.want}
+              </Button>
             </div>
           </form>
           <div className={styles['addImageUrlContainer']} id="urlContainer">
             <div className={styles['addImageUrl']}>
-              <form onSubmit={submitUrl}>
+              <form onSubmit={submitUrl} className={styles['form']}>
                 <div className={styles['headerUrl']}>
                   <h2>{addwish.addUrl}</h2>
                   <Close className={styles['closeUrl']} onClick={closeUrl} />
                 </div>
-                <label htmlFor="url">
-                  <span>{addwish.url}</span>
-                  <span className={styles['badUrl']} id="badUrl">
-                    {addwish.badUrl}
-                  </span>
-                  <input
-                    type="text"
-                    required
-                    value={Url}
-                    className={styles['inputUrl']}
-                    onChange={ChangeUrl}
-                    id="url"
-                  />
-                </label>
+                <span className={styles['badUrl']} id="badUrl">
+                  {addwish.badUrl}
+                </span>
+                <TextField
+                  onChange={ChangeUrl}
+                  style={{ marginBottom: '1em' }}
+                  value={Url}
+                  margin="dense"
+                  id="url"
+                  required
+                  label={addwish.url}
+                  type="text"
+                  fullWidth
+                />
                 <div className={styles['submit_btns']}>
-                  <div>
-                    <button type="button" onClick={closeUrl}>
-                      {addwish.cancel}
-                    </button>
-                  </div>
-                  <div>
-                    <button type="submit">{addwish.send}</button>
-                  </div>
+                  <Button
+                    onClick={closeUrl}
+                    variant="outlined"
+                    color="primary"
+                    style={{
+                      boxShadow:
+                        '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
+                      color: 'black',
+                      margin: '0 0 1em 1em',
+                    }}
+                  >
+                    {addwish.cancel}
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    color="secondary"
+                    style={{
+                      boxShadow:
+                        '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
+                      color: 'white',
+                      margin: '0 0 1em 1em',
+                    }}
+                  >
+                    {addwish.send}
+                  </Button>
                 </div>
               </form>
             </div>

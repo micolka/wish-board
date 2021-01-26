@@ -56,7 +56,7 @@ const SCREEN_SIZES = {
 
 const addwish: IConstant = {
   IWant: 'Я хочу...',
-  name: 'Название *',
+  name: 'Название',
   description: 'Описание',
   picture: 'Изображение или цветной фон',
   cost: 'Стоимость?',
@@ -68,7 +68,7 @@ const addwish: IConstant = {
   cancel: 'Отмена',
   want: 'ХОЧУ',
   addUrl: 'Вставьте ссылку на изображение',
-  url: 'Ссылка *',
+  url: 'Ссылка',
   send: 'Отправить',
   badUrl: 'Неверная ссылка',
 };

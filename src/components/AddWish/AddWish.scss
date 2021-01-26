@@ -36,6 +36,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 50px;
 }
 
 .home-page-cover {
@@ -48,7 +49,7 @@
   opacity: 0.8;
 }
 
-form {
+.form {
   width: 100%;
 }
 
@@ -58,25 +59,7 @@ form {
   padding: 30px 30px 0;
 }
 
-input {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  outline: none;
-  border: none;
-  background: none;
-  border-bottom: 1px solid rgb(121, 121, 121);
-  width: 100%;
-}
-
-textarea {
-  outline: none;
-}
-
 .desriptionOfWish {
-  width: 100%;
-}
-
-.desriptionOfWish textarea {
   width: 100%;
 }
 
@@ -89,6 +72,7 @@ textarea {
   max-width: 300px;
   height: 200px;
   display: flex;
+  margin: 5px 0;
 }
 
 .foto {
@@ -140,13 +124,13 @@ textarea {
 }
 
 .submit_btns button {
-  width: 90px;
+  width: 95px;
   height: 30px;
   cursor: pointer;
 }
 
-.submit_btns div:last-child button {
-  background: rgb(255, 130, 130);
+.submit_btns button:last-child {
+  background: rgb(231, 76, 31);
   border: none;
 }
 
@@ -198,7 +182,7 @@ div .uploadImg:hover {
 }
 
 .addImageUrl {
-  width: 60%;
+  width: 70%;
   margin: 20vh auto;
   padding: 10px;
   background: rgb(255, 255, 255);
@@ -227,4 +211,7 @@ div .closeUrl {
   margin-left: 10%;
   color: rgb(255, 38, 38);
   display: none;
+}
+.addImageUrl .submit_btns {
+  margin: 0;
 }
