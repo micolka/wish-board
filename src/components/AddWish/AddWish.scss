@@ -25,7 +25,6 @@
     0 9px 46px 8px rgba(0, 0, 0, 0.12);
   overflow-y: scroll;
   height: calc(100% - 30px);
-  padding-top: 150px;
   margin: 15px;
 }
 
@@ -48,10 +47,6 @@
   background-color: white;
   opacity: 0.8;
   z-index: 50;
-}
-
-.form {
-  width: 100%;
 }
 
 .wish_descriptions {

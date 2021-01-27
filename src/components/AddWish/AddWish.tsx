@@ -116,7 +116,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setSelectedFile('');
     setValue('');
     setSite('');
-    setCurrency(addwish.rub);
+    setCurrency('rub');
     setCollection('');
     setTag('');
     setVisibility('All');
