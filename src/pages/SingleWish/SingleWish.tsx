@@ -60,6 +60,8 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       usernameOwner: nickname,
       usernameGuest: username,
     },
+    fetchPolicy: 'network-only',
+    // nextFetchPolicy: 'cache-first',
   });
 
   let isMounted = true;
@@ -68,6 +70,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       getWish();
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
@@ -85,6 +88,14 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
         <div className={classes.root}>
           <CircularProgress />
         </div>
+      </div>
+    );
+  }
+
+  if (userWant.username !== nickname) {
+    return (
+      <div className={styles['wish-page']}>
+        <Redirect to={`/@${nickname}`} />
       </div>
     );
   }

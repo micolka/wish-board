@@ -47,7 +47,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
         usernameOwner: nickname,
       },
       fetchPolicy: 'network-only',
-      nextFetchPolicy: 'cache-first',
+      // nextFetchPolicy: 'cache-first',
     }
   );
 
@@ -57,6 +57,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       getInfoUserByName();
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
@@ -167,9 +168,9 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
               >
                 <Masonry gutter="10px">
-                  {dataWishes.map(elem => (
-                    <SmallWish wishData={elem} key={elem.id} />
-                  ))}
+                  {dataWishes.map(
+                    elem => elem.active.length > 0 && <SmallWish wishData={elem} key={elem.id} />
+                  )}
                 </Masonry>
               </ResponsiveMasonry>
             </div>
