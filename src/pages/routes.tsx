@@ -8,6 +8,7 @@ import NotFoundPage from '@/pages/NotFoundPage';
 import FriendsPage from './FriendsPage';
 import ProfilePage from './ProfilePage';
 import RegisterPage from './RegistrationPage';
+import SettingsPage from './SettingsPage';
 import SingleWish from './SingleWish';
 
 const useRoutes = (isAuthenticated: boolean): JSX.Element =>
@@ -21,6 +22,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
         <Redirect to="/" />
       </Route>
       <Route path="/friends" exact component={FriendsPage} />
+      <Route path="/settings" exact component={SettingsPage} />
       <Route path="/wish/@:nickname/:wishId" exact component={SingleWish} />
       <Route path="/@:nickname" exact component={ProfilePage} />
       <Route exact path="/404" component={NotFoundPage} />

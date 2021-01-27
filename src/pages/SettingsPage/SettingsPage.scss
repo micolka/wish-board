@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
+
+.settings_page {
+  max-width: 1280px;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  min-height: calc(100vh - 228px);
+}
+
+.settings_page_info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  row-gap: 15px;
+}
+
+.settings_page_info-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.settings_page_info-name {
+  font-size: 34px;
+  line-height: 40px;
+  display: block;
+  color: #828282;
+  min-height: 40px;
+  font-family: 'Secular One', sans-serif;
+
+  .nickname {
+    color: #333333;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  .symbol {
+    font-size: 20px;
+    line-height: 24px;
+    color: #333333;
+    margin: 0 15px;
+    font-weight: 900;
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.settings_page-button {
+  width: fit-content;
+}
+
+.section-main {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+
+.sections-text {
+  font-size: 34px;
+  line-height: 40px;
+  display: block;
+  color: #333333;
+  min-height: 40px;
+  font-family: 'Secular One', sans-serif;
+}
+
+.settings_page-name-block {
+  display: flex;
+  column-gap: 10px;
+  margin-bottom: 20px;
+}

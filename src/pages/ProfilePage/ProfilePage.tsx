@@ -14,7 +14,7 @@ import AuthContext from '@/context/AuthContext';
 import { FETCH_INFO_USER } from '@/graphql/query';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
-import { formatUserName } from '@/utils/formaters';
+import { formatUserName } from '@/utils/formatters';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -177,14 +177,18 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
           ) : (
             <div className={styles['no_wishes_info-container']}>
               <div className={styles['no_wishes_info-text']}>No wishes added yet</div>
-              <Button
-                onClick={handleAddWish}
-                variant="outlined"
-                color="secondary"
-                className={styles['profile_page-button']}
-              >
-                Add Wish
-              </Button>
+              {username === infoUser?.username ? (
+                <Button
+                  onClick={handleAddWish}
+                  variant="outlined"
+                  color="secondary"
+                  className={styles['profile_page-button']}
+                >
+                  Add Wish
+                </Button>
+              ) : (
+                ''
+              )}
             </div>
           )}
         </Fragment>
