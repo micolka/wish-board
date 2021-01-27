@@ -187,9 +187,9 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
               </div>
               <Comments
                 wishId={wishData.id}
-                username={nickname}
+                usernameOwner={nickname}
                 comments={wishData.active[0].comments}
-                user={user}
+                userGuest={user}
               />
             </div>
           </div>

@@ -8,6 +8,24 @@ const ACTIVE_WISH = gql`
       isFulfilled
       activeCount
       fulfilledCount
+      active {
+        id
+        createdAt
+        visibility
+        fulfilled
+        comments {
+          body
+        }
+        commentCount
+        user {
+          id
+          username
+          avatar {
+            small
+            normal
+          }
+        }
+      }
     }
   }
 `;
@@ -31,8 +49,8 @@ const DELETE_WISH = gql`
 `;
 
 const DELETE_COMMENT = gql`
-  mutation deleteComment($wishId: ID!, $username: String!, $commentId: ID!) {
-    deleteComment(wishId: $wishId, username: $username, commentId: $commentId) {
+  mutation deleteComment($wishId: ID!, $usernameOwner: String!, $commentId: ID!) {
+    deleteComment(wishId: $wishId, usernameOwner: $usernameOwner, commentId: $commentId) {
       id
       active {
         comments {

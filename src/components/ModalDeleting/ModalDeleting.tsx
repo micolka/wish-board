@@ -57,13 +57,14 @@ const ModalDeleting: FunctionComponent<DeletingWishProps> = ({
         const data = proxy.readQuery<TGetWishes>({
           query: FETCH_WISHES_QUERY,
         });
+
         data!.getWishes = data!.getWishes.filter(wish => wish.id !== wishId);
         proxy.writeQuery({ query: FETCH_WISHES_QUERY, data });
       }
     },
     variables: {
       wishId,
-      username,
+      usernameOwner: username,
       commentId,
     },
   });

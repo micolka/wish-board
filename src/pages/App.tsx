@@ -53,6 +53,13 @@ const client = new ApolloClient({
           },
         },
       },
+      Active: {
+        fields: {
+          comments: {
+            merge: false,
+          },
+        },
+      },
     },
   }),
 });

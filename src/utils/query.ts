@@ -1,21 +1,16 @@
 import { gql } from '@apollo/client';
 
 const FETCH_WISH_QUERY = gql`
-  query getWish($wishId: ID!) {
-    getWish(wishId: $wishId) {
+  query getWish($wishId: ID!, $usernameOwner: String!, $usernameGuest: String) {
+    getWish(wishId: $wishId, usernameOwner: $usernameOwner, usernameGuest: $usernameGuest) {
+      isLike
+      isFulfilled
+      isActive
       id
       name
-      createdAt
-      creator {
-        id
-        username
-        avatar {
-          small
-        }
-      }
-      backgroundColor
       originURL
       description
+      backgroundColor
       image {
         small
         normal
@@ -24,33 +19,49 @@ const FETCH_WISH_QUERY = gql`
         value
         currency
       }
-      active {
-        username
-      }
       activeCount
-      comments {
+      fulfilledCount
+      likes {
         id
-        username
         createdAt
-        body
-        creator {
-          username
+        user {
           id
+          username
           avatar {
             small
+            normal
           }
         }
       }
-      commentCount
-      likes {
-        username
-        createdAt
-      }
       likeCount
-      fulfilled {
-        username
+      active {
+        id
+        createdAt
+        visibility
+        fulfilled
+        comments {
+          id
+          createdAt
+          body
+          user {
+            id
+            username
+            avatar {
+              small
+              normal
+            }
+          }
+        }
+        commentCount
+        user {
+          id
+          username
+          avatar {
+            small
+            normal
+          }
+        }
       }
-      fulfilledCount
     }
   }
 `;

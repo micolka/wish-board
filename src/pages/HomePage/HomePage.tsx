@@ -37,7 +37,7 @@ const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       usernameGuest: username,
     },
     fetchPolicy: 'network-only',
-    // nextFetchPolicy: 'cache-first',
+    nextFetchPolicy: 'cache-first',
   });
 
   let isMounted = true;
