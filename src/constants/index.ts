@@ -23,6 +23,8 @@ const MODAL_NAME: IConstant = {
   activeDelete: 'Удалить желание',
   fulfilledDelete: 'Удалить из исполненных',
   commentDelete: 'Удалить комментарий?',
+  cancel: 'Отменить',
+  notPossibleToRestore: 'Восстановить его не получится :(',
 };
 
 const STAT_NAME: IConstant = {
