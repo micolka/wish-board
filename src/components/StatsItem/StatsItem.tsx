@@ -32,7 +32,6 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   wishId,
   modalTitle,
   user,
-  color,
 }) => {
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
   const history = useHistory();

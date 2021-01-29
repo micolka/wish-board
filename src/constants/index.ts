@@ -25,6 +25,14 @@ const MODAL_NAME: IConstant = {
   commentDelete: 'Удалить комментарий?',
   cancel: 'Отменить',
   notPossibleToRestore: 'Восстановить его не получится :(',
+  friends: 'друзья',
+  subscriptions: 'подписки',
+  subscribers: 'подписчики',
+  sort: 'Отсортировать',
+  loginSort: ' ↓ По логину',
+  loginSortRevert: ' ↑ По логину',
+  birthdaySort: ' ↓ По дням рождения',
+  birthdaySortRevert: ' ↑ По дням рождения',
 };
 
 const STAT_NAME: IConstant = {

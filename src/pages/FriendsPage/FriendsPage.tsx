@@ -2,10 +2,12 @@ import { Grid, InputLabel, NativeSelect, TextField } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CakeIcon from '@material-ui/icons/Cake';
 import PeopleIcon from '@material-ui/icons/People';
-import React, { FunctionComponent, HTMLAttributes } from 'react';
+import React, {FunctionComponent, HTMLAttributes, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 
+import {MODAL_NAME} from '@/constants';
 import styles from '@/pages/FriendsPage/FriendsPage.scss';
+import {convertMonth, getDayBeforeBirthDay, nicksCompare} from '@/utils/sort';
 
 const user = {
   login: 'Vasya999',
@@ -59,77 +61,36 @@ const friends: IFriend[] = [
 
 const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [searchResults, setSearchResults] = React.useState([]);
+  const [searchResults, setSearchResults] = React.useState<Array<IFriend>>([]);
 
-  const getDayBeforeBirthDay = (birthDate: Date) => {
-    const today = new Date();
-    const bday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
-
-    if (today.getTime() > bday.getTime()) {
-      bday.setFullYear(bday.getFullYear() + 1);
-    }
-
-    return Math.floor((bday.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-  };
-
-  friends.map(friend => {
-    friend.daysToBirthday = getDayBeforeBirthDay(new Date(+friend.birthday));
-    return friend;
-  });
+  useEffect(() => {
+    friends.map(friend => {
+      friend.daysToBirthday = getDayBeforeBirthDay(new Date(+friend.birthday));
+      return friend;
+    });
+  }, []);
 
   const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
     setSearchTerm(event.target.value);
   };
 
   React.useEffect(() => {
-    const results: any = friends.filter((friend: IFriend) =>
+    const results: Array<IFriend> = friends.filter((friend: IFriend) =>
       friend.nickname.toLowerCase().includes(searchTerm)
     );
     setSearchResults(results);
   }, [searchTerm]);
 
-  const convertMonth = (numberOfMonth: number) => {
-    const months = [
-      ' января',
-      ' февраля',
-      ' марта',
-      ' апреля',
-      ' мая',
-      ' июня',
-      ' июля',
-      ' августа',
-      ' сентября',
-      ' октября',
-      ' ноября',
-      ' декабря',
-    ];
-    return months[numberOfMonth];
-  };
-
   const loginSort = () => {
-    const res = searchResults.sort((a: IFriend, b: IFriend) => {
-      if (a.nickname.toLowerCase() < b.nickname.toLowerCase()) {
-        return -1;
-      }
-      if (a.nickname.toLowerCase() > b.nickname.toLowerCase()) {
-        return 1;
-      }
-      return 0;
-    });
+    const res = searchResults.sort((a: IFriend, b: IFriend) =>
+      nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase()));
 
     setSearchResults([...res]);
   };
 
   const loginRevSort = () => {
-    const res = searchResults.sort((a: IFriend, b: IFriend) => {
-      if (a.nickname.toLowerCase() > b.nickname.toLowerCase()) {
-        return -1;
-      }
-      if (a.nickname.toLowerCase() < b.nickname.toLowerCase()) {
-        return 1;
-      }
-      return 0;
-    });
+    const res = searchResults.sort((a: IFriend, b: IFriend) =>
+      -nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase()));
 
     setSearchResults([...res]);
   };
@@ -164,7 +125,7 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setSearchResults([...res]);
   };
 
-  const changeSelectValue = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const changeSelectValue = (event: React.ChangeEvent<{ value: string }>) => {
     switch (event.target.value) {
       case 'login':
         return loginSort();
@@ -183,18 +144,18 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         <div className={styles['friends-title']}>
           <h1>{user.login}</h1>
           <ArrowForwardIosIcon />
-          <h2 className={styles['friends']}>Друзья</h2>
+          <h2 className={styles['friends']}>{MODAL_NAME.friends}</h2>
         </div>
         <nav>
           <ul className={styles['friends-nav-list']}>
             <li>
-              <Link to="/friends">друзья {friends.length}</Link>
+              <Link to="/friends">{`${MODAL_NAME.friends} ${friends.length}`}</Link>
             </li>
             <li>
-              <Link to="/friends">подписки</Link>
+              <Link to="/friends">{MODAL_NAME.subscriptions}</Link>
             </li>
             <li>
-              <Link to="/friends">подписчики</Link>
+              <Link to="/friends">{MODAL_NAME.subscribers}</Link>
             </li>
           </ul>
         </nav>
@@ -210,12 +171,12 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               />
             </Grid>
             <div className={styles['sort-container']}>
-              <InputLabel htmlFor="select">Отсортировать</InputLabel>
+              <InputLabel htmlFor="select">{MODAL_NAME.sort}</InputLabel>
               <NativeSelect id="select" onChange={changeSelectValue}>
-                <option value="login"> ↓ По логину</option>
-                <option value="loginRev"> ↑ По логину</option>
-                <option value="birthday"> ↓ По дням рождения</option>
-                <option value="birthdayRev"> ↑ По дням рождения</option>
+                <option value="login">{MODAL_NAME.loginSort}</option>
+                <option value="loginRev">{MODAL_NAME.loginSortRevert}</option>
+                <option value="birthday">{MODAL_NAME.birthdaySort}</option>
+                <option value="birthdayRev">{MODAL_NAME.birthdaySortRevert}</option>
               </NativeSelect>
             </div>
           </div>
