@@ -2,16 +2,13 @@ import { Grid, InputLabel, NativeSelect, TextField } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CakeIcon from '@material-ui/icons/Cake';
 import PeopleIcon from '@material-ui/icons/People';
-import React, {FunctionComponent, HTMLAttributes, useEffect} from 'react';
+import React, { FunctionComponent, HTMLAttributes, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import {MODAL_NAME} from '@/constants';
+import { MODAL_NAME } from '@/constants';
+import AuthContext from '@/context/AuthContext';
 import styles from '@/pages/FriendsPage/FriendsPage.scss';
-import {convertMonth, getDayBeforeBirthDay, nicksCompare} from '@/utils/sort';
-
-const user = {
-  login: 'Vasya999',
-};
+import { convertMonth, getDayBeforeBirthDay, nicksCompare } from '@/utils/sort';
 
 interface IFriend {
   nickname: string;
@@ -62,9 +59,11 @@ const friends: IFriend[] = [
 const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<Array<IFriend>>([]);
+  const { username } = useContext(AuthContext);
 
   useEffect(() => {
-    friends.map(friend => {
+    friends.map(elem => {
+      const friend = elem;
       friend.daysToBirthday = getDayBeforeBirthDay(new Date(+friend.birthday));
       return friend;
     });
@@ -83,14 +82,16 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
 
   const loginSort = () => {
     const res = searchResults.sort((a: IFriend, b: IFriend) =>
-      nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase()));
+      nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase())
+    );
 
     setSearchResults([...res]);
   };
 
   const loginRevSort = () => {
-    const res = searchResults.sort((a: IFriend, b: IFriend) =>
-      -nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase()));
+    const res = searchResults.sort(
+      (a: IFriend, b: IFriend) => -nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase())
+    );
 
     setSearchResults([...res]);
   };
@@ -142,7 +143,7 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     <div className={styles['friends-page']}>
       <div className={styles['friends-page-container']}>
         <div className={styles['friends-title']}>
-          <h1>{user.login}</h1>
+          <h1>{username}</h1>
           <ArrowForwardIosIcon />
           <h2 className={styles['friends']}>{MODAL_NAME.friends}</h2>
         </div>
