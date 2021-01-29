@@ -121,7 +121,9 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
               </div>
               <div className={styles['profile_info-socials']}>
                 {/* // !! создать страницу для спсков ниже. сделать переходы */}
-                <span>Friends</span>
+                <Link to="/friends">
+                  <span>Friends</span>
+                </Link>
                 <span>&bull;</span>
                 <span>Subscribes</span>
                 <span>&bull;</span>

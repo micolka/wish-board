@@ -32,7 +32,6 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   wishId,
   modalTitle,
   user,
-  color,
 }) => {
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
   const history = useHistory();
@@ -70,7 +69,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({
         onKeyPress={() => {}}
         className={classNames(
           styles['stats-icon-border'],
-          isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
+          isStatsChecked ? styles['checked'] : styles['unchecked']
         )}
       >
         {children}
