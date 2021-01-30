@@ -19,6 +19,7 @@ import React, {
   FormEvent,
   ChangeEvent,
   MutableRefObject,
+  Fragment,
 } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 
@@ -141,7 +142,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className={styles['wish-window-cover']} />
       <div className={styles['addWish_wrapper']}>
         <div className={styles['addWish_content']}>
@@ -336,7 +337,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           )}
         </div>
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 };
 

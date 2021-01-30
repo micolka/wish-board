@@ -1,16 +1,25 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Button, TextField } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import classNames from 'classnames';
-import React, { useState, FormEvent } from 'react';
-// import type { FunctionComponent, HTMLAttributes } from 'react';
+import React, { useState, FormEvent, Fragment } from 'react';
+import type { FunctionComponent, HTMLAttributes, ReactNode, Dispatch, SetStateAction } from 'react';
 
 import styles from '@/components/AddWishUrlContainer/AddWishUrlContainer.scss';
 import { addWish } from '@/constants';
 
-const AddWishUrlContainer = (props: { open: any; url: any; gradient: any; file: any }) => {
+interface AddWishUrlContainerProps extends HTMLAttributes<HTMLDivElement> {
+  open: ReactNode;
+  url: ReactNode;
+  gradient: ReactNode;
+  file: ReactNode;
+}
+
+const AddWishUrlContainer: FunctionComponent<AddWishUrlContainerProps> = (props: {
+  open: Dispatch<SetStateAction<boolean>>;
+  url: Dispatch<SetStateAction<string>>;
+  gradient: Dispatch<SetStateAction<string>>;
+  file: Dispatch<SetStateAction<string | Blob>>;
+}) => {
   const [Url, setUrl] = useState('');
   const [BadUrl, setBadUrl] = useState(true);
   const ChangeUrl = (e: { currentTarget: { value: string } }): void => {
@@ -19,7 +28,7 @@ const AddWishUrlContainer = (props: { open: any; url: any; gradient: any; file: 
 
   const closeUrl = (): void => {
     setUrl('');
-    props.open('');
+    props.open(false);
   };
 
   const submitUrl = (e: FormEvent): void => {
@@ -45,14 +54,14 @@ const AddWishUrlContainer = (props: { open: any; url: any; gradient: any; file: 
         divElem.style.background = 'none';
       }
       setUrl('');
-      props.open('');
+      props.open(false);
       props.gradient('');
       props.file('');
     };
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className={styles['addImageUrlContainer']}>
         <div className={styles['addImageUrl']}>
           <form onSubmit={submitUrl} className={styles['form']}>
@@ -105,7 +114,7 @@ const AddWishUrlContainer = (props: { open: any; url: any; gradient: any; file: 
           </form>
         </div>
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 };
 
