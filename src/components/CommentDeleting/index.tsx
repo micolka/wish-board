@@ -1,3 +1,3 @@
-import CommentDeleting from '@/components/СommentDeleting/CommentDeleting';
+import CommentDeleting from '@/components/CommentDeleting/CommentDeleting';
 
 export default CommentDeleting;

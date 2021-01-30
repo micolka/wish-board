@@ -21,7 +21,6 @@ type StatsProps = {
   isActiveStat: boolean;
   user: TUser;
   color: string;
-  userCollections: Array<string>;
 };
 
 const StatsItem: FunctionComponent<StatsProps> = ({
