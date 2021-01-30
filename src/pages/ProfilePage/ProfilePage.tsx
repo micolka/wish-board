@@ -11,8 +11,8 @@ import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
-import { FETCH_INFO_USER } from '@/graphql/query';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
+import FETCH_WISHES_QUERY from '@/pages/ProfilePage/query';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
 import { formatUserName } from '@/utils/formatters';
 
@@ -41,13 +41,12 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const { openAddWishWindow } = useContext(AddWishWindowContext);
 
   const [getInfoUserByName, { called, loading, data }] = useLazyQuery<TGetInfoUserByName>(
-    FETCH_INFO_USER,
+    FETCH_WISHES_QUERY,
     {
       variables: {
         usernameOwner: nickname,
       },
       fetchPolicy: 'network-only',
-      // nextFetchPolicy: 'cache-first',
     }
   );
 
@@ -57,7 +56,6 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       getInfoUserByName();
     }
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
@@ -168,9 +166,9 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
               >
                 <Masonry gutter="10px">
-                  {dataWishes.map(
-                    elem => elem.active.length > 0 && <SmallWish wishData={elem} key={elem.id} />
-                  )}
+                  {dataWishes.map(elem => (
+                    <SmallWish wishData={elem} key={elem.id} />
+                  ))}
                 </Masonry>
               </ResponsiveMasonry>
             </div>
