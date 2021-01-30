@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const ACTIVE_WISH = gql`
+const ON_ACTIVE_WISH = gql`
   mutation activeWish($wishId: ID!, $visibility: String) {
     activeWish(wishId: $wishId, visibility: $visibility) {
       id
@@ -12,7 +12,7 @@ const ACTIVE_WISH = gql`
   }
 `;
 
-const FULFILLED_WISH = gql`
+const ON_FULFILLED_WISH = gql`
   mutation fulfilledWish($wishId: ID!, $visibility: String) {
     fulfilledWish(wishId: $wishId, visibility: $visibility) {
       id
@@ -24,4 +24,4 @@ const FULFILLED_WISH = gql`
   }
 `;
 
-export { ACTIVE_WISH, FULFILLED_WISH };
+export { ON_ACTIVE_WISH, ON_FULFILLED_WISH };

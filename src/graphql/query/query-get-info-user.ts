@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const FETCH_WISHES_QUERY = gql`
+const FETCH_INFO_USER = gql`
   query getInfoUserByName($usernameOwner: String!) {
     getInfoUserByName(usernameOwner: $usernameOwner) {
       wishes {
@@ -67,7 +67,7 @@ const FETCH_WISHES_QUERY = gql`
           hideYear
         }
         socialNetworks {
-          facebok
+          facebook
           vk
           odnoklassniki
         }
@@ -79,4 +79,4 @@ const FETCH_WISHES_QUERY = gql`
   }
 `;
 
-export default FETCH_WISHES_QUERY;
+export default FETCH_INFO_USER;

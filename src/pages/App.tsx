@@ -11,33 +11,29 @@ import { useHistory } from 'react-router-dom';
 
 import Footer from '@/components/Footer';
 import MenuBar from '@/components/MenuBar';
-import { AUTH_TOKEN, routeNamesMap } from '@/constants/';
+import { routeNamesMap } from '@/constants/';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
 import useAuth from '@/customHooks/auth.hook';
 import useWish from '@/customHooks/wish.hook';
-import { ILoginInput } from '@/types/AuthContext';
 
 import useRoutes from './routes';
 
-const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/',
-});
-
 // const httpLink = createHttpLink({
-//   uri: 'https://graphql-wishboard-server.herokuapp.com/',
+//   uri: 'http://localhost:5000/graphql',
+//   credentials: 'include',
 // });
 
-const authLink = setContext((_, { headers }) => {
-  const userData = JSON.parse(localStorage.getItem(AUTH_TOKEN)!) as ILoginInput;
-  const token = userData ? userData.token : null;
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    } as ApolloLink,
-  };
+const httpLink = createHttpLink({
+  uri: 'https://graphql-wishboard-server.herokuapp.com/graphql',
+  credentials: 'include',
 });
+
+const authLink = setContext((_, { headers }) => ({
+  headers: {
+    ...headers,
+  } as ApolloLink,
+}));
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
@@ -73,9 +69,9 @@ const handleChange = (routeName: string) => {
 };
 const App = (): JSX.Element => {
   const history = useHistory();
-  const { token, username, avatar, login, logout, id, ready } = useAuth();
+  const { username, avatar, login, logout, id, ready } = useAuth();
   const { isAddWishWindowOpen, openAddWishWindow, closeAddWishWindow } = useWish();
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!username;
   const routes = useRoutes(isAuthenticated);
   useEffect(
     () =>
@@ -92,7 +88,6 @@ const App = (): JSX.Element => {
     <ApolloProvider client={client}>
       <AuthContext.Provider
         value={{
-          token,
           username,
           avatar,
           login,

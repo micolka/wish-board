@@ -8,9 +8,9 @@ import { Link, useHistory } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
 import CommentItem from '@/components/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
-import ADD_COMMENT from '@/components/Comments/mutation';
 import DeleteButton from '@/components/DeleteButton';
 import { MODAL_NAME } from '@/constants';
+import { ADD_COMMENT } from '@/graphql/mutation';
 import { TComment, TUser } from '@/types/data';
 
 interface CommentsProps extends HTMLAttributes<HTMLDivElement> {

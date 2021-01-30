@@ -11,8 +11,8 @@ import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
+import { FETCH_INFO_USER } from '@/graphql/query';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
-import FETCH_WISHES_QUERY from '@/pages/ProfilePage/query';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
 import { formatUserName } from '@/utils/formaters';
 
@@ -41,7 +41,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const { openAddWishWindow } = useContext(AddWishWindowContext);
 
   const [getInfoUserByName, { called, loading, data }] = useLazyQuery<TGetInfoUserByName>(
-    FETCH_WISHES_QUERY,
+    FETCH_INFO_USER,
     {
       variables: {
         usernameOwner: nickname,

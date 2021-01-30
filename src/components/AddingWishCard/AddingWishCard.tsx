@@ -15,8 +15,8 @@ import { Close } from '@material-ui/icons';
 import React, { Fragment, useState } from 'react';
 import type { FunctionComponent, HTMLAttributes, SetStateAction, ReactNode } from 'react';
 
-import { ACTIVE_WISH, FULFILLED_WISH } from '@/components/AddingWishCard/mutation';
 import { visibility, MODAL_NAME } from '@/constants';
+import { ON_ACTIVE_WISH, ON_FULFILLED_WISH } from '@/graphql/mutation';
 
 interface AddingWishProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -35,11 +35,11 @@ const AddingWishCard: FunctionComponent<AddingWishProps> = ({
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(keys[0]);
 
-  const [activeWish] = useMutation(ACTIVE_WISH, {
+  const [activeWish] = useMutation(ON_ACTIVE_WISH, {
     variables: { wishId, visibility: value },
   });
 
-  const [fulfilledWish] = useMutation(FULFILLED_WISH, {
+  const [fulfilledWish] = useMutation(ON_FULFILLED_WISH, {
     variables: { wishId, visibility: value },
   });
 

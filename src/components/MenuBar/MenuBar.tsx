@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,6 +20,7 @@ import styles from '@/components/MenuBar/MenuBar.scss';
 import { loginConst, nameApp, registrationConst, addWishConst } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
+import { LOGOUT_USER } from '@/graphql/mutation/';
 import { TUser } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,11 +40,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
-  const { id, token, avatar, username, logout } = useContext(AuthContext);
+  const { id, avatar, username, logout } = useContext(AuthContext);
   const { openAddWishWindow, isAddWishWindowOpen } = useContext(AddWishWindowContext);
   const profileHref = username ? `/@${username}` : null;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const [logoutServer] = useMutation(LOGOUT_USER);
 
   const user = {
     id,
@@ -63,6 +67,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const handleLogout = () => {
     setAnchorEl(null);
     logout();
+    return logoutServer();
   };
 
   const handleClose = () => {
@@ -73,7 +78,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     openAddWishWindow();
   };
 
-  const menuBar = token ? (
+  const menuBar = username ? (
     <Fragment>
       <Button color="inherit" onClick={handleAddWish}>
         {addWishConst}
@@ -92,7 +97,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         size="small"
       >
         {/* <AccountCircle /> */}
-        {id && token && avatar && username ? <Avatar size="normal" user={user} /> : ''}
+        {id && avatar && username ? <Avatar size="normal" user={user} /> : ''}
       </IconButton>
       <Menu
         id="menu-appbar"

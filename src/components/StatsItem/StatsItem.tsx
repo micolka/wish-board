@@ -7,8 +7,8 @@ import { useHistory } from 'react-router-dom';
 import AddingWishCard from '@/components/AddingWishCard';
 import ModalDeleting from '@/components/ModalDeleting';
 import styles from '@/components/StatsItem/StatsItem.scss';
-import LIKE_WISH from '@/components/StatsItem/mutation';
 import { STAT_NAME } from '@/constants';
+import { LIKE_WISH } from '@/graphql/mutation';
 import { TUser } from '@/types/data';
 
 type StatsProps = {
