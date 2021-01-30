@@ -39,8 +39,9 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
   const { openAddWishWindow } = useContext(AddWishWindowContext);
+  const { logout } = useContext(AuthContext);
 
-  const [getInfoUserByName, { called, loading, data }] = useLazyQuery<TGetInfoUserByName>(
+  const [getInfoUserByName, { called, error, loading, data }] = useLazyQuery<TGetInfoUserByName>(
     FETCH_INFO_USER,
     {
       variables: {
@@ -61,6 +62,12 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       isMounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (error?.message === 'Invalid/Expired token') {
+      logout();
+    }
+  });
 
   const { username } = useContext(AuthContext);
   const dataInfo = data?.getInfoUserByName as TGetInfoUser;
@@ -94,6 +101,17 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       </div>
     );
   }
+
+  if (error?.message === 'Invalid/Expired token') {
+    return (
+      <div className={styles['profile-page']}>
+        <div className={classes.root}>
+          <Redirect to="/login" />
+        </div>
+      </div>
+    );
+  }
+
   if (!infoUser) {
     return (
       <div className={styles['profile-page']}>

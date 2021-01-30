@@ -76,7 +76,6 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   }, []);
 
   const wishData = data?.getWish as TDataWish;
-
   const goBack = () => {
     history.goBack();
   };

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { USER_KEY } from '@/constants/';
 import { IAvatar, IContextProps, IData, ILoginInput } from '@/types/AuthContext';
+import deleteUser from '@/utils/delete-user-info';
 
 const useAuth = (): IData => {
   const [username, setUsername] = useState<string | null>(null);
@@ -16,14 +17,11 @@ const useAuth = (): IData => {
     localStorage.setItem(USER_KEY, JSON.stringify(userData));
   }, []);
 
-  // const [logoutServer] = useMutation(LOGOUT_USER);
-
   const logout = useCallback(() => {
     setId(null);
     setAvatar({} as IAvatar);
     setUsername(null);
-    localStorage.removeItem(USER_KEY);
-    // logoutServer();
+    deleteUser();
   }, []);
 
   useEffect(() => {
