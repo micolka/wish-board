@@ -14,7 +14,6 @@ import CallMadeIcon from '@material-ui/icons/CallMade';
 import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
 import React, {
   useState,
-  useEffect,
   useContext,
   useRef,
   FormEvent,
@@ -107,27 +106,6 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const ChangeVisibility = (e: { currentTarget: { value: string } }): void => {
     setVisibility(e.currentTarget.value);
   };
-  const resetData = (): void => {
-    setWishName('');
-    setDescription('');
-    setSelectedFile('');
-    setValue('');
-    setSite('');
-    setCurrency('rub');
-    setCollection('');
-    setTag('');
-    setVisibility('All');
-    setFinalUrl('');
-    setImageGradient('');
-    const image: HTMLElement | null = document.getElementById('image');
-    if (image) {
-      image.remove();
-    }
-    const divElem: HTMLElement | null = document.getElementById('preview');
-    if (divElem) {
-      divElem.style.background = 'none';
-    }
-  };
   const submitForm = (e: FormEvent): void => {
     e.preventDefault();
     // eslint-disable-next-line no-console
@@ -136,39 +114,27 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     },
     Value-${Value}, Currency-${Currency}, Site-${Site}, Collection-${Collection}, Tag-${Tag},
     Visiblity-${Visibility}, url-${FinalUrl}, ImageGradient-${ImageGradient}`);
-    resetData();
-  };
-  const handleClose = (): void => {
-    resetData();
     closeAddWishWindow();
   };
-  useEffect(() => {
-    gradientsColor.forEach((el: string) => {
-      const gradient = document.createElement('div');
-      gradient.style.cssText = `width: 30px; height:30px; border-radius:100%; background:${el}; margin:5px; cursor:pointer; `;
-      const elem: HTMLElement | null = document.getElementById('gradients');
-      if (elem) {
-        elem.style.cssText = 'display:flex';
-        elem.append(gradient);
-      }
-      gradient.onclick = (): void => {
-        const prev: HTMLElement | null = document.getElementById('preview');
-        if (prev) {
-          if (document.getElementById('image')) {
-            const image: HTMLElement | null = document.getElementById('image');
-            if (image) {
-              image.remove();
-            }
-          }
-          prev.style.background = el;
-          setImageGradient(el);
-          setFinalUrl('');
-          setSelectedFile('');
+  const handleClose = (): void => {
+    closeAddWishWindow();
+  };
+  const ChangeGradient = (e: { currentTarget: { id: string } }): void => {
+    const el = e.currentTarget.id;
+    const prev: HTMLElement | null = document.getElementById('preview');
+    if (prev) {
+      if (document.getElementById('image')) {
+        const image: HTMLElement | null = document.getElementById('image');
+        if (image) {
+          image.remove();
         }
-      };
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      }
+      prev.style.background = el;
+      setImageGradient(el);
+      setFinalUrl('');
+      setSelectedFile('');
+    }
+  };
 
   const openUrl = (): void => {
     setOpenUrl(true);
@@ -232,6 +198,25 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                     />
                     <CallMadeIcon className={styles['uploadImg']} onClick={openUrl} />
                     <div id="gradients" className={styles['addFileGradients']} />
+                    {gradientsColor.map((el: string) => (
+                      // eslint-disable-next-line jsx-a11y/control-has-associated-label
+                      <div
+                        id={el}
+                        style={{
+                          width: '30px',
+                          height: '30px',
+                          borderRadius: '100%',
+                          background: `${el}`,
+                          margin: '5px',
+                          cursor: 'pointer',
+                        }}
+                        key={el}
+                        onClick={ChangeGradient}
+                        onKeyPress={() => {}}
+                        tabIndex={0}
+                        role="button"
+                      />
+                    ))}
                   </div>
                 </label>
                 <div id="preview" className={styles['filePreview']} />
