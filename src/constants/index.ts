@@ -57,7 +57,7 @@ const SCREEN_SIZES = {
   desktop: 2560,
 };
 
-const addwish: IConstant = {
+const addWish: IConstant = {
   IWant: 'Я хочу...',
   name: 'Название',
   description: 'Описание',
@@ -101,6 +101,6 @@ export {
   MODAL_NAME,
   STAT_NAME,
   STAT_COLOR,
-  addwish,
+  addWish,
   gradientsColor,
 };

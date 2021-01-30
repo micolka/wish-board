@@ -24,7 +24,8 @@ import React, {
 import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/AddWish/AddWish.scss';
-import { visibility, addwish, gradientsColor } from '@/constants';
+import AddWishUrlContainer from '@/components/AddWishUrlContainer';
+import { visibility, addWish, gradientsColor } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 
 const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
@@ -37,7 +38,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [Collection, setCollection] = useState('');
   const [Tag, setTag] = useState('');
   const [Visibility, setVisibility] = useState('All');
-  const [Url, setUrl] = useState('');
+  const [OpenUrl, setOpenUrl] = useState(false);
   const [FinalUrl, setFinalUrl] = useState('');
   const [ImageGradient, setImageGradient] = useState('');
   const { closeAddWishWindow } = useContext(AddWishWindowContext);
@@ -97,7 +98,6 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setImageGradient('');
     setFinalUrl('');
   };
-
   const ChangeCollection = (e: { currentTarget: { value: string } }): void => {
     setCollection(e.currentTarget.value);
   };
@@ -106,9 +106,6 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   };
   const ChangeVisibility = (e: { currentTarget: { value: string } }): void => {
     setVisibility(e.currentTarget.value);
-  };
-  const ChangeUrl = (e: { currentTarget: { value: string } }): void => {
-    setUrl(e.currentTarget.value);
   };
   const resetData = (): void => {
     setWishName('');
@@ -131,7 +128,6 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       divElem.style.background = 'none';
     }
   };
-
   const submitForm = (e: FormEvent): void => {
     e.preventDefault();
     // eslint-disable-next-line no-console
@@ -142,12 +138,10 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     Visiblity-${Visibility}, url-${FinalUrl}, ImageGradient-${ImageGradient}`);
     resetData();
   };
-
   const handleClose = (): void => {
     resetData();
     closeAddWishWindow();
   };
-
   useEffect(() => {
     gradientsColor.forEach((el: string) => {
       const gradient = document.createElement('div');
@@ -177,55 +171,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   }, []);
 
   const openUrl = (): void => {
-    const container: HTMLElement | null = document.getElementById('urlContainer');
-    if (container) {
-      container.style.display = 'block';
-    }
-    const check: HTMLElement | null = document.getElementById('badUrl');
-    if (check) {
-      check.style.display = 'none';
-    }
-  };
-  const closeUrl = (): void => {
-    const container: HTMLElement | null = document.getElementById('urlContainer');
-    if (container) {
-      container.style.display = 'none';
-    }
-    setUrl('');
-  };
-  const submitUrl = (e: FormEvent): void => {
-    e.preventDefault();
-    const checkImg = new Image();
-    checkImg.src = Url;
-    checkImg.onerror = (): void => {
-      const check: HTMLElement | null = document.getElementById('badUrl');
-      if (check) {
-        check.style.display = 'inline';
-      }
-    };
-    checkImg.onload = (): void => {
-      setFinalUrl(Url);
-      const image: HTMLElement | null = document.getElementById('image');
-      if (image) {
-        image.remove();
-      }
-      const divElem: HTMLElement | null = document.getElementById('preview');
-      const img: HTMLImageElement = document.createElement('img');
-      img.id = 'image';
-      img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';
-      img.src = Url;
-      if (divElem) {
-        divElem.appendChild(img);
-        divElem.style.background = 'none';
-      }
-      setUrl('');
-      const container: HTMLElement | null = document.getElementById('urlContainer');
-      if (container) {
-        container.style.display = 'none';
-      }
-      setImageGradient('');
-      setSelectedFile('');
-    };
+    setOpenUrl(true);
   };
 
   return (
@@ -234,7 +180,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       <div className={styles['addWish_wrapper']}>
         <div className={styles['addWish_content']}>
           <div className={styles['addWish_content_header']}>
-            <h1>{addwish.IWant}</h1>
+            <h1>{addWish.IWant}</h1>
             <Close
               className={styles['close-icon']}
               onClick={handleClose}
@@ -250,7 +196,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   value={WishName}
                   margin="dense"
                   required
-                  label={addwish.name}
+                  label={addWish.name}
                   type="text"
                   fullWidth
                 />
@@ -262,14 +208,14 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   multiline
                   rows={6}
                   value={Description}
-                  label={addwish.description}
+                  label={addWish.description}
                   fullWidth
                   variant="outlined"
                 />
               </div>
               <div className={styles['addFile']}>
                 <label htmlFor="addFile">
-                  {addwish.picture}
+                  {addWish.picture}
                   <br />
                   <div className={styles['addFileInformation']}>
                     <ImageSearchOutlinedIcon
@@ -297,16 +243,16 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                     style={{ marginBottom: '1em' }}
                     value={Value}
                     margin="dense"
-                    label={addwish.cost}
+                    label={addWish.cost}
                     type="text"
                     fullWidth
                   />
                 </div>
                 <div className={styles['costCurrency']}>
                   <FormControl>
-                    <InputLabel id="currencyLabel">{addwish.currency}</InputLabel>
+                    <InputLabel id="currencyLabel">{addWish.currency}</InputLabel>
                     <Select labelId="currencyLabel" value={Currency} onChange={ChangeCurrency}>
-                      <MenuItem value="rub">{addwish.rub}</MenuItem>
+                      <MenuItem value="rub">{addWish.rub}</MenuItem>
                       <MenuItem value="euro">&euro;</MenuItem>
                       <MenuItem value="dollar">&#36;</MenuItem>
                     </Select>
@@ -319,7 +265,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   style={{ marginBottom: '1em' }}
                   value={Site}
                   margin="dense"
-                  label={addwish.site}
+                  label={addWish.site}
                   type="text"
                   fullWidth
                 />
@@ -330,7 +276,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   style={{ marginBottom: '1em' }}
                   value={Collection}
                   margin="dense"
-                  label={addwish.collection}
+                  label={addWish.collection}
                   type="text"
                   fullWidth
                 />
@@ -341,7 +287,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   style={{ marginBottom: '1em' }}
                   value={Tag}
                   margin="dense"
-                  label={addwish.tags}
+                  label={addWish.tags}
                   type="text"
                   fullWidth
                 />
@@ -376,7 +322,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   margin: '0 0 1em 1em',
                 }}
               >
-                {addwish.cancel.toUpperCase()}
+                {addWish.cancel.toUpperCase()}
               </Button>
               <Button
                 type="submit"
@@ -389,62 +335,20 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   margin: '0 0 1em 1em',
                 }}
               >
-                {addwish.want}
+                {addWish.want}
               </Button>
             </div>
           </form>
-          <div className={styles['addImageUrlContainer']} id="urlContainer">
-            <div className={styles['addImageUrl']}>
-              <form onSubmit={submitUrl} className={styles['form']}>
-                <div className={styles['headerUrl']}>
-                  <h2>{addwish.addUrl}</h2>
-                  <Close className={styles['closeUrl']} onClick={closeUrl} />
-                </div>
-                <span className={styles['badUrl']} id="badUrl">
-                  {addwish.badUrl}
-                </span>
-                <TextField
-                  onChange={ChangeUrl}
-                  style={{ marginBottom: '1em' }}
-                  value={Url}
-                  margin="dense"
-                  id="url"
-                  required
-                  label={addwish.url}
-                  type="text"
-                  fullWidth
-                />
-                <div className={styles['submit_btns']}>
-                  <Button
-                    onClick={closeUrl}
-                    variant="outlined"
-                    color="primary"
-                    style={{
-                      boxShadow:
-                        '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
-                      color: 'black',
-                      margin: '0 0 1em 1em',
-                    }}
-                  >
-                    {addwish.cancel}
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant="outlined"
-                    color="secondary"
-                    style={{
-                      boxShadow:
-                        '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
-                      color: 'white',
-                      margin: '0 0 1em 1em',
-                    }}
-                  >
-                    {addwish.send}
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </div>
+          {OpenUrl ? (
+            <AddWishUrlContainer
+              open={setOpenUrl}
+              url={setFinalUrl}
+              gradient={setImageGradient}
+              file={setSelectedFile}
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </React.Fragment>
