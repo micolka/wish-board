@@ -7,7 +7,7 @@ import GithubIcon from '@/components/icons/GithubIcon';
 const Footer: FunctionComponent = () => (
   <div className={styles.footer}>
     <div className={styles['footer-container']}>
-      <div className="footer-text">2020</div>
+      <div className="footer-text">2021</div>
       <a
         className={styles['link-footer']}
         target="_blank"

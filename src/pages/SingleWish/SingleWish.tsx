@@ -19,6 +19,7 @@ import AuthContext from '@/context/AuthContext';
 import { FETCH_WISH_QUERY } from '@/graphql/query';
 import styles from '@/pages/SingleWish/SingleWish.scss';
 import { TUser, TDataWish, TGetWish } from '@/types/data';
+import { formatDate } from '@/utils/formatters';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -99,6 +100,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       </div>
     );
   }
+
   return (
     <div className={styles['wish-page']}>
       {wishData?.active.length > 0 ? (
@@ -138,7 +140,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
               </div>
               <h2 className={styles['product-name']}>{wishData.name}</h2>
               <div className={styles['product-info-container']}>
-                <span>{wishData.createdAt}</span>
+                <div>{formatDate(wishData.active[0].createdAt)}</div>
                 <a href={wishData.originURL} className={styles['link-container']}>
                   {wishData.originURL}
                   <CallMadeIcon className={styles['link-arrow']} />
