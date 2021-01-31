@@ -2,7 +2,14 @@ import { Button, TextField } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import classNames from 'classnames';
 import React, { useState, FormEvent, Fragment } from 'react';
-import type { FunctionComponent, HTMLAttributes, ReactNode, Dispatch, SetStateAction } from 'react';
+import type {
+  FunctionComponent,
+  HTMLAttributes,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+  MutableRefObject,
+} from 'react';
 
 import styles from '@/components/AddWishUrlContainer/AddWishUrlContainer.scss';
 import { addWish } from '@/constants';
@@ -12,6 +19,7 @@ interface AddWishUrlContainerProps extends HTMLAttributes<HTMLDivElement> {
   url: ReactNode;
   gradient: ReactNode;
   file: ReactNode;
+  previewRef: MutableRefObject<HTMLDivElement>;
 }
 
 const AddWishUrlContainer: FunctionComponent<AddWishUrlContainerProps> = (props: {
@@ -19,6 +27,7 @@ const AddWishUrlContainer: FunctionComponent<AddWishUrlContainerProps> = (props:
   url: Dispatch<SetStateAction<string>>;
   gradient: Dispatch<SetStateAction<string>>;
   file: Dispatch<SetStateAction<string | Blob>>;
+  previewRef: MutableRefObject<HTMLDivElement>;
 }) => {
   const [Url, setUrl] = useState('');
   const [BadUrl, setBadUrl] = useState(true);
@@ -44,7 +53,7 @@ const AddWishUrlContainer: FunctionComponent<AddWishUrlContainerProps> = (props:
       if (image) {
         image.remove();
       }
-      const divElem: HTMLElement | null = document.getElementById('preview');
+      const divElem = props.previewRef.current;
       const img: HTMLImageElement = document.createElement('img');
       img.id = 'image';
       img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';

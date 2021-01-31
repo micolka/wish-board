@@ -49,7 +49,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       hiddenFileInput.current.click();
     }
   };
-
+  const previewRef = useRef() as MutableRefObject<HTMLDivElement>;
   const ChangeWishName = (e: { currentTarget: { value: string } }): void => {
     setWishName(e.currentTarget.value);
   };
@@ -75,7 +75,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         image.remove();
       }
     }
-    const divElem: HTMLElement | null = document.getElementById('preview');
+    const divElem = previewRef.current;
     function preview(file: string | Blob) {
       const reader = new FileReader();
       reader.addEventListener('load', (event: ProgressEvent<FileReader>) => {
@@ -122,7 +122,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   };
   const ChangeGradient = (e: { currentTarget: { id: string } }): void => {
     const el = e.currentTarget.id;
-    const prev: HTMLElement | null = document.getElementById('preview');
+    const prev = previewRef.current;
     if (prev) {
       if (document.getElementById('image')) {
         const image: HTMLElement | null = document.getElementById('image');
@@ -220,7 +220,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                     ))}
                   </div>
                 </label>
-                <div id="preview" className={styles['filePreview']} />
+                <div id="preview" className={styles['filePreview']} ref={previewRef} />
               </div>
               <div className={styles['wishCost']}>
                 <div className={styles['cost']}>
@@ -331,6 +331,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               url={setFinalUrl}
               gradient={setImageGradient}
               file={setSelectedFile}
+              previewRef={previewRef}
             />
           ) : (
             ''
