@@ -71,9 +71,6 @@ const FETCH_INFO_USER = gql`
           vk
           odnoklassniki
         }
-        connectionsLists {
-          friends
-        }
       }
     }
   }

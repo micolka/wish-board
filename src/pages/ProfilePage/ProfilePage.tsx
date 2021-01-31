@@ -28,10 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type TWish = {
+type TUsername = {
   nickname: string;
 };
-type TSingleWishProps = RouteComponentProps<TWish> & HTMLAttributes<HTMLDivElement>;
+type TSingleWishProps = RouteComponentProps<TUsername> & HTMLAttributes<HTMLDivElement>;
 
 const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   // eslint-disable-next-line react/destructuring-assignment
@@ -64,7 +64,10 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   }, []);
 
   useEffect(() => {
-    if (error?.message === 'Invalid/Expired token') {
+    if (
+      error?.message === 'Invalid/Expired token' ||
+      error?.message === 'Authorization header must be provided'
+    ) {
       logout();
     }
   });
@@ -102,7 +105,10 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     );
   }
 
-  if (error?.message === 'Invalid/Expired token') {
+  if (
+    error?.message === 'Invalid/Expired token' ||
+    error?.message === 'Authorization header must be provided'
+  ) {
     return (
       <div className={styles['profile-page']}>
         <div className={classes.root}>
@@ -141,13 +147,17 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
               </div>
               <div className={styles['profile_info-socials']}>
                 {/* // !! создать страницу для спсков ниже. сделать переходы */}
-                <Link to="/friends">
+                <Link to={`/@${nickname}/friends`}>
                   <span>Friends</span>
                 </Link>
                 <span>&bull;</span>
-                <span>Subscribes</span>
+                <Link to={`/@${nickname}/subscribes`}>
+                  <span>Subscribes</span>
+                </Link>
                 <span>&bull;</span>
-                <span>Subscribers</span>
+                <Link to={`/@${nickname}/subscribers`}>
+                  <span>Subscribers</span>
+                </Link>
               </div>
               {username === infoUser?.username ? (
                 <Link className={styles['link']} to="/settings">

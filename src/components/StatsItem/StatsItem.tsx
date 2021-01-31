@@ -51,7 +51,10 @@ const StatsItem: FunctionComponent<StatsProps> = ({
 
   const [likeWish] = useMutation(LIKE_WISH, {
     onError(error) {
-      if (error?.message === 'Invalid/Expired token') {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
         logout();
         routeChange();
       }

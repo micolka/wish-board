@@ -49,7 +49,10 @@ const ModalDeleting: FunctionComponent<DeletingWishProps> = ({
 
   const [activeWish] = useMutation(DELETE_ACTIVE_WISH, {
     onError(error) {
-      if (error?.message === 'Invalid/Expired token') {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
         logout();
       }
     },
@@ -58,7 +61,10 @@ const ModalDeleting: FunctionComponent<DeletingWishProps> = ({
 
   const [fulfilledWish] = useMutation(DELETE_FULFILLED_WISH, {
     onError(error) {
-      if (error?.message === 'Invalid/Expired token') {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
         logout();
       }
     },
@@ -81,7 +87,10 @@ const ModalDeleting: FunctionComponent<DeletingWishProps> = ({
       }
     },
     onError(error) {
-      if (error?.message === 'Invalid/Expired token') {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
         logout();
       }
     },

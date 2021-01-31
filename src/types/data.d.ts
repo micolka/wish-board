@@ -128,3 +128,23 @@ export type TUserComment = {
 export type TImageAvatar = {
   small: string | null;
 };
+
+export type TGetFriends = {
+  getFriends: TFriend[];
+};
+
+export type TGetSubscribers = {
+  getSubscribers: TFriend[];
+};
+
+export type TGetSubscribes = {
+  getSubscribes: TFriend[];
+};
+
+export type TFriend = {
+  isFriend: boolean;
+  nickname: string;
+  birthday: string;
+  avatarSmall: string;
+  daysToBirthday?: number;
+};

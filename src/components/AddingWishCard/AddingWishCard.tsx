@@ -38,7 +38,10 @@ const AddingWishCard: FunctionComponent<AddingWishProps> = ({
   const { logout } = useContext(AuthContext);
   const [activeWish] = useMutation(ON_ACTIVE_WISH, {
     onError(error) {
-      if (error?.message === 'Invalid/Expired token') {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
         logout();
       }
     },
@@ -47,7 +50,10 @@ const AddingWishCard: FunctionComponent<AddingWishProps> = ({
 
   const [fulfilledWish] = useMutation(ON_FULFILLED_WISH, {
     onError(error) {
-      if (error?.message === 'Invalid/Expired token') {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
         logout();
       }
     },

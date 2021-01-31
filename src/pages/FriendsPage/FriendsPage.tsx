@@ -1,87 +1,96 @@
-import { Grid, InputLabel, NativeSelect, TextField } from '@material-ui/core';
+import { useLazyQuery } from '@apollo/client';
+import {
+  CircularProgress,
+  createStyles,
+  Grid,
+  InputLabel,
+  makeStyles,
+  NativeSelect,
+  TextField,
+  Theme,
+} from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CakeIcon from '@material-ui/icons/Cake';
 import PeopleIcon from '@material-ui/icons/People';
-import React, { FunctionComponent, HTMLAttributes, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import type { FunctionComponent, HTMLAttributes, ChangeEvent, SetStateAction } from 'react';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { MODAL_NAME } from '@/constants';
-import AuthContext from '@/context/AuthContext';
+import { FETCH_FRIENDS_QUERY } from '@/graphql/query';
 import styles from '@/pages/FriendsPage/FriendsPage.scss';
+import { TGetFriends, TFriend } from '@/types/data';
 import { convertMonth, getDayBeforeBirthDay, nicksCompare } from '@/utils/sort';
 
-interface IFriend {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      justifyContent: 'center',
+      '& > * + *': {
+        marginLeft: theme.spacing(2),
+      },
+    },
+  })
+);
+
+type TUsername = {
   nickname: string;
-  birthday: string;
-  avatarSmall: string;
-  daysToBirthday?: number;
-}
+};
 
-const friends: IFriend[] = [
-  {
-    nickname: 'aklyaksa2020',
-    birthday: '1407767771429',
-    avatarSmall:
-      'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
-  },
-  {
-    nickname: 'vika',
-    birthday: '807267771429',
-    avatarSmall:
-      'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
-  },
-  {
-    nickname: 'masha',
-    birthday: '1007267771429',
-    avatarSmall:
-      'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
-  },
-  {
-    nickname: 'katya',
-    birthday: '107267771400',
-    avatarSmall:
-      'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
-  },
-  {
-    nickname: 'hena',
-    birthday: '507267771429',
-    avatarSmall:
-      'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
-  },
-  {
-    nickname: 'Petya1999',
-    birthday: '907267771429',
-    avatarSmall:
-      'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png',
-  },
-];
+type TSingleWishProps = RouteComponentProps<TUsername> & HTMLAttributes<HTMLDivElement>;
 
-const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [searchResults, setSearchResults] = React.useState<Array<IFriend>>([]);
-  const { username } = useContext(AuthContext);
+const FriendsPage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
+  // eslint-disable-next-line react/destructuring-assignment
+  const { nickname } = props.match.params;
+  // eslint-disable-next-line react/destructuring-assignment
+  const categoryName = props.match.url.slice(nickname.length + 3);
+  const classes = useStyles();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState<Array<TFriend>>([]);
+
+  const [getFriends, { data }] = useLazyQuery<TGetFriends>(FETCH_FRIENDS_QUERY, {
+    variables: {
+      usernameOwner: nickname,
+      name: '',
+    },
+    fetchPolicy: 'network-only',
+  });
+
+  let isMounted = true;
+  useEffect(() => {
+    if (isMounted) {
+      getFriends();
+    }
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      isMounted = false;
+    };
+  }, []);
+
+  const friends = data?.getFriends as [TFriend];
 
   useEffect(() => {
-    friends.map(elem => {
+    friends?.map(elem => {
       const friend = elem;
       friend.daysToBirthday = getDayBeforeBirthDay(new Date(+friend.birthday));
       return friend;
     });
-  }, []);
+  }, [friends]);
 
-  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+  const handleChange = (event: { target: { value: SetStateAction<string> } }) => {
     setSearchTerm(event.target.value);
   };
 
-  React.useEffect(() => {
-    const results: Array<IFriend> = friends.filter((friend: IFriend) =>
+  useEffect(() => {
+    const results: Array<TFriend> = friends?.filter((friend: TFriend) =>
       friend.nickname.toLowerCase().includes(searchTerm)
     );
     setSearchResults(results);
-  }, [searchTerm]);
+  }, [searchTerm, friends]);
 
   const loginSort = () => {
-    const res = searchResults.sort((a: IFriend, b: IFriend) =>
+    const res = searchResults.sort((a: TFriend, b: TFriend) =>
       nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase())
     );
 
@@ -90,14 +99,14 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
 
   const loginRevSort = () => {
     const res = searchResults.sort(
-      (a: IFriend, b: IFriend) => -nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase())
+      (a: TFriend, b: TFriend) => -nicksCompare(a.nickname.toLowerCase(), b.nickname.toLowerCase())
     );
 
     setSearchResults([...res]);
   };
 
   const birthdaySort = () => {
-    const res = searchResults.sort((a: IFriend, b: IFriend) => {
+    const res = searchResults.sort((a: TFriend, b: TFriend) => {
       if (a.daysToBirthday && b.daysToBirthday) {
         if (a.daysToBirthday < b.daysToBirthday) {
           return -1;
@@ -112,7 +121,7 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   };
 
   const birthdayRevSort = () => {
-    const res = searchResults.sort((a: IFriend, b: IFriend) => {
+    const res = searchResults.sort((a: TFriend, b: TFriend) => {
       if (a.daysToBirthday && b.daysToBirthday) {
         if (a.daysToBirthday > b.daysToBirthday) {
           return -1;
@@ -126,7 +135,7 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setSearchResults([...res]);
   };
 
-  const changeSelectValue = (event: React.ChangeEvent<{ value: string }>) => {
+  const changeSelectValue = (event: ChangeEvent<{ value: string }>) => {
     switch (event.target.value) {
       case 'login':
         return loginSort();
@@ -139,24 +148,36 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     }
   };
 
+  if (!friends) {
+    return (
+      <div className={styles['profile-page']}>
+        <div className={classes.root}>
+          <CircularProgress />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles['friends-page']}>
       <div className={styles['friends-page-container']}>
         <div className={styles['friends-title']}>
-          <h1>{username}</h1>
+          <Link to={`/@${nickname}/`}>
+            <h2>{nickname}</h2>
+          </Link>
           <ArrowForwardIosIcon />
-          <h2 className={styles['friends']}>{MODAL_NAME.friends}</h2>
+          <h2 className={styles['friends']}>{categoryName}</h2>
         </div>
         <nav>
           <ul className={styles['friends-nav-list']}>
             <li>
-              <Link to="/friends">{`${MODAL_NAME.friends} ${friends.length}`}</Link>
+              <Link to={`/@${nickname}/friends`}>{`${MODAL_NAME.friends} ${friends.length}`}</Link>
             </li>
             <li>
-              <Link to="/friends">{MODAL_NAME.subscriptions}</Link>
+              <Link to={`/@${nickname}/subscribes`}>{MODAL_NAME.subscriptions}</Link>
             </li>
             <li>
-              <Link to="/friends">{MODAL_NAME.subscribers}</Link>
+              <Link to={`/@${nickname}/subscribers`}>{MODAL_NAME.subscribers}</Link>
             </li>
           </ul>
         </nav>
@@ -182,7 +203,7 @@ const FriendsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             </div>
           </div>
           <div className={styles['friends-container']}>
-            {searchResults.map((friend: IFriend) => (
+            {searchResults?.map((friend: TFriend) => (
               <div className={styles['friend-container']}>
                 <Link to="/@:profileId" className={styles['avatar-login-container']}>
                   <div className={styles['avatar-container']}>
