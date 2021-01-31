@@ -8,8 +8,8 @@ import type { RouteComponentProps } from 'react-router-dom';
 
 import AuthContext from '@/context/AuthContext';
 import useForm from '@/customHooks/form.hooks';
+import { LOGIN_USER } from '@/graphql/mutation';
 import styles from '@/pages/AuthPage/AuthPage.scss';
-import LOGIN_USER from '@/pages/AuthPage/mutation';
 import { IErrorsLogin, ILoginInput } from '@/types/AuthContext';
 import { IValues } from '@/types/customHooks';
 
@@ -44,7 +44,6 @@ const AuthPage: FunctionComponent<AuthPageProps> = ({ ...props }) => {
     update(_, { data: { login: userData } }) {
       const data = userData as ILoginInput;
       context.login({
-        token: data.token,
         id: data.id,
         username: data.username,
         avatar: data.avatar,

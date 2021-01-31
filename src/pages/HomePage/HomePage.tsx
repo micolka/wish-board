@@ -9,8 +9,8 @@ import { Redirect } from 'react-router-dom';
 import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
 import AuthContext from '@/context/AuthContext';
+import { FETCH_WISHES_QUERY } from '@/graphql/query';
 import styles from '@/pages/HomePage/HomePage.scss';
-import FETCH_WISHES_QUERY from '@/pages/HomePage/query';
 import { TDataWish, TGetWishes } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,6 +36,8 @@ const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       name: nameSearch,
       usernameGuest: username,
     },
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-first',
   });
 
   let isMounted = true;
@@ -44,12 +46,12 @@ const HomePage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       getWishes();
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
 
   const dataWishes = data?.getWishes as TDataWish[];
-
   if (loading || !called) {
     return (
       <div className={styles['home-page']}>

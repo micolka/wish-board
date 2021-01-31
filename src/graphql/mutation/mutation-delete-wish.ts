@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const ACTIVE_WISH = gql`
+const DELETE_ACTIVE_WISH = gql`
   mutation activeWish($wishId: ID!, $visibility: String) {
     activeWish(wishId: $wishId, visibility: $visibility) {
       id
@@ -8,11 +8,29 @@ const ACTIVE_WISH = gql`
       isFulfilled
       activeCount
       fulfilledCount
+      active {
+        id
+        createdAt
+        visibility
+        fulfilled
+        comments {
+          body
+        }
+        commentCount
+        user {
+          id
+          username
+          avatar {
+            small
+            normal
+          }
+        }
+      }
     }
   }
 `;
 
-const FULFILLED_WISH = gql`
+const DELETE_FULFILLED_WISH = gql`
   mutation fulfilledWish($wishId: ID!, $visibility: String) {
     fulfilledWish(wishId: $wishId, visibility: $visibility) {
       id
@@ -31,8 +49,8 @@ const DELETE_WISH = gql`
 `;
 
 const DELETE_COMMENT = gql`
-  mutation deleteComment($wishId: ID!, $username: String!, $commentId: ID!) {
-    deleteComment(wishId: $wishId, username: $username, commentId: $commentId) {
+  mutation deleteComment($wishId: ID!, $usernameOwner: String!, $commentId: ID!) {
+    deleteComment(wishId: $wishId, usernameOwner: $usernameOwner, commentId: $commentId) {
       id
       active {
         comments {
@@ -48,4 +66,4 @@ const DELETE_COMMENT = gql`
   }
 `;
 
-export { ACTIVE_WISH, FULFILLED_WISH, DELETE_WISH, DELETE_COMMENT };
+export { DELETE_ACTIVE_WISH, DELETE_FULFILLED_WISH, DELETE_WISH, DELETE_COMMENT };

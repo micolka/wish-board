@@ -49,7 +49,7 @@ const STAT_COLOR: IConstant = {
   comments: 'blue',
 };
 
-const AUTH_TOKEN = 'userData';
+const USER_KEY = 'userData';
 const nameApp = 'myWishBoard';
 const loginConst = 'login';
 const registrationConst = 'registration';
@@ -100,7 +100,7 @@ const gradientsColor: Array<string> = [
 
 export {
   routeNamesMap,
-  AUTH_TOKEN,
+  USER_KEY,
   nameApp,
   loginConst,
   friendsConst,

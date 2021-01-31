@@ -5,7 +5,6 @@ const LOGIN_USER = gql`
     login(username: $username, password: $password) {
       id
       username
-      token
       avatar {
         small
         normal

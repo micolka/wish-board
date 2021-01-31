@@ -8,8 +8,8 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import AuthContext from '@/context/AuthContext';
 import useForm from '@/customHooks/form.hooks';
+import { REGISTER_USER } from '@/graphql/mutation/';
 import styles from '@/pages/RegistrationPage/RegistrationPage.scss';
-import REGISTER_USER from '@/pages/RegistrationPage/mutation';
 import { IErrorsRegister, ILoginInput } from '@/types/AuthContext';
 
 const useStyles = makeStyles((theme: Theme) =>

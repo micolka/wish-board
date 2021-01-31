@@ -8,19 +8,24 @@ import { Link, useHistory } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
 import CommentItem from '@/components/CommentItem';
 import styles from '@/components/Comments/Comments.scss';
-import ADD_COMMENT from '@/components/Comments/mutation';
 import DeleteButton from '@/components/DeleteButton';
 import { MODAL_NAME } from '@/constants';
+import { ADD_COMMENT } from '@/graphql/mutation';
 import { TComment, TUser } from '@/types/data';
 
 interface CommentsProps extends HTMLAttributes<HTMLDivElement> {
   wishId: string;
-  username: string;
+  usernameOwner: string;
   comments: TComment[];
-  user: TUser;
+  userGuest: TUser;
 }
 
-const Comments: FunctionComponent<CommentsProps> = ({ wishId, username, comments, user }) => {
+const Comments: FunctionComponent<CommentsProps> = ({
+  wishId,
+  usernameOwner,
+  comments,
+  userGuest,
+}) => {
   const [comment, setComment] = useState('');
   const history = useHistory();
   const commentInputRef = useRef<HTMLInputElement | null>(null);
@@ -31,13 +36,13 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, username, comments
     },
     variables: {
       wishId,
-      username,
+      usernameOwner,
       body: comment,
     },
   });
 
   const routeChange = () => {
-    if (!user.id) {
+    if (!userGuest.id) {
       const path = '/login';
       history.push(path);
     }
@@ -55,9 +60,9 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, username, comments
         <span>Комментарии</span>
       </h3>
       <div className={styles['adding-comment-container']}>
-        {user.id ? (
-          <Link className={styles['user-link']} to={`/@${user.username}`}>
-            <Avatar user={user} size="normal" />
+        {userGuest.id ? (
+          <Link className={styles['user-link']} to={`/@${userGuest.username}`}>
+            <Avatar user={userGuest} size="normal" />
           </Link>
         ) : (
           ''
@@ -88,11 +93,11 @@ const Comments: FunctionComponent<CommentsProps> = ({ wishId, username, comments
       {comments?.map(comm => (
         <div className={styles['comment-item']} key={comm.id}>
           <CommentItem comment={comm} key={comm.id} />
-          {comm.user.id === user.id ? (
+          {comm.user.id === userGuest.id ? (
             <DeleteButton
               wishId={wishId}
               modalTitle={MODAL_NAME.commentDelete}
-              username={username}
+              username={usernameOwner}
               commentId={comm.id}
             />
           ) : (

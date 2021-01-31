@@ -16,8 +16,8 @@ import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
 import { STAT_NAME, STAT_COLOR, MODAL_NAME } from '@/constants';
 import AuthContext from '@/context/AuthContext';
+import { FETCH_WISH_QUERY } from '@/graphql/query';
 import styles from '@/pages/SingleWish/SingleWish.scss';
-import FETCH_WISH_QUERY from '@/pages/SingleWish/query';
 import { TUser, TDataWish, TGetWish } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,6 +60,8 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       usernameOwner: nickname,
       usernameGuest: username,
     },
+    fetchPolicy: 'network-only',
+    // nextFetchPolicy: 'cache-first',
   });
 
   let isMounted = true;
@@ -68,6 +70,7 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       getWish();
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
@@ -85,6 +88,14 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
         <div className={classes.root}>
           <CircularProgress />
         </div>
+      </div>
+    );
+  }
+
+  if (userWant.username !== nickname) {
+    return (
+      <div className={styles['wish-page']}>
+        <Redirect to={`/@${nickname}`} />
       </div>
     );
   }
@@ -176,9 +187,9 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
               </div>
               <Comments
                 wishId={wishData.id}
-                username={nickname}
+                usernameOwner={nickname}
                 comments={wishData.active[0].comments}
-                user={user}
+                userGuest={user}
               />
             </div>
           </div>
