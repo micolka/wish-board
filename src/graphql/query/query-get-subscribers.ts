@@ -5,6 +5,11 @@ const FETCH_SUBSCRIBERS_QUERY = gql`
     getSubscribers(usernameOwner: $usernameOwner, name: $name) {
       id
       username
+      isFriend
+      birthday
+      avatar {
+        small
+      }
     }
   }
 `;

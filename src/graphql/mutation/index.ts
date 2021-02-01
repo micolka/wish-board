@@ -10,6 +10,7 @@ import LOGIN_USER from '@/graphql/mutation/mutation-login';
 import LOGOUT_USER from '@/graphql/mutation/mutation-logout';
 import { ON_ACTIVE_WISH, ON_FULFILLED_WISH } from '@/graphql/mutation/mutation-onclick-wish';
 import REGISTER_USER from '@/graphql/mutation/mutation-register-user';
+import SUBSCRIBE_USER from '@/graphql/mutation/mutation-subscribe';
 
 export {
   DELETE_ACTIVE_WISH,
@@ -23,4 +24,5 @@ export {
   ON_FULFILLED_WISH,
   ADD_COMMENT,
   LIKE_WISH,
+  SUBSCRIBE_USER,
 };

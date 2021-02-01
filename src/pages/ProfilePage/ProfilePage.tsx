@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Button, CircularProgress, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { CakeOutlined } from '@material-ui/icons';
 import React, { Fragment, useContext, useEffect } from 'react';
@@ -11,6 +11,7 @@ import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
+import { SUBSCRIBE_USER } from '@/graphql/mutation';
 import { FETCH_INFO_USER } from '@/graphql/query';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
@@ -52,6 +53,21 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     }
   );
 
+  const [clickSubscribe] = useMutation(SUBSCRIBE_USER, {
+    onError(err) {
+      if (
+        err?.message === 'Invalid/Expired token' ||
+        err?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
+    update() {},
+    variables: {
+      subscriptionUsername: nickname,
+    },
+  });
+
   let isMounted = true;
   useEffect(() => {
     if (isMounted) {
@@ -90,10 +106,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     openAddWishWindow();
   };
 
-  const handleUserSubscribe = () => {
-    // eslint-disable-next-line no-console
-    console.log(`user ${username as string} subscribes to ${infoUser?.username}`);
-  };
+  const handleUserSubscribe = () => clickSubscribe();
 
   if (loading || !called) {
     return (

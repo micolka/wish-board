@@ -137,14 +137,14 @@ export type TGetSubscribers = {
   getSubscribers: TFriend[];
 };
 
-export type TGetSubscribes = {
-  getSubscribes: TFriend[];
+export type TGetSubscriptions = {
+  getSubscriptions: TFriend[];
 };
 
 export type TFriend = {
   isFriend: boolean;
-  nickname: string;
+  username: string;
   birthday: string;
-  avatarSmall: string;
-  daysToBirthday?: number;
+  avatar: TAvatar;
+  daysToBirthday: number;
 };

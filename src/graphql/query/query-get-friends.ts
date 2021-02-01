@@ -5,6 +5,11 @@ const FETCH_FRIENDS_QUERY = gql`
     getFriends(usernameOwner: $usernameOwner, name: $name) {
       id
       username
+      isFriend
+      birthday
+      avatar {
+        small
+      }
     }
   }
 `;
