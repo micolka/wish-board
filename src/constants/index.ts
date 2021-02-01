@@ -67,9 +67,9 @@ const SCREEN_SIZES = {
   desktop: 2560,
 };
 
-const addwish: IConstant = {
+const addWish: IConstant = {
   IWant: 'Я хочу...',
-  name: 'Название *',
+  name: 'Название',
   description: 'Описание',
   picture: 'Изображение или цветной фон',
   cost: 'Стоимость?',
@@ -81,7 +81,7 @@ const addwish: IConstant = {
   cancel: 'Отмена',
   want: 'ХОЧУ',
   addUrl: 'Вставьте ссылку на изображение',
-  url: 'Ссылка *',
+  url: 'Ссылка',
   send: 'Отправить',
   badUrl: 'Неверная ссылка',
 };
@@ -111,6 +111,6 @@ export {
   MODAL_NAME,
   STAT_NAME,
   STAT_COLOR,
-  addwish,
+  addWish,
   gradientsColor,
 };

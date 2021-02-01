@@ -1,12 +1,31 @@
-import { RadioGroup, Radio, FormControlLabel, FormControl } from '@material-ui/core';
+import {
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  FormControl,
+  Button,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+} from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import CallMadeIcon from '@material-ui/icons/CallMade';
 import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+  useState,
+  useContext,
+  useRef,
+  FormEvent,
+  ChangeEvent,
+  MutableRefObject,
+  Fragment,
+} from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/AddWish/AddWish.scss';
-import { visibility, addwish, gradientsColor } from '@/constants';
+import AddWishUrlContainer from '@/components/AddWishUrlContainer';
+import { visibility, addWish, gradientsColor } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 
 const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
@@ -15,38 +34,38 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [selectedFile, setSelectedFile] = useState<string | Blob>('');
   const [Value, setValue] = useState('');
   const [Site, setSite] = useState('');
-  const [Currency, setCurrency] = useState(addwish.rub);
+  const [Currency, setCurrency] = useState('rub');
   const [Collection, setCollection] = useState('');
   const [Tag, setTag] = useState('');
   const [Visibility, setVisibility] = useState('All');
-  const [Url, setUrl] = useState('');
+  const [OpenUrl, setOpenUrl] = useState(false);
   const [FinalUrl, setFinalUrl] = useState('');
   const [ImageGradient, setImageGradient] = useState('');
   const { closeAddWishWindow } = useContext(AddWishWindowContext);
 
-  const hiddenFileInput = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+  const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const handleClick = (): void => {
-    if (hiddenFileInput) {
+    if (hiddenFileInput.current) {
       hiddenFileInput.current.click();
     }
   };
-
-  const ChangeWishName = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const previewRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const ChangeWishName = (e: { currentTarget: { value: string } }): void => {
     setWishName(e.currentTarget.value);
   };
-  const ChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
+  const ChangeDescription = (e: { currentTarget: { value: string } }): void => {
     setDescription(e.currentTarget.value);
   };
-  const ChangeValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeValue = (e: { currentTarget: { value: string } }): void => {
     setValue(e.currentTarget.value);
   };
-  const ChangeSite = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeSite = (e: { currentTarget: { value: string } }): void => {
     setSite(e.currentTarget.value);
   };
-  const ChangeCurrency = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    setCurrency(e.currentTarget.value);
+  const ChangeCurrency = (e: ChangeEvent<HTMLSelectElement>): void => {
+    setCurrency(e.target.value);
   };
-  const SelectFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const SelectFile = (e: { target: { files: Blob | null | FileList } }): void => {
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
     }
@@ -56,7 +75,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         image.remove();
       }
     }
-    const divElem: HTMLElement | null = document.getElementById('preview');
+    const divElem = previewRef.current;
     function preview(file: string | Blob) {
       const reader = new FileReader();
       reader.addEventListener('load', (event: ProgressEvent<FileReader>) => {
@@ -79,42 +98,16 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     setImageGradient('');
     setFinalUrl('');
   };
-
-  const ChangeCollection = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeCollection = (e: { currentTarget: { value: string } }): void => {
     setCollection(e.currentTarget.value);
   };
-  const ChangeTag = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeTag = (e: { currentTarget: { value: string } }): void => {
     setTag(e.currentTarget.value);
   };
-  const ChangeVisibility = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const ChangeVisibility = (e: { currentTarget: { value: string } }): void => {
     setVisibility(e.currentTarget.value);
   };
-  const ChangeUrl = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setUrl(e.currentTarget.value);
-  };
-  const resetData = (): void => {
-    setWishName('');
-    setDescription('');
-    setSelectedFile('');
-    setValue('');
-    setSite('');
-    setCurrency(addwish.rub);
-    setCollection('');
-    setTag('');
-    setVisibility('All');
-    setFinalUrl('');
-    setImageGradient('');
-    const image: HTMLElement | null = document.getElementById('image');
-    if (image) {
-      image.remove();
-    }
-    const divElem: HTMLElement | null = document.getElementById('preview');
-    if (divElem) {
-      divElem.style.background = 'none';
-    }
-  };
-
-  const submitForm = (e: React.FormEvent<HTMLFormElement>): void => {
+  const submitForm = (e: FormEvent): void => {
     e.preventDefault();
     // eslint-disable-next-line no-console
     console.log(`WishName-${WishName}, Description-${Description}, selectedFile-${
@@ -122,137 +115,74 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     },
     Value-${Value}, Currency-${Currency}, Site-${Site}, Collection-${Collection}, Tag-${Tag},
     Visiblity-${Visibility}, url-${FinalUrl}, ImageGradient-${ImageGradient}`);
-    resetData();
-  };
-
-  const handleClose = (): void => {
-    resetData();
     closeAddWishWindow();
   };
-
-  useEffect(() => {
-    gradientsColor.forEach((el: string) => {
-      const gradient = document.createElement('div');
-      gradient.style.cssText = `width: 30px; height:30px; border-radius:100%; background:${el}; margin:5px; cursor:pointer; `;
-      const elem: HTMLElement | null = document.getElementById('gradients');
-      if (elem) {
-        elem.style.cssText = 'display:flex';
-        elem.append(gradient);
-      }
-      gradient.onclick = (): void => {
-        const prev: HTMLElement | null = document.getElementById('preview');
-        if (prev) {
-          if (document.getElementById('image')) {
-            const image: HTMLElement | null = document.getElementById('image');
-            if (image) {
-              image.remove();
-            }
-          }
-          prev.style.background = el;
-          setImageGradient(el);
-          setFinalUrl('');
-          setSelectedFile('');
+  const handleClose = (): void => {
+    closeAddWishWindow();
+  };
+  const ChangeGradient = (e: { currentTarget: { id: string } }): void => {
+    const el = e.currentTarget.id;
+    const prev = previewRef.current;
+    if (prev) {
+      if (document.getElementById('image')) {
+        const image: HTMLElement | null = document.getElementById('image');
+        if (image) {
+          image.remove();
         }
-      };
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      }
+      prev.style.background = el;
+      setImageGradient(el);
+      setFinalUrl('');
+      setSelectedFile('');
+    }
+  };
 
   const openUrl = (): void => {
-    const container: HTMLElement | null = document.getElementById('urlContainer');
-    if (container) {
-      container.style.display = 'block';
-    }
-    const check: HTMLElement | null = document.getElementById('badUrl');
-    if (check) {
-      check.style.display = 'none';
-    }
-  };
-  const closeUrl = (): void => {
-    const container: HTMLElement | null = document.getElementById('urlContainer');
-    if (container) {
-      container.style.display = 'none';
-    }
-    setUrl('');
-  };
-  const submitUrl = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    const checkImg = new Image();
-    checkImg.src = Url;
-    checkImg.onerror = (): void => {
-      const check: HTMLElement | null = document.getElementById('badUrl');
-      if (check) {
-        check.style.display = 'inline';
-      }
-    };
-    checkImg.onload = (): void => {
-      setFinalUrl(Url);
-      const image: HTMLElement | null = document.getElementById('image');
-      if (image) {
-        image.remove();
-      }
-      const divElem: HTMLElement | null = document.getElementById('preview');
-      const img: HTMLImageElement = document.createElement('img');
-      img.id = 'image';
-      img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';
-      img.src = Url;
-      if (divElem) {
-        divElem.appendChild(img);
-        divElem.style.background = 'none';
-      }
-      setUrl('');
-      const container: HTMLElement | null = document.getElementById('urlContainer');
-      if (container) {
-        container.style.display = 'none';
-      }
-      setImageGradient('');
-      setSelectedFile('');
-    };
+    setOpenUrl(true);
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className={styles['wish-window-cover']} />
       <div className={styles['addWish_wrapper']}>
         <div className={styles['addWish_content']}>
           <div className={styles['addWish_content_header']}>
-            <h1>{addwish.IWant}</h1>
+            <h1>{addWish.IWant}</h1>
             <Close
               className={styles['close-icon']}
               onClick={handleClose}
               style={{ fontSize: 40 }}
             />
           </div>
-          <form onSubmit={submitForm}>
+          <form onSubmit={submitForm} className={styles['form']}>
             <div className={styles['wish_descriptions']}>
               <div>
-                <label htmlFor="descriptions">
-                  {addwish.name}
-                  <input
-                    type="text"
-                    required
-                    value={WishName}
-                    className={styles['wishName']}
-                    onChange={ChangeWishName}
-                    id="descriptions"
-                  />
-                </label>
+                <TextField
+                  onChange={ChangeWishName}
+                  style={{ marginBottom: '1em' }}
+                  value={WishName}
+                  margin="dense"
+                  required
+                  label={addWish.name}
+                  type="text"
+                  fullWidth
+                />
               </div>
               <div className={styles['desriptionOfWish']}>
-                <label htmlFor="description">
-                  {addwish.description}
-                  <textarea
-                    name="description"
-                    id="description"
-                    rows={8}
-                    value={Description}
-                    onChange={ChangeDescription}
-                  />
-                </label>
+                <TextField
+                  onChange={ChangeDescription}
+                  style={{ marginBottom: '1em' }}
+                  multiline
+                  rows={6}
+                  value={Description}
+                  label={addWish.description}
+                  fullWidth
+                  variant="outlined"
+                />
               </div>
               <div className={styles['addFile']}>
                 <label htmlFor="addFile">
-                  {addwish.picture}
+                  {addWish.picture}
                   <br />
                   <div className={styles['addFileInformation']}>
                     <ImageSearchOutlinedIcon
@@ -269,50 +199,84 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                     />
                     <CallMadeIcon className={styles['uploadImg']} onClick={openUrl} />
                     <div id="gradients" className={styles['addFileGradients']} />
+                    {gradientsColor.map((el: string) => (
+                      // eslint-disable-next-line jsx-a11y/control-has-associated-label
+                      <div
+                        id={el}
+                        style={{
+                          width: '30px',
+                          height: '30px',
+                          borderRadius: '100%',
+                          background: `${el}`,
+                          margin: '5px',
+                          cursor: 'pointer',
+                        }}
+                        key={el}
+                        onClick={ChangeGradient}
+                        onKeyPress={() => {}}
+                        tabIndex={0}
+                        role="button"
+                      />
+                    ))}
                   </div>
                 </label>
-                <div id="preview" className={styles['filePreview']} />
+                <div id="preview" className={styles['filePreview']} ref={previewRef} />
               </div>
               <div className={styles['wishCost']}>
                 <div className={styles['cost']}>
-                  <label htmlFor="wishCost">
-                    {addwish.cost}
-                    <input
-                      type="text"
-                      className={styles['wishPrice']}
-                      onChange={ChangeValue}
-                      value={Value}
-                    />
-                  </label>
+                  <TextField
+                    onChange={ChangeValue}
+                    style={{ marginBottom: '1em' }}
+                    value={Value}
+                    margin="dense"
+                    label={addWish.cost}
+                    type="text"
+                    fullWidth
+                  />
                 </div>
                 <div className={styles['costCurrency']}>
-                  <label htmlFor="costCurrency">
-                    {addwish.currency}
-                    <select value={Currency} onChange={ChangeCurrency}>
-                      <option value="rub">{addwish.rub}</option>
-                      <option value="euro">&euro;</option>
-                      <option value="dollar">&#36;</option>
-                    </select>
-                  </label>
+                  <FormControl>
+                    <InputLabel id="currencyLabel">{addWish.currency}</InputLabel>
+                    <Select labelId="currencyLabel" value={Currency} onChange={ChangeCurrency}>
+                      <MenuItem value="rub">{addWish.rub}</MenuItem>
+                      <MenuItem value="euro">&euro;</MenuItem>
+                      <MenuItem value="dollar">&#36;</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
               </div>
               <div>
-                <label htmlFor="site">
-                  {addwish.site}
-                  <input type="text" value={Site} onChange={ChangeSite} />
-                </label>
+                <TextField
+                  onChange={ChangeSite}
+                  style={{ marginBottom: '1em' }}
+                  value={Site}
+                  margin="dense"
+                  label={addWish.site}
+                  type="text"
+                  fullWidth
+                />
               </div>
               <div>
-                <label htmlFor="collection">
-                  {addwish.collection}
-                  <input type="text" value={Collection} onChange={ChangeCollection} />
-                </label>
+                <TextField
+                  onChange={ChangeCollection}
+                  style={{ marginBottom: '1em' }}
+                  value={Collection}
+                  margin="dense"
+                  label={addWish.collection}
+                  type="text"
+                  fullWidth
+                />
               </div>
               <div>
-                <label htmlFor="tags">
-                  {addwish.tags}
-                  <input type="text" value={Tag} onChange={ChangeTag} />
-                </label>
+                <TextField
+                  onChange={ChangeTag}
+                  style={{ marginBottom: '1em' }}
+                  value={Tag}
+                  margin="dense"
+                  label={addWish.tags}
+                  type="text"
+                  fullWidth
+                />
               </div>
               <FormControl component="fieldset">
                 <RadioGroup
@@ -333,53 +297,48 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               </FormControl>
             </div>
             <div className={styles['submit_btns']}>
-              <div>
-                <button type="button" onClick={handleClose}>
-                  {addwish.cancel.toUpperCase()}
-                </button>
-              </div>
-              <div>
-                <button type="submit">{addwish.want}</button>
-              </div>
+              <Button
+                onClick={handleClose}
+                variant="outlined"
+                color="primary"
+                style={{
+                  boxShadow:
+                    '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
+                  color: 'black',
+                  margin: '0 0 1em 1em',
+                }}
+              >
+                {addWish.cancel.toUpperCase()}
+              </Button>
+              <Button
+                type="submit"
+                variant="outlined"
+                color="secondary"
+                style={{
+                  boxShadow:
+                    '0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)',
+                  color: 'white',
+                  margin: '0 0 1em 1em',
+                }}
+              >
+                {addWish.want}
+              </Button>
             </div>
           </form>
-          <div className={styles['addImageUrlContainer']} id="urlContainer">
-            <div className={styles['addImageUrl']}>
-              <form onSubmit={submitUrl}>
-                <div className={styles['headerUrl']}>
-                  <h2>{addwish.addUrl}</h2>
-                  <Close className={styles['closeUrl']} onClick={closeUrl} />
-                </div>
-                <label htmlFor="url">
-                  <span>{addwish.url}</span>
-                  <span className={styles['badUrl']} id="badUrl">
-                    {addwish.badUrl}
-                  </span>
-                  <input
-                    type="text"
-                    required
-                    value={Url}
-                    className={styles['inputUrl']}
-                    onChange={ChangeUrl}
-                    id="url"
-                  />
-                </label>
-                <div className={styles['submit_btns']}>
-                  <div>
-                    <button type="button" onClick={closeUrl}>
-                      {addwish.cancel}
-                    </button>
-                  </div>
-                  <div>
-                    <button type="submit">{addwish.send}</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+          {OpenUrl ? (
+            <AddWishUrlContainer
+              open={setOpenUrl}
+              url={setFinalUrl}
+              gradient={setImageGradient}
+              file={setSelectedFile}
+              previewRef={previewRef}
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 };
 
