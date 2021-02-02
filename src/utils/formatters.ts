@@ -10,4 +10,9 @@ export const formatUserName = (personalData: TPersonalData): string => {
   return '';
 };
 
-export const formatDate = (): string => '';
+export const formatDate = (date: string): string =>
+  new Date(parseInt(date, 10)).toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });

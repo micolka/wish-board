@@ -12,10 +12,11 @@ import { SCREEN_SIZES } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
 import { SUBSCRIBE_USER } from '@/graphql/mutation';
-import { FETCH_INFO_USER } from '@/graphql/query';
+// import { FETCH_INFO_USER } from '@/graphql/query';
+import { FETCH_INFO_USER } from '@/graphql/query/index';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
-import { formatUserName } from '@/utils/formaters';
+import { formatUserName } from '@/utils/formatters';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,7 +50,6 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
         usernameOwner: nickname,
       },
       fetchPolicy: 'network-only',
-      // nextFetchPolicy: 'cache-first',
     }
   );
 
@@ -73,7 +73,6 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       getInfoUserByName();
     }
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
@@ -210,23 +209,27 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 columnsCountBreakPoints={{ [mobileM]: 1, [tablet]: 2, [laptop]: 3, [custom]: 4 }}
               >
                 <Masonry gutter="10px">
-                  {dataWishes.map(
-                    elem => elem.active.length > 0 && <SmallWish wishData={elem} key={elem.id} />
-                  )}
+                  {dataWishes.map(elem => (
+                    <SmallWish wishData={elem} key={elem.id} />
+                  ))}
                 </Masonry>
               </ResponsiveMasonry>
             </div>
           ) : (
             <div className={styles['no_wishes_info-container']}>
               <div className={styles['no_wishes_info-text']}>No wishes added yet</div>
-              <Button
-                onClick={handleAddWish}
-                variant="outlined"
-                color="secondary"
-                className={styles['profile_page-button']}
-              >
-                Add Wish
-              </Button>
+              {username === infoUser?.username ? (
+                <Button
+                  onClick={handleAddWish}
+                  variant="outlined"
+                  color="secondary"
+                  className={styles['profile_page-button']}
+                >
+                  Add Wish
+                </Button>
+              ) : (
+                ''
+              )}
             </div>
           )}
         </Fragment>

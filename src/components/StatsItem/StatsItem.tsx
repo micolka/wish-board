@@ -81,7 +81,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({
         onKeyPress={() => {}}
         className={classNames(
           styles['stats-icon-border'],
-          isStatsChecked ? styles[`checked-${color}`] : styles['unchecked']
+          isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
         )}
       >
         {children}

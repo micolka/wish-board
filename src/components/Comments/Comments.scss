@@ -1,23 +1,23 @@
-$light-grey-border: #ebebeb;
+@import '@/assets/stylesheets/variables';
 
-.user-avatar_small {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 0.7em;
-}
 .comments-container {
   border-top: 1px solid $light-grey-border;
-  margin-top: 2em;
+  margin: 2em 0;
   .comments-title {
     margin-top: 1em;
     display: flex;
     align-items: center;
   }
+
+  .comments-title span {
+    margin-left: 0.7em;
+  }
+
   .adding-comment-container {
     margin-top: 1em;
     display: flex;
     .write-send-container {
+      margin-left: 0.7em;
       display: flex;
       width: 100%;
       justify-content: space-between;
@@ -38,4 +38,29 @@ $light-grey-border: #ebebeb;
   display: flex;
   justify-content: space-around;
   width: 100%;
+}
+
+.user-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: $black-text;
+}
+
+@media (max-width: 540px) {
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    row-gap: 1em;
+  }
+  .comments-container {
+    .adding-comment-container {
+      .comment-button {
+        margin-left: 0;
+        width: fit-content;
+        align-self: flex-end;
+      }
+    }
+  }
 }

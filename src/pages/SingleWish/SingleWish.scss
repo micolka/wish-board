@@ -1,8 +1,4 @@
-$grey-text: #828282;
-$black-text: #000;
-$color-hover: #ffdd40;
-$light-grey-border: #ebebeb;
-$wish-background-color: #f7f7f7;
+@import '@/assets/stylesheets/variables';
 
 .wish-page {
   display: flex;
@@ -12,27 +8,29 @@ $wish-background-color: #f7f7f7;
   margin-top: 1em;
   min-height: calc(100vh - 128px - 1em);
 }
+
 .wish-wrapper {
   display: flex;
   flex-direction: column;
   width: 80%;
-  background-color: $wish-background-color;
+  background-color: $page-background-color;
   color: $black-text;
   .wish-nav {
     display: flex;
-    margin: 1em;
   }
 }
+
 .wish-link {
   font-size: 1.3em;
   text-decoration: none;
   display: flex;
   align-items: center;
   color: $black-text;
+  transition: all 0.2s ease-in;
 }
 
 .wish-link:hover {
-  color: #ffdd40;
+  color: $yellow-text;
   cursor: pointer;
 }
 
@@ -78,10 +76,11 @@ $wish-background-color: #f7f7f7;
       color: $black-text;
     }
     .user-name {
-      margin-right: 0.7em;
+      margin: 0 0.7em;
+      transition: all 0.2s ease-in;
     }
     .user-name:hover {
-      color: $color-hover;
+      color: $yellow-text;
       cursor: pointer;
     }
   }
@@ -91,6 +90,7 @@ $wish-background-color: #f7f7f7;
     line-height: 20px;
   }
   .product-info-container {
+    margin-top: 0.5em;
     display: flex;
     justify-content: space-between;
     color: $grey-text;
@@ -103,11 +103,15 @@ $wish-background-color: #f7f7f7;
       }
     }
   }
+  .product-name {
+    margin-top: 0.5em;
+  }
 
   .product-name:first-letter {
     text-transform: uppercase;
   }
 }
+
 @media (max-width: 1000px) {
   .wish-content {
     flex-direction: column;

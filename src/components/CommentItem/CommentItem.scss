@@ -1,12 +1,5 @@
-$grey-text: #828282;
-$black-text: #000;
+@import '@/assets/stylesheets/variables';
 
-.user-avatar_small {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 0.7em;
-}
 .wish-comment {
   display: flex;
   width: 100%;
@@ -24,6 +17,7 @@ $black-text: #000;
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-left: 0.7em;
   .comment-date {
     color: $grey-text;
     height: 20px;
