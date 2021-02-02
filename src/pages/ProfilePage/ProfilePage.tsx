@@ -40,7 +40,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
   const { openAddWishWindow } = useContext(AddWishWindowContext);
-  const { logout } = useContext(AuthContext);
+  const { username, logout } = useContext(AuthContext);
 
   const [getInfoUserByName, { called, error, loading, data }] = useLazyQuery<TGetInfoUserByName>(
     FETCH_INFO_USER,
@@ -88,7 +88,6 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     }
   });
 
-  const { username } = useContext(AuthContext);
   const dataInfo = data?.getInfoUserByName as TGetInfoUser;
   const infoUser = dataInfo?.user;
   const dataWishes = dataInfo?.wishes;
@@ -189,7 +188,10 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   color="secondary"
                   className={styles['profile_page-button']}
                 >
-                  Subscribe
+                  {!!infoUser?.connectionsLists.friends.find(item => item.username === username) ||
+                  !!infoUser?.connectionsLists.subscribers.find(item => item.username === username)
+                    ? 'unsubscribe'
+                    : 'Subscribe'}
                 </Button>
               )}
             </div>

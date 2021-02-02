@@ -110,9 +110,6 @@ const FriendsPage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
         getSubscriptions();
       }
     },
-    variables: {
-      subscriptionUsername: nickname,
-    },
   });
 
   let isMounted = true;
@@ -153,7 +150,12 @@ const FriendsPage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleClickSub = () => clickSubscribe();
+  const handleClickSub = (item: string) =>
+    clickSubscribe({
+      variables: {
+        subscriptionUsername: item,
+      },
+    });
 
   useEffect(() => {
     const results: Array<TFriend> = friends?.filter((friend: TFriend) =>
@@ -290,7 +292,7 @@ const FriendsPage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
           <div className={styles['friends-container']}>
             {searchResults?.map((friend: TFriend) => (
               <div className={styles['friend-container']} key={friend.username}>
-                <Link to="/@:profileId" className={styles['avatar-login-container']}>
+                <Link to={`/@${friend.username}`} className={styles['avatar-login-container']}>
                   <div className={styles['avatar-container']}>
                     <Avatar
                       user={{ username: friend.username, avatar: friend.avatar } as TUser}
@@ -308,7 +310,11 @@ const FriendsPage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   -го
                   {convertMonth(new Date(+friend.birthday).getMonth())}
                 </p>
-                <IconButton onClick={handleClickSub} aria-label="delete" className={classes.margin}>
+                <IconButton
+                  onClick={() => handleClickSub(friend.username)}
+                  aria-label="delete"
+                  className={classes.margin}
+                >
                   <MoreVertIcon fontSize="small" />
                 </IconButton>
               </div>

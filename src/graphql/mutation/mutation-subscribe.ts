@@ -5,7 +5,32 @@ const SUBSCRIBE_USER = gql`
     subscribeUser(subscriptionUsername: $subscriptionUsername) {
       id
       username
-      birthday
+      connectionsLists {
+        friends {
+          id
+          username
+          birthday
+          avatar {
+            small
+          }
+        }
+        subscriptions {
+          id
+          username
+          birthday
+          avatar {
+            small
+          }
+        }
+        subscribers {
+          id
+          username
+          birthday
+          avatar {
+            small
+          }
+        }
+      }
     }
   }
 `;

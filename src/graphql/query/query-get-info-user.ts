@@ -58,6 +58,32 @@ const FETCH_INFO_USER = gql`
           small
           normal
         }
+        connectionsLists {
+          friends {
+            id
+            username
+            birthday
+            avatar {
+              small
+            }
+          }
+          subscriptions {
+            id
+            username
+            birthday
+            avatar {
+              small
+            }
+          }
+          subscribers {
+            id
+            username
+            birthday
+            avatar {
+              small
+            }
+          }
+        }
         personalData {
           name
           surname

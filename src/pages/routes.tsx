@@ -27,7 +27,7 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
       <Route path="/@:nickname" exact component={ProfilePage} />
       <Route exact path="/404" component={NotFoundPage} />
       <Route exact path="*">
-        {/* <Redirect to="/404" /> */}
+        <Redirect to="/404" />
       </Route>
     </Switch>
   ) : (
