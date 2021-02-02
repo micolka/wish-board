@@ -73,6 +73,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       getInfoUserByName();
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
