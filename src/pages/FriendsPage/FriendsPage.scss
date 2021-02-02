@@ -1,12 +1,13 @@
 .friends-page {
   background-color: #f7f7f7;
-  min-height: calc(100vh - 194px);
+  min-height: calc(100vh - 128px);
   display: flex;
   flex-direction: column;
   align-items: center;
   color: black;
-  margin-top: 2em;
-  margin-bottom: 1em;
+  padding-top: 2em;
+  padding-bottom: 1em;
+
   .friends-page-container {
     width: 80%;
   }
@@ -16,6 +17,11 @@
   display: flex;
   align-items: center;
   line-height: 40px;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
   .friends {
     text-transform: capitalize;
     color: #828282;
@@ -51,6 +57,10 @@ nav {
       color: red;
       text-decoration: underline;
     }
+  }
+
+  .active {
+    text-decoration: underline;
   }
 }
 

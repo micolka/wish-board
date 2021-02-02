@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { FunctionComponent, HTMLAttributes } from 'react';
+import React, { Fragment } from 'react';
+import type { FunctionComponent, HTMLAttributes } from 'react';
 
 import styles from '@/components/WishImage/WishImage.scss';
 
@@ -10,15 +10,15 @@ interface ImageProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const WishImage: FunctionComponent<ImageProps> = ({ imageUrl, name, color }) => (
-  <React.Fragment>
+  <Fragment>
     {imageUrl ? (
       <img src={imageUrl} alt={name} />
     ) : (
-      <div className={styles.pseudo_image_container} style={{ backgroundColor: `${color}` }}>
+      <div className={styles.pseudo_image_container} style={{ background: `${color}` }}>
         <span className={styles.image_description}>{name}</span>
       </div>
     )}
-  </React.Fragment>
+  </Fragment>
 );
 
 export default WishImage;

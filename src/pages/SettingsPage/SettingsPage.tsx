@@ -13,8 +13,8 @@ import { Link, Redirect } from 'react-router-dom';
 
 import Avatar from '@/components/Avatar';
 import AuthContext from '@/context/AuthContext';
+import { FETCH_INFO_USER } from '@/graphql/query';
 import styles from '@/pages/SettingsPage/SettingsPage.scss';
-import FETCH_WISHES_QUERY from '@/pages/SettingsPage/query';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,8 +33,8 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
   const { username } = useContext(AuthContext);
 
-  const [getInfoUserByName, { called, loading, data }] = useLazyQuery<TGetInfoUserByName>(
-    FETCH_WISHES_QUERY,
+  const [getInfoUserByName, { called, error, loading, data }] = useLazyQuery<TGetInfoUserByName>(
+    FETCH_INFO_USER,
     {
       variables: {
         usernameOwner: username,
@@ -49,6 +49,7 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       getInfoUserByName();
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
@@ -79,6 +80,19 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       <div className={styles['profile-page']}>
         <div className={classes.root}>
           <CircularProgress />
+        </div>
+      </div>
+    );
+  }
+
+  if (
+    error?.message === 'Invalid/Expired token' ||
+    error?.message === 'Authorization header must be provided'
+  ) {
+    return (
+      <div className={styles['profile-page']}>
+        <div className={classes.root}>
+          <Redirect to="/login" />
         </div>
       </div>
     );

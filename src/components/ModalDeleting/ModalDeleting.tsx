@@ -5,10 +5,17 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import type { FunctionComponent, HTMLAttributes, ReactNode } from 'react';
-import React, { Fragment, useState } from 'react';
+import React, {
+  FunctionComponent,
+  HTMLAttributes,
+  ReactNode,
+  useContext,
+  Fragment,
+  useState,
+} from 'react';
 
 import { MODAL_NAME } from '@/constants';
+import AuthContext from '@/context/AuthContext';
 import {
   DELETE_ACTIVE_WISH,
   DELETE_FULFILLED_WISH,
@@ -34,16 +41,33 @@ const ModalDeleting: FunctionComponent<DeletingWishProps> = ({
   username,
 }) => {
   const [open, setOpen] = useState(false);
+  const { logout } = useContext(AuthContext);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const [activeWish] = useMutation(DELETE_ACTIVE_WISH, {
+    onError(error) {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
     variables: { wishId },
   });
 
   const [fulfilledWish] = useMutation(DELETE_FULFILLED_WISH, {
+    onError(error) {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
     variables: { wishId },
   });
 
@@ -62,6 +86,15 @@ const ModalDeleting: FunctionComponent<DeletingWishProps> = ({
         proxy.writeQuery({ query: FETCH_WISHES_QUERY, data });
       }
     },
+    onError(error) {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
+
     variables: {
       wishId,
       usernameOwner: username,

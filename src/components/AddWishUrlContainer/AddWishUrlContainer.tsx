@@ -18,7 +18,7 @@ interface AddWishUrlContainerProps extends HTMLAttributes<HTMLDivElement> {
   open: ReactNode;
   url: ReactNode;
   gradient: ReactNode;
-  file: ReactNode;
+  // file: ReactNode;
   previewRef: MutableRefObject<HTMLDivElement>;
 }
 
@@ -26,7 +26,7 @@ const AddWishUrlContainer: FunctionComponent<AddWishUrlContainerProps> = (props:
   open: Dispatch<SetStateAction<boolean>>;
   url: Dispatch<SetStateAction<string>>;
   gradient: Dispatch<SetStateAction<string>>;
-  file: Dispatch<SetStateAction<string | Blob>>;
+  // file: Dispatch<SetStateAction<string | Blob>>;
   previewRef: MutableRefObject<HTMLDivElement>;
 }) => {
   const [Url, setUrl] = useState('');
@@ -65,7 +65,7 @@ const AddWishUrlContainer: FunctionComponent<AddWishUrlContainerProps> = (props:
       setUrl('');
       props.open(false);
       props.gradient('');
-      props.file('');
+      // props.file('');
     };
   };
 

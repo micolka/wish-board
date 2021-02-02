@@ -33,7 +33,7 @@ const MaterialIcon: FunctionComponent<IconProps> = ({
 }) => {
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
   const history = useHistory();
-  const { id, username, avatar } = useContext(AuthContext);
+  const { id, username, avatar, logout } = useContext(AuthContext);
   const user = {
     id,
     username,
@@ -49,16 +49,25 @@ const MaterialIcon: FunctionComponent<IconProps> = ({
     } else setStatsChecked(false);
   }, [user.id, user.username, isActiveStat]);
 
-  const [likeWish] = useMutation(LIKE_WISH, {
-    variables: { wishId },
-  });
-
   const routeChange = () => {
     if (iconName !== STAT_NAME.comment) {
       const path = '/login';
       history.push(path);
     }
   };
+
+  const [likeWish] = useMutation(LIKE_WISH, {
+    onError(error) {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+        routeChange();
+      }
+    },
+    variables: { wishId },
+  });
 
   const StatsChecked = () => {
     if (user.id) {

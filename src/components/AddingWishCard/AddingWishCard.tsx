@@ -12,10 +12,11 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import type { FunctionComponent, HTMLAttributes, SetStateAction, ReactNode } from 'react';
 
 import { visibility, MODAL_NAME } from '@/constants';
+import AuthContext from '@/context/AuthContext';
 import { ON_ACTIVE_WISH, ON_FULFILLED_WISH } from '@/graphql/mutation';
 
 interface AddingWishProps extends HTMLAttributes<HTMLDivElement> {
@@ -34,12 +35,28 @@ const AddingWishCard: FunctionComponent<AddingWishProps> = ({
   const keys = Object.keys(visibility);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(keys[0]);
-
+  const { logout } = useContext(AuthContext);
   const [activeWish] = useMutation(ON_ACTIVE_WISH, {
+    onError(error) {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
     variables: { wishId, visibility: value },
   });
 
   const [fulfilledWish] = useMutation(ON_FULFILLED_WISH, {
+    onError(error) {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
     variables: { wishId, visibility: value },
   });
 

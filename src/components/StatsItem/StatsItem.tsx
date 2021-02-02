@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import classNames from 'classnames';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import type { FunctionComponent, ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import AddingWishCard from '@/components/AddingWishCard';
 import ModalDeleting from '@/components/ModalDeleting';
 import styles from '@/components/StatsItem/StatsItem.scss';
 import { STAT_NAME } from '@/constants';
+import AuthContext from '@/context/AuthContext';
 import { LIKE_WISH } from '@/graphql/mutation';
 import { TUser } from '@/types/data';
 
@@ -35,6 +36,7 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   color,
 }) => {
   const [isStatsChecked, setStatsChecked] = useState<boolean>(false);
+  const { logout } = useContext(AuthContext);
   const history = useHistory();
   useEffect(() => {
     if (user && isActiveStat) {
@@ -42,14 +44,23 @@ const StatsItem: FunctionComponent<StatsProps> = ({
     } else setStatsChecked(isActiveStat);
   }, [user, isActiveStat]);
 
-  const [likeWish] = useMutation(LIKE_WISH, {
-    variables: { wishId },
-  });
-
   const routeChange = () => {
     const path = '/login';
     history.push(path);
   };
+
+  const [likeWish] = useMutation(LIKE_WISH, {
+    onError(error) {
+      if (
+        error?.message === 'Invalid/Expired token' ||
+        error?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+        routeChange();
+      }
+    },
+    variables: { wishId },
+  });
 
   const StatsChecked = () => {
     if (user.id) {

@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Button, CircularProgress, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { CakeOutlined } from '@material-ui/icons';
 import React, { Fragment, useContext, useEffect } from 'react';
@@ -11,6 +11,8 @@ import SmallWish from '@/components/SmallWish';
 import { SCREEN_SIZES } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
+import { SUBSCRIBE_USER } from '@/graphql/mutation';
+// import { FETCH_INFO_USER } from '@/graphql/query';
 import { FETCH_INFO_USER } from '@/graphql/query/index';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
@@ -28,10 +30,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type TWish = {
+type TUsername = {
   nickname: string;
 };
-type TSingleWishProps = RouteComponentProps<TWish> & HTMLAttributes<HTMLDivElement>;
+type TSingleWishProps = RouteComponentProps<TUsername> & HTMLAttributes<HTMLDivElement>;
 
 const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   // eslint-disable-next-line react/destructuring-assignment
@@ -39,8 +41,9 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const classes = useStyles();
   const { mobileM, tablet, laptop, custom } = SCREEN_SIZES;
   const { openAddWishWindow } = useContext(AddWishWindowContext);
+  const { username, logout } = useContext(AuthContext);
 
-  const [getInfoUserByName, { called, loading, data }] = useLazyQuery<TGetInfoUserByName>(
+  const [getInfoUserByName, { called, error, loading, data }] = useLazyQuery<TGetInfoUserByName>(
     FETCH_INFO_USER,
     {
       variables: {
@@ -50,17 +53,40 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     }
   );
 
+  const [clickSubscribe] = useMutation(SUBSCRIBE_USER, {
+    onError(err) {
+      if (
+        err?.message === 'Invalid/Expired token' ||
+        err?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
+    variables: {
+      subscriptionUsername: nickname,
+    },
+  });
+
   let isMounted = true;
   useEffect(() => {
     if (isMounted) {
       getInfoUserByName();
     }
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isMounted = false;
     };
   }, []);
 
-  const { username } = useContext(AuthContext);
+  useEffect(() => {
+    if (
+      error?.message === 'Invalid/Expired token' ||
+      error?.message === 'Authorization header must be provided'
+    ) {
+      logout();
+    }
+  });
+
   const dataInfo = data?.getInfoUserByName as TGetInfoUser;
   const infoUser = dataInfo?.user;
   const dataWishes = dataInfo?.wishes;
@@ -78,10 +104,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     openAddWishWindow();
   };
 
-  const handleUserSubscribe = () => {
-    // eslint-disable-next-line no-console
-    console.log(`user ${username as string} subscribes to ${infoUser?.username}`);
-  };
+  const handleUserSubscribe = () => clickSubscribe();
 
   if (loading || !called) {
     return (
@@ -92,6 +115,20 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
       </div>
     );
   }
+
+  if (
+    error?.message === 'Invalid/Expired token' ||
+    error?.message === 'Authorization header must be provided'
+  ) {
+    return (
+      <div className={styles['profile-page']}>
+        <div className={classes.root}>
+          <Redirect to="/login" />
+        </div>
+      </div>
+    );
+  }
+
   if (!infoUser) {
     return (
       <div className={styles['profile-page']}>
@@ -121,13 +158,17 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
               </div>
               <div className={styles['profile_info-socials']}>
                 {/* // !! создать страницу для спсков ниже. сделать переходы */}
-                <Link to="/friends">
+                <Link to={`/@${nickname}/friends`}>
                   <span>Friends</span>
                 </Link>
                 <span>&bull;</span>
-                <span>Subscribes</span>
+                <Link to={`/@${nickname}/subscribes`}>
+                  <span>Subscribes</span>
+                </Link>
                 <span>&bull;</span>
-                <span>Subscribers</span>
+                <Link to={`/@${nickname}/subscribers`}>
+                  <span>Subscribers</span>
+                </Link>
               </div>
               {username === infoUser?.username ? (
                 <Link className={styles['link']} to="/settings">
@@ -146,7 +187,10 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   color="secondary"
                   className={styles['profile_page-button']}
                 >
-                  Subscribe
+                  {!!infoUser?.connectionsLists.friends.find(item => item.username === username) ||
+                  !!infoUser?.connectionsLists.subscribers.find(item => item.username === username)
+                    ? 'unsubscribe'
+                    : 'Subscribe'}
                 </Button>
               )}
             </div>

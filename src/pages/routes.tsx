@@ -21,7 +21,9 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
       <Route path="/registration" exact>
         <Redirect to="/" />
       </Route>
-      <Route path="/friends" exact component={FriendsPage} />
+      <Route path="/@:nickname/friends" exact component={FriendsPage} />
+      <Route path="/@:nickname/subscribes" exact component={FriendsPage} />
+      <Route path="/@:nickname/subscribers" exact component={FriendsPage} />
       <Route path="/settings" exact component={SettingsPage} />
       <Route path="/wish/@:nickname/:wishId" exact component={SingleWish} />
       <Route path="/@:nickname" exact component={ProfilePage} />
@@ -34,7 +36,6 @@ const useRoutes = (isAuthenticated: boolean): JSX.Element =>
     <Switch>
       <Route exact path="/" component={HomePage} />
       <Route path="/login" exact component={AuthPage} />
-      <Route path="/friends" exact component={FriendsPage} />
       <Route path="/registration" exact component={RegisterPage} />
       <Route path="/wish/@:nickname/:wishId" exact component={SingleWish} />
       <Route path="/@:nickname" exact component={ProfilePage} />

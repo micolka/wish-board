@@ -54,6 +54,10 @@
 }
 
 .profile_info-socials {
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
   span {
     margin: 0 4px;
     cursor: pointer;

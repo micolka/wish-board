@@ -30,9 +30,9 @@ export type TSocialNetworks = {
   odnoklassniki: string;
 };
 export type TConnectionsLists = {
-  friends: [string];
-  subscriptions: [string];
-  subscribers: [string];
+  friends: [TFriend];
+  subscriptions: [TFriend];
+  subscribers: [TFriend];
 };
 export type TUserWishes = {
   reserved: [TReserved];
@@ -127,4 +127,24 @@ export type TUserComment = {
 
 export type TImageAvatar = {
   small: string | null;
+};
+
+export type TGetFriends = {
+  getFriends: TFriend[];
+};
+
+export type TGetSubscribers = {
+  getSubscribers: TFriend[];
+};
+
+export type TGetSubscriptions = {
+  getSubscriptions: TFriend[];
+};
+
+export type TFriend = {
+  isFriend: boolean;
+  username: string;
+  birthday: string;
+  avatar: TAvatar;
+  daysToBirthday: number;
 };

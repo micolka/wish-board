@@ -98,6 +98,12 @@ const gradientsColor: Array<string> = [
   'linear-gradient(0deg, rgb(26, 41, 128) 0%, rgb(38, 208, 206) 100%) rgb(26, 41, 128)',
 ];
 
+const NAMES_CATEGORIES: IConstant = {
+  categoryOne: 'friends',
+  categoryTwo: 'subscribes',
+  categoryThree: 'subscribers',
+};
+
 export {
   routeNamesMap,
   USER_KEY,
@@ -113,4 +119,5 @@ export {
   STAT_COLOR,
   addWish,
   gradientsColor,
+  NAMES_CATEGORIES,
 };

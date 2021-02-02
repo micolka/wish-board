@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/client';
 import {
   RadioGroup,
   Radio,
@@ -11,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import CallMadeIcon from '@material-ui/icons/CallMade';
-import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
+// import ImageSearchOutlinedIcon from '@material-ui/icons/ImageSearchOutlined';
 import React, {
   useState,
   useContext,
@@ -27,28 +28,53 @@ import styles from '@/components/AddWish/AddWish.scss';
 import AddWishUrlContainer from '@/components/AddWishUrlContainer';
 import { visibility, addWish, gradientsColor } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
+import AuthContext from '@/context/AuthContext';
+import { CREATE_WISH } from '@/graphql/mutation';
 
 const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [WishName, setWishName] = useState('');
   const [Description, setDescription] = useState('');
-  const [selectedFile, setSelectedFile] = useState<string | Blob>('');
+  // const [selectedFile, setSelectedFile] = useState<string | Blob>('');
   const [Value, setValue] = useState('');
   const [Site, setSite] = useState('');
-  const [Currency, setCurrency] = useState('rub');
-  const [Collection, setCollection] = useState('');
-  const [Tag, setTag] = useState('');
+  const [Currency, setCurrency] = useState('RUB');
+  // const [Collection, setCollection] = useState('');
+  // const [Tag, setTag] = useState('');
   const [Visibility, setVisibility] = useState('All');
   const [OpenUrl, setOpenUrl] = useState(false);
   const [FinalUrl, setFinalUrl] = useState('');
   const [ImageGradient, setImageGradient] = useState('');
   const { closeAddWishWindow } = useContext(AddWishWindowContext);
+  const { logout } = useContext(AuthContext);
 
-  const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
-  const handleClick = (): void => {
-    if (hiddenFileInput.current) {
-      hiddenFileInput.current.click();
-    }
-  };
+  // const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
+  // const handleClick = (): void => {
+  //   if (hiddenFileInput.current) {
+  //     hiddenFileInput.current.click();
+  //   }
+  // };
+
+  const [createWish] = useMutation(CREATE_WISH, {
+    onError(err) {
+      if (
+        err?.message === 'Invalid/Expired token' ||
+        err?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
+    update() {},
+    variables: {
+      name: WishName,
+      price: Value,
+      currency: Currency,
+      originURL: Site,
+      visibility: Visibility,
+      description: Description,
+      backgroundColor: ImageGradient,
+      image: FinalUrl,
+    },
+  });
   const previewRef = useRef() as MutableRefObject<HTMLDivElement>;
   const ChangeWishName = (e: { currentTarget: { value: string } }): void => {
     setWishName(e.currentTarget.value);
@@ -65,57 +91,53 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const ChangeCurrency = (e: ChangeEvent<HTMLSelectElement>): void => {
     setCurrency(e.target.value);
   };
-  const SelectFile = (e: { target: { files: Blob | null | FileList } }): void => {
-    if (e.target.files) {
-      setSelectedFile(e.target.files[0]);
-    }
-    if (document.getElementById('image')) {
-      const image: HTMLElement | null = document.getElementById('image');
-      if (image) {
-        image.remove();
-      }
-    }
-    const divElem = previewRef.current;
-    function preview(file: string | Blob) {
-      const reader = new FileReader();
-      reader.addEventListener('load', (event: ProgressEvent<FileReader>) => {
-        if (event.target) {
-          const img: HTMLImageElement = document.createElement('img');
-          img.id = 'image';
-          img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';
-          img.src = event.target.result as string;
-          if (divElem) {
-            divElem.appendChild(img);
-            divElem.style.background = 'none';
-          }
-        }
-      });
-      reader.readAsDataURL(file as Blob);
-    }
-    if (e.target.files) {
-      preview(e.target.files[0]);
-    }
-    setImageGradient('');
-    setFinalUrl('');
-  };
-  const ChangeCollection = (e: { currentTarget: { value: string } }): void => {
-    setCollection(e.currentTarget.value);
-  };
-  const ChangeTag = (e: { currentTarget: { value: string } }): void => {
-    setTag(e.currentTarget.value);
-  };
+  // const SelectFile = (e: { target: { files: Blob | null | FileList } }): void => {
+  //   if (e.target.files) {
+  //     setSelectedFile(e.target.files[0]);
+  //   }
+  //   if (document.getElementById('image')) {
+  //     const image: HTMLElement | null = document.getElementById('image');
+  //     if (image) {
+  //       image.remove();
+  //     }
+  //   }
+  //   const divElem = previewRef.current;
+  //   function preview(file: string | Blob) {
+  //     const reader = new FileReader();
+  //     reader.addEventListener('load', (event: ProgressEvent<FileReader>) => {
+  //       if (event.target) {
+  //         const img: HTMLImageElement = document.createElement('img');
+  //         img.id = 'image';
+  //         img.style.cssText = 'position:absolute; max-width:100%; max-height:100%';
+  //         img.src = event.target.result as string;
+  //         if (divElem) {
+  //           divElem.appendChild(img);
+  //           divElem.style.background = 'none';
+  //         }
+  //       }
+  //     });
+  //     reader.readAsDataURL(file as Blob);
+  //   }
+  //   if (e.target.files) {
+  //     preview(e.target.files[0]);
+  //   }
+  //   setImageGradient('');
+  //   setFinalUrl('');
+  // };
+  // const ChangeCollection = (e: { currentTarget: { value: string } }): void => {
+  //   setCollection(e.currentTarget.value);
+  // };
+  // const ChangeTag = (e: { currentTarget: { value: string } }): void => {
+  //   setTag(e.currentTarget.value);
+  // };
   const ChangeVisibility = (e: { currentTarget: { value: string } }): void => {
     setVisibility(e.currentTarget.value);
   };
-  const submitForm = (e: FormEvent): void => {
+  const submitForm = (e: FormEvent) => {
     e.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log(`WishName-${WishName}, Description-${Description}, selectedFile-${
-      selectedFile as string
-    },
-    Value-${Value}, Currency-${Currency}, Site-${Site}, Collection-${Collection}, Tag-${Tag},
-    Visiblity-${Visibility}, url-${FinalUrl}, ImageGradient-${ImageGradient}`);
     closeAddWishWindow();
+
+    return createWish();
   };
   const handleClose = (): void => {
     closeAddWishWindow();
@@ -133,7 +155,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       prev.style.background = el;
       setImageGradient(el);
       setFinalUrl('');
-      setSelectedFile('');
+      // setSelectedFile('');
     }
   };
 
@@ -175,6 +197,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   multiline
                   rows={6}
                   value={Description}
+                  required
                   label={addWish.description}
                   fullWidth
                   variant="outlined"
@@ -185,7 +208,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   {addWish.picture}
                   <br />
                   <div className={styles['addFileInformation']}>
-                    <ImageSearchOutlinedIcon
+                    {/* <ImageSearchOutlinedIcon
                       onClick={handleClick}
                       className={styles['uploadImg']}
                     />
@@ -196,7 +219,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                       id="upload"
                       className={styles['upload']}
                       ref={hiddenFileInput}
-                    />
+                    /> */}
                     <CallMadeIcon className={styles['uploadImg']} onClick={openUrl} />
                     <div id="gradients" className={styles['addFileGradients']} />
                     {gradientsColor.map((el: string) => (
@@ -229,8 +252,9 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                     style={{ marginBottom: '1em' }}
                     value={Value}
                     margin="dense"
+                    required
                     label={addWish.cost}
-                    type="text"
+                    type="number"
                     fullWidth
                   />
                 </div>
@@ -238,9 +262,9 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   <FormControl>
                     <InputLabel id="currencyLabel">{addWish.currency}</InputLabel>
                     <Select labelId="currencyLabel" value={Currency} onChange={ChangeCurrency}>
-                      <MenuItem value="rub">{addWish.rub}</MenuItem>
-                      <MenuItem value="euro">&euro;</MenuItem>
-                      <MenuItem value="dollar">&#36;</MenuItem>
+                      <MenuItem value="RUB">{addWish.rub}</MenuItem>
+                      <MenuItem value="EUR">&euro;</MenuItem>
+                      <MenuItem value="USD">&#36;</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
@@ -251,12 +275,13 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   style={{ marginBottom: '1em' }}
                   value={Site}
                   margin="dense"
+                  required
                   label={addWish.site}
                   type="text"
                   fullWidth
                 />
               </div>
-              <div>
+              {/* <div>
                 <TextField
                   onChange={ChangeCollection}
                   style={{ marginBottom: '1em' }}
@@ -266,8 +291,8 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   type="text"
                   fullWidth
                 />
-              </div>
-              <div>
+              </div> */}
+              {/* <div>
                 <TextField
                   onChange={ChangeTag}
                   style={{ marginBottom: '1em' }}
@@ -277,7 +302,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   type="text"
                   fullWidth
                 />
-              </div>
+              </div> */}
               <FormControl component="fieldset">
                 <RadioGroup
                   style={{ flexDirection: 'row', marginBottom: '10px' }}
@@ -330,7 +355,7 @@ const AddWish: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               open={setOpenUrl}
               url={setFinalUrl}
               gradient={setImageGradient}
-              file={setSelectedFile}
+              // file={setSelectedFile}
               previewRef={previewRef}
             />
           ) : (
