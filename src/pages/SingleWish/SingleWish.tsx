@@ -14,6 +14,7 @@ import Avatar from '@/components/Avatar';
 import Comments from '@/components/Comments/Comments';
 import Price from '@/components/Price';
 import StatsItem from '@/components/StatsItem/StatsItem';
+import WishImage from '@/components/WishImage';
 import { STAT_NAME, STAT_COLOR, MODAL_NAME } from '@/constants';
 import AuthContext from '@/context/AuthContext';
 import { FETCH_WISH_QUERY } from '@/graphql/query';
@@ -117,7 +118,11 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
           <div className={styles['wish-content']}>
             <div className={styles['img-container']}>
               <Price price={wishData?.price} />
-              <img alt={wishData.name} className={styles['wish-img']} src={wishData.image.normal} />
+              <WishImage
+                imageUrl={wishData.image.small}
+                name={wishData.name}
+                color={wishData.backgroundColor}
+              />
             </div>
             <div className={styles['data-container']}>
               <div className={styles['data-container_top']}>

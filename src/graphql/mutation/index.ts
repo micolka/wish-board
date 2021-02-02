@@ -1,5 +1,6 @@
 import ADD_COMMENT from '@/graphql/mutation/mutation-add-comment';
 import LIKE_WISH from '@/graphql/mutation/mutation-click-like';
+import CREATE_WISH from '@/graphql/mutation/mutation-create-wish';
 import {
   DELETE_ACTIVE_WISH,
   DELETE_FULFILLED_WISH,
@@ -25,4 +26,5 @@ export {
   ADD_COMMENT,
   LIKE_WISH,
   SUBSCRIBE_USER,
+  CREATE_WISH,
 };

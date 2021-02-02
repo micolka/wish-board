@@ -62,7 +62,6 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
         logout();
       }
     },
-    update() {},
     variables: {
       subscriptionUsername: nickname,
     },
