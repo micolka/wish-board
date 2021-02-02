@@ -12,7 +12,7 @@ interface ImageProps extends HTMLAttributes<HTMLDivElement> {
 const WishImage: FunctionComponent<ImageProps> = ({ imageUrl, name, color }) => (
   <Fragment>
     {imageUrl ? (
-      <img src={imageUrl} alt={name} />
+      <img src={imageUrl} alt={name} className={styles['wish-img']} />
     ) : (
       <div className={styles.pseudo_image_container} style={{ background: `${color}` }}>
         <span className={styles.image_description}>{name}</span>
