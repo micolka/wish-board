@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import {
   Button,
   CircularProgress,
@@ -7,12 +7,13 @@ import {
   Theme,
   TextField,
 } from '@material-ui/core';
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import Avatar from '@/components/Avatar';
 import AuthContext from '@/context/AuthContext';
+import { UPDATE_USER } from '@/graphql/mutation';
 import { FETCH_INFO_USER } from '@/graphql/query';
 import styles from '@/pages/SettingsPage/SettingsPage.scss';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
@@ -32,7 +33,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const classes = useStyles();
-  const { username } = useContext(AuthContext);
+  const { username, id, login, logout } = useContext(AuthContext);
+  const [nameValue, setNameValue] = useState('');
+  const [surnameValue, setSurnameValue] = useState('');
+  const [patronymicValue, setPatronymicValue] = useState('');
+  const [dateOfBirthValue, setDateOfBirthValue] = useState('');
+  const [urlAvatarValue, setUrlAvatarValue] = useState('');
 
   const [getInfoUserByName, { called, error, loading, data }] = useLazyQuery<TGetInfoUserByName>(
     FETCH_INFO_USER,
@@ -66,14 +72,63 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
 
   const personalData = infoUser?.personalData;
 
-  const handleAvatarChange = () => {
-    // eslint-disable-next-line no-console
-    console.log('change avatar');
+  const [updateUserInfo] = useMutation(UPDATE_USER, {
+    onError(err) {
+      if (
+        err?.message === 'Invalid/Expired token' ||
+        err?.message === 'Authorization header must be provided'
+      ) {
+        logout();
+      }
+    },
+  });
+
+  const handleAvatarChange = () =>
+    updateUserInfo({
+      update() {
+        login({
+          id,
+          username,
+          avatar: {
+            small: urlAvatarValue,
+            normal: urlAvatarValue,
+          },
+        });
+        setUrlAvatarValue('');
+      },
+      variables: {
+        small: urlAvatarValue,
+        normal: urlAvatarValue,
+      },
+    });
+  const handleMainInfoChange = () =>
+    updateUserInfo({
+      variables: {
+        name: nameValue,
+        surname: surnameValue,
+        patronymic: patronymicValue,
+        dateOfBirth: dateOfBirthValue,
+      },
+    });
+
+  const changeNameValue = (e: { currentTarget: { value: string } }): void => {
+    setNameValue(e.currentTarget.value);
   };
 
-  const handleMainInfoChange = () => {
-    // eslint-disable-next-line no-console
-    console.log('change main info');
+  const changeSurnameValue = (e: { currentTarget: { value: string } }): void => {
+    setSurnameValue(e.currentTarget.value);
+  };
+
+  const changePatronymic = (e: { currentTarget: { value: string } }): void => {
+    setPatronymicValue(e.currentTarget.value);
+  };
+
+  const changeDateOfBirthValue = (e: { currentTarget: { value: string } }): void => {
+    setDateOfBirthValue(Date.parse(e.currentTarget.value).toString());
+  };
+
+  const changeAvatarValue = (e: { currentTarget: { value: string } }): void => {
+    setUrlAvatarValue(e.currentTarget.value);
   };
 
   if (loading || !called) {
@@ -124,6 +179,15 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
               </div>
             </div>
             <Avatar size="huge" user={user} />
+            <TextField
+              onChange={changeAvatarValue}
+              margin="dense"
+              id="url"
+              required
+              value={urlAvatarValue}
+              label="avatar"
+              type="text"
+            />
             <Button
               onClick={handleAvatarChange}
               variant="outlined"
@@ -137,15 +201,32 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             <span className={styles['sections-text']}>Main</span>
             <form noValidate autoComplete="off">
               <div className={styles['settings_page-name-block']}>
-                <TextField label="Name" defaultValue={personalData.name} />
-                <TextField label="Surname" defaultValue={personalData.surname} />
-                <TextField label="Patronymic" defaultValue={personalData.patronymic} />
+                <TextField
+                  onChange={changeNameValue}
+                  label="Name"
+                  defaultValue={personalData.name}
+                />
+                <TextField
+                  onChange={changeSurnameValue}
+                  label="Surname"
+                  defaultValue={personalData.surname}
+                />
+                <TextField
+                  onChange={changePatronymic}
+                  label="Patronymic"
+                  defaultValue={personalData.patronymic}
+                />
               </div>
               <TextField
                 id="date"
+                onChange={changeDateOfBirthValue}
                 label="Birthday"
                 type="date"
-                defaultValue={formatDateForCalendar(personalData.dateOfBirth)}
+                defaultValue={
+                  personalData.dateOfBirth
+                    ? formatDateForCalendar(personalData.dateOfBirth)
+                    : '2020-02-20'
+                }
               />
             </form>
             <Button
