@@ -39,6 +39,7 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const [patronymicValue, setPatronymicValue] = useState('');
   const [dateOfBirthValue, setDateOfBirthValue] = useState('');
   const [urlAvatarValue, setUrlAvatarValue] = useState('');
+  const [badUrl, setBadUrl] = useState(false);
 
   const [getInfoUserByName, { called, error, loading, data }] = useLazyQuery<TGetInfoUserByName>(
     FETCH_INFO_USER,
@@ -83,24 +84,53 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     },
   });
 
-  const handleAvatarChange = () =>
-    updateUserInfo({
-      update() {
-        login({
-          id,
-          username,
-          avatar: {
+  const handleAvatarChange = () => {
+    const checkImg = new Image();
+    checkImg.src = urlAvatarValue;
+    checkImg.onerror = () => {
+      if (urlAvatarValue === '') {
+        setBadUrl(false);
+        return updateUserInfo({
+          update() {
+            login({
+              id,
+              username,
+              avatar: {
+                small: urlAvatarValue,
+                normal: urlAvatarValue,
+              },
+            });
+            setUrlAvatarValue('');
+          },
+          variables: {
             small: urlAvatarValue,
             normal: urlAvatarValue,
           },
         });
-        setUrlAvatarValue('');
-      },
-      variables: {
-        small: urlAvatarValue,
-        normal: urlAvatarValue,
-      },
-    });
+      }
+      return setBadUrl(true);
+    };
+    checkImg.onload = () =>
+      updateUserInfo({
+        update() {
+          login({
+            id,
+            username,
+            avatar: {
+              small: urlAvatarValue,
+              normal: urlAvatarValue,
+            },
+          });
+          setBadUrl(false);
+          setUrlAvatarValue('');
+        },
+        variables: {
+          small: urlAvatarValue,
+          normal: urlAvatarValue,
+        },
+      });
+  };
+
   const handleMainInfoChange = () =>
     updateUserInfo({
       variables: {
@@ -180,12 +210,13 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
             </div>
             <Avatar size="huge" user={user} />
             <TextField
+              error={badUrl}
+              helperText={badUrl ? 'Incorrect URL' : ''}
               onChange={changeAvatarValue}
               margin="dense"
               id="url"
-              required
               value={urlAvatarValue}
-              label="avatar"
+              label="URL for Avatar"
               type="text"
             />
             <Button
