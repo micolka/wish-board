@@ -3,6 +3,7 @@ const routeNamesMap: IConstant = {
   '/login': 'Login',
   '/registration': 'Authefication',
   '/wish': 'Wish',
+  '/settings': 'Settings',
   '/friends': 'Friends',
   '/404': 'Not Found Page',
 };
