@@ -77,7 +77,7 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
 
   if (loading || !called) {
     return (
-      <div className={styles['profile-page']}>
+      <div className={styles['settings_page']}>
         <div className={classes.root}>
           <CircularProgress />
         </div>
@@ -90,7 +90,7 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
     error?.message === 'Authorization header must be provided'
   ) {
     return (
-      <div className={styles['profile-page']}>
+      <div className={styles['settings_page']}>
         <div className={classes.root}>
           <Redirect to="/login" />
         </div>
@@ -100,7 +100,7 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
 
   if (!infoUser) {
     return (
-      <div className={styles['profile-page']}>
+      <div className={styles['settings_page']}>
         <div className={classes.root}>
           <Redirect to="/login" />
         </div>
