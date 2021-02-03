@@ -303,12 +303,16 @@ const FriendsPage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                 {friend.isFriend && (
                   <PeopleIcon fill="color: #828282" className={styles['people-icon']} />
                 )}
-                <p className={styles['birthday-container']}>
-                  <CakeIcon className={styles['cake-icon']} />
-                  {new Date(+friend.birthday).getDate()}
-                  -го
-                  {convertMonth(new Date(+friend.birthday).getMonth())}
-                </p>
+                {friend.birthday ? (
+                  <p className={styles['birthday-container']}>
+                    <CakeIcon className={styles['cake-icon']} />
+                    {new Date(+friend.birthday).getDate()}
+                    -го
+                    {convertMonth(new Date(+friend.birthday).getMonth())}
+                  </p>
+                ) : (
+                  ''
+                )}
                 <IconButton
                   onClick={() => handleClickSub(friend.username)}
                   aria-label="delete"

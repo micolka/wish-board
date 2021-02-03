@@ -42,7 +42,12 @@ const RegistrationPage: FunctionComponent<RouteComponentProps> = props => {
 
   const [addUser] = useMutation(REGISTER_USER, {
     update(_, { data: { register: userData } }) {
-      context.login(userData as ILoginInput);
+      const data = userData as ILoginInput;
+      context.login({
+        id: data.id,
+        username: data.username,
+        avatar: data.avatar,
+      });
       props.history.push('/');
     },
     onError(err) {
