@@ -16,3 +16,14 @@ export const formatDate = (date: string): string =>
     month: 'short',
     year: 'numeric',
   });
+
+export const formatDateForCalendar = (date: string): string => {
+  const d = new Date(parseInt(date, 10));
+  const currDate = d.getDate();
+  const currMonth = d.getMonth() + 1;
+  const currYear = d.getFullYear();
+
+  return currMonth < 9
+    ? `${currYear}-0${currMonth}-${currDate}`
+    : `${currYear}-${currMonth}-${currDate}`;
+};

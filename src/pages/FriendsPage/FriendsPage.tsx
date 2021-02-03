@@ -168,7 +168,6 @@ const FriendsPage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
     const res = searchResults.sort((a: TFriend, b: TFriend) =>
       nicksCompare(a.username.toLowerCase(), b.username.toLowerCase())
     );
-
     setSearchResults([...res]);
   };
 
@@ -183,10 +182,10 @@ const FriendsPage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
   const birthdaySort = () => {
     const res = searchResults.sort((a: TFriend, b: TFriend) => {
       if (a.daysToBirthday && b.daysToBirthday) {
-        if (a.daysToBirthday < b.daysToBirthday) {
+        if (+a.daysToBirthday < +b.daysToBirthday) {
           return -1;
         }
-        if (a.daysToBirthday > b.daysToBirthday) {
+        if (+a.daysToBirthday > +b.daysToBirthday) {
           return 1;
         }
       }

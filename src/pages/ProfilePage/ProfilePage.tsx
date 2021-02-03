@@ -12,11 +12,10 @@ import { SCREEN_SIZES } from '@/constants';
 import AddWishWindowContext from '@/context/AddWishContext';
 import AuthContext from '@/context/AuthContext';
 import { SUBSCRIBE_USER } from '@/graphql/mutation';
-// import { FETCH_INFO_USER } from '@/graphql/query';
-import { FETCH_INFO_USER } from '@/graphql/query/index';
+import { FETCH_INFO_USER } from '@/graphql/query/';
 import styles from '@/pages/ProfilePage/ProfilePage.scss';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
-import { formatUserName } from '@/utils/formatters';
+import { formatDate, formatUserName } from '@/utils/formatters';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -200,7 +199,7 @@ const ProfilePage: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
             <div className={styles['birth_date_info-container']}>
               <div className={styles['birth_date_info-wrapper']}>
                 <CakeOutlined />
-                <span>{personalData?.dateOfBirth}</span>
+                <span>{formatDate(personalData?.dateOfBirth)}</span>
               </div>
             </div>
           )}

@@ -16,6 +16,7 @@ import AuthContext from '@/context/AuthContext';
 import { FETCH_INFO_USER } from '@/graphql/query';
 import styles from '@/pages/SettingsPage/SettingsPage.scss';
 import { TGetInfoUserByName, TUser, TGetInfoUser } from '@/types/data';
+import { formatDateForCalendar } from '@/utils/formatters';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -140,7 +141,12 @@ const SettingsPage: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                 <TextField label="Surname" defaultValue={personalData.surname} />
                 <TextField label="Patronymic" defaultValue={personalData.patronymic} />
               </div>
-              <TextField id="date" label="Birthday" type="date" defaultValue="2017-05-24" />
+              <TextField
+                id="date"
+                label="Birthday"
+                type="date"
+                defaultValue={formatDateForCalendar(personalData.dateOfBirth)}
+              />
             </form>
             <Button
               onClick={handleMainInfoChange}
