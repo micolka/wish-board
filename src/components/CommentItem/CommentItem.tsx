@@ -17,13 +17,13 @@ const CommentItem: FunctionComponent<CommentProps> = ({ comment }) => (
       <Avatar user={comment.user} size="normal" />
     </Link>
     <div className={styles['comment-info-container']}>
-      <div className={styles['login-comment-container']}>
+      <div className={styles['comment-info-data']}>
         <Link className={styles['user-link']} to={`/@${comment.user.username}`}>
           <h4>{comment.user.username}</h4>
         </Link>
-        <p>{comment.body}</p>
+        <div className={styles['comment-date']}>{formatDate(comment.createdAt)}</div>
       </div>
-      <div className={styles['comment-date']}>{formatDate(comment.createdAt)}</div>
+      <p>{comment.body}</p>
     </div>
   </div>
 );

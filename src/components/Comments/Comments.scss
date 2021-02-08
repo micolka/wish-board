@@ -47,6 +47,18 @@
   color: $black-text;
 }
 
+.empty_block {
+  width: 44px;
+  height: 54px;
+}
+
+.delete_btn-container {
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 540px) {
   .form {
     display: flex;
