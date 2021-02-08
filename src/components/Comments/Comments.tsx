@@ -94,7 +94,7 @@ const Comments: FunctionComponent<CommentsProps> = ({
         <div className={styles['comment-item']} key={comm.id}>
           <CommentItem comment={comm} key={comm.id} />
           {comm.user.id === userGuest.id ? (
-            <div className={styles['delete_btn-container']} key={comm.id}>
+            <div className={styles['delete_btn-container']}>
               <DeleteButton
                 wishId={wishId}
                 modalTitle={MODAL_NAME.commentDelete}
@@ -103,7 +103,7 @@ const Comments: FunctionComponent<CommentsProps> = ({
               />
             </div>
           ) : (
-            <div className={styles['empty_block']} key={comm.id} />
+            <div className={styles['empty_block']} />
           )}
         </div>
       ))}

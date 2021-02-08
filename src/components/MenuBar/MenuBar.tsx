@@ -60,9 +60,6 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleProfile = () => {
-    setAnchorEl(null);
-  };
 
   const handleLogout = () => {
     setAnchorEl(null);
@@ -90,7 +87,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
       </Button> */}
       <IconButton
         aria-label="account of current user"
-        aria-controls="menu-appbar"
+        aria-controls="menu-app-bar"
         aria-haspopup="true"
         onClick={handleMenu}
         color="inherit"
@@ -100,7 +97,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         {id && avatar && username ? <Avatar size="normal" user={user} /> : ''}
       </IconButton>
       <Menu
-        id="menu-appbar"
+        id="menu-app-bar"
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'top',
@@ -115,7 +112,7 @@ const MenuBar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         onClose={handleClose}
       >
         {profileHref && (
-          <MenuItem onClick={handleProfile}>
+          <MenuItem onClick={handleClose}>
             <Link className={styles['link']} to={profileHref}>
               Profile
             </Link>

@@ -11,10 +11,11 @@ import { Link, Redirect, useHistory } from 'react-router-dom';
 import type { RouteComponentProps } from 'react-router-dom';
 
 import Avatar from '@/components/Avatar';
-import Comments from '@/components/Comments/Comments';
+import Comments from '@/components/Comments';
 import Price from '@/components/Price';
-import StatsItem from '@/components/StatsItem/StatsItem';
+import StatsItem from '@/components/StatsItem';
 import WishImage from '@/components/WishImage';
+import WishMenu from '@/components/WishMenu';
 import { STAT_NAME, STAT_COLOR, MODAL_NAME } from '@/constants';
 import AuthContext from '@/context/AuthContext';
 import { FETCH_WISH_QUERY } from '@/graphql/query';
@@ -139,7 +140,9 @@ const SingleWish: FunctionComponent<TSingleWishProps> = ({ ...props }) => {
                   хочет
                 </div>
                 <div className={styles['button-container']}>
-                  <MoreVertIcon />
+                  <WishMenu>
+                    <MoreVertIcon />
+                  </WishMenu>
                 </div>
               </div>
               <h2 className={styles['product-name']}>{wishData.name}</h2>
