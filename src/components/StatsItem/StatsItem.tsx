@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import classNames from 'classnames';
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import type { FunctionComponent, ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -73,20 +73,17 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   };
 
   const iconComponent = (
-    <div className={styles['stats-item']}>
-      <div
-        tabIndex={0}
-        role="button"
-        onClick={StatsChecked}
-        onKeyPress={() => {}}
-        className={classNames(
-          styles['stats-icon-border'],
-          isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
-        )}
-      >
-        {children}
-      </div>
-      <span>{text}</span>
+    <div
+      tabIndex={0}
+      role="button"
+      onClick={StatsChecked}
+      onKeyPress={() => {}}
+      className={classNames(
+        styles['stats-icon-border'],
+        isStatsChecked ? styles[`checked-${color}`] : styles[`unchecked-${color}`]
+      )}
+    >
+      {children}
     </div>
   );
 
@@ -101,11 +98,12 @@ const StatsItem: FunctionComponent<StatsProps> = ({
   );
 
   return (
-    <Fragment>
+    <div className={styles['stats-item']}>
       {statName === STAT_NAME.active || statName === STAT_NAME.fulfilled
         ? iconWithModal
         : iconComponent}
-    </Fragment>
+      <span>{text}</span>
+    </div>
   );
 };
 export default StatsItem;
