@@ -27,3 +27,5 @@ export const formatDateForCalendar = (date: string): string => {
     ? `${currYear}-0${currMonth}-${currDate}`
     : `${currYear}-${currMonth}-${currDate}`;
 };
+
+export const getUrlOrigin = (url: string): string => new URL(url).origin;
